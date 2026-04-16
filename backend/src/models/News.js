@@ -5,18 +5,15 @@ const newsSchema = new mongoose.Schema(
     title: { type: String, required: true },
     subtitle: { type: String, default: "" },
 
-    // slug: { type: String, unique: true, lowercase: true },
     slug: { type: String, unique: true, sparse: true },
 
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
 
-    // ✅ MAIN CONTENT (HTML or JSON editor)
-    // content: { type: String, required: true },
     content: { type: Object, default: {} },
 
     type: {
       type: Number,
-      enum: [1, 2], // 1 = published, 2 = draft
+      enum: [1, 2],
       default: 2,
     },
 
@@ -25,7 +22,6 @@ const newsSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// auto slug
 newsSchema.pre("save", function (next) {
   if (this.title && !this.slug) {
     this.slug = this.title

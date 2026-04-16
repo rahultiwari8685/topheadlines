@@ -5,17 +5,20 @@ export const createNews = async (req, res) => {
     const { title, sub_title, video_type, type, youtube_url, content } =
       req.body;
 
-    const categories = req.body["categories[]"] || [];
+    const rawCategories = req.body["categories[]"] || [];
+
+    const categories = Array.isArray(rawCategories)
+      ? rawCategories
+      : [rawCategories];
 
     const news = await News.create({
       title,
       subtitle: sub_title,
-      categories,
+      categories, // ✅ now correct
       videoType: video_type,
       type,
       youtubeUrl: youtube_url || "",
       content: content ? JSON.parse(content) : "",
-      // thumbnail: req.files?.thumbnail?.[0]?.filename || "",
       thumbnail: req.file?.filename || "",
     });
 

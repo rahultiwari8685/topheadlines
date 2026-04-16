@@ -131,7 +131,8 @@ const News = () => {
     formData.append('type', data.type)
 
     data.categories.forEach((id) => {
-      formData.append('categories[]', id)
+      // formData.append('categories[]', id)
+      formData.append('categories', JSON.stringify(data.categories))
     })
 
     if (data.videoType === '1') {
