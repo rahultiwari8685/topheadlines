@@ -1,45 +1,34 @@
 import React from 'react'
-import {
-  CCard,
-  CCardBody,
-  CCol,
-  CRow,
-  CProgress,
-} from '@coreui/react'
+import { CCard, CCardBody, CCol, CRow, CProgress } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import {
-  cilPeople,
-  cilUser,
-  cilUserX,
-  cilMoney,
-} from '@coreui/icons'
+import { cilPeople, cilUser, cilUserX, cilMoney } from '@coreui/icons'
 
 const Dashboard = () => {
   const stats = [
     {
       title: 'Total News',
-      count: 60,
+      count: 5,
       goal: 100,
       icon: cilPeople,
       gradient: 'linear-gradient(135deg, #0d6efd 0%, #67b0fd 100%)',
     },
     {
       title: 'Draft News',
-      count: 25,
+      count: 2,
       goal: 50,
       icon: cilUser,
       gradient: 'linear-gradient(135deg, #dc3545 0%, #ff6b81 100%)',
     },
     {
       title: 'Category',
-      count: 40,
+      count: 6,
       goal: 40,
       icon: cilUserX,
       gradient: 'linear-gradient(135deg, #198754 0%, #66d9a4 100%)',
     },
     {
       title: 'Deleted News',
-      count: 15,
+      count: 0,
       goal: 30,
       icon: cilMoney,
       gradient: 'linear-gradient(135deg, #fd7e14 0%, #ffae52 100%)',
@@ -62,12 +51,17 @@ const Dashboard = () => {
               >
                 <CCardBody className="d-flex flex-column justify-content-between p-4">
                   <div className="d-flex align-items-center mb-3">
-                    <div className="icon-wrapper bg-white text-primary d-flex align-items-center justify-content-center rounded-circle me-3" style={{ width: '50px', height: '50px' }}>
+                    <div
+                      className="icon-wrapper bg-white text-primary d-flex align-items-center justify-content-center rounded-circle me-3"
+                      style={{ width: '50px', height: '50px' }}
+                    >
                       <CIcon icon={item.icon} size="lg" />
                     </div>
                     <div>
                       <h5 className="fw-bold mb-1">{item.title}</h5>
-                      <small>{item.count} of {item.goal}</small>
+                      <small>
+                        {item.count} of {item.goal}
+                      </small>
                     </div>
                   </div>
                   <CProgress

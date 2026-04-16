@@ -115,7 +115,16 @@ export const updateNews = async (req, res) => {
   try {
     const { id, title, sub_title, video_type, type, youtube_url } = req.body;
 
-    const categories = req.body["categories[]"] || [];
+    // ✅ SAFE PARSE
+    let categories = [];
+    try {
+      categories = JSON.parse(req.body.categories || "[]");
+    } catch (err) {
+      categories = [];
+    }
+
+    // ✅ CONVERT TO OBJECTID
+    categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
     const updateData = {
       title,

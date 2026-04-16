@@ -107,8 +107,9 @@ const PublishedNews = () => {
       })
 
       const data = await response.json()
+      fetchNews()
 
-      if (data.status) {
+      if (data.status === true) {
         console.log('Deleted successfully')
 
         // optional: remove from UI

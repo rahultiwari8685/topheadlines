@@ -135,7 +135,6 @@ const UpdateNews = () => {
 
       setEditingNews(selected)
 
-      // ✅ PREFILL FORM
       reset({
         title: selected.title || '',
         slug: selected.slug || '',
@@ -167,15 +166,12 @@ const UpdateNews = () => {
     formData.append('video_type', data.videoType)
     formData.append('type', data.type)
 
-    data.categories.forEach((id) => {
-      formData.append('categories[]', id)
-    })
+    formData.append('categories', JSON.stringify(data.categories))
 
     if (data.videoType === '1') {
       formData.append('youtube_url', data.youtubeUrl)
     } else if (data.videoType === '2') {
-      // if (data.videoFile?.[0]) formData.append('uploade_video', data.videoFile[0])
-      formData.append('content', JSON.stringify(content)) // ✔ backend expects JSON
+      formData.append('content', JSON.stringify(content))
 
       if (data.thumbnail?.[0]) formData.append('thumbnail', data.thumbnail[0])
     }
