@@ -18,7 +18,53 @@ export default function Section1({ classList }: any) {
   const cardCollectionsDataCol2 = cardCollections.sec7Card5Col2;
 
 
-  useEffect(() => {
+//   useEffect(() => {
+//   setLoading(true);
+
+//   fetch(setting.api + "/api/news/getAllNews")
+//     .then((res) => res.json())
+//     .then((u) => {
+//       if (u.status !== false) {
+
+//         const formattedData = u.data.map((item: any) => ({
+//           // 🔥 REQUIRED FIELDS FOR UI
+//            linkPost: `/single-2?slug=${item.slug}`,
+//           linkBadge: "#",
+//           linkAuthor: "#",
+//           linkComment: "#",
+
+//           img: item.thumbnail
+//             ? `${setting.api}/uploads/images/${item.thumbnail}`
+//             : "/assets/imgs/page/img-28.png",
+
+//           badge: "News", // static for now
+//           bgBadge: "bg-2",
+
+//           title: item.title || "No Title",
+//           description: item.subtitle || "No Description",
+
+//           imgAuthor: "/assets/imgs/template/author/author-1.png",
+//           author: "Admin",
+
+//           date: new Date(item.createdAt).toDateString(),
+
+//           comment: "0",
+//           readNum: "0",
+//         }));
+
+//         setBlogs(formattedData);
+//       } else {
+//         setBlogs([]);
+//       }
+//     })
+//     .catch((err) => {
+//       console.error("API Error:", err);
+//       setBlogs([]);
+//     })
+//     .finally(() => setLoading(false));
+// }, []);
+
+useEffect(() => {
   setLoading(true);
 
   fetch(setting.api + "/api/news/getAllNews")
@@ -26,31 +72,48 @@ export default function Section1({ classList }: any) {
     .then((u) => {
       if (u.status !== false) {
 
-        const formattedData = u.data.map((item: any) => ({
-          // 🔥 REQUIRED FIELDS FOR UI
-           linkPost: `/single-2?slug=${item.slug}`,
-          linkBadge: "#",
-          linkAuthor: "#",
-          linkComment: "#",
+        const getYouTubeId = (url: string) => {
+          const regExp =
+            /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
+          const match = url?.match(regExp);
+          return match ? match[1] : "";
+        };
 
-          img: item.thumbnail
-            ? `${setting.api}/uploads/images/${item.thumbnail}`
-            : "/assets/imgs/page/img-28.png",
+        const formattedData = u.data.map((item: any) => {
+          const videoId = getYouTubeId(item.youtubeUrl);
 
-          badge: "News", // static for now
-          bgBadge: "bg-2",
+          return {
+            linkPost: `/single-2?slug=${item.slug}`,
+            linkBadge: "#",
+            linkAuthor: "#",
+            linkComment: "#",
 
-          title: item.title || "No Title",
-          description: item.subtitle || "No Description",
+            // 🔥 NEW LOGIC
+            img: item.thumbnail
+              ? `${setting.api}/uploads/images/${item.thumbnail}`
+              : "",
 
-          imgAuthor: "/assets/imgs/template/author/author-1.png",
-          author: "Admin",
+            videoUrl: videoId
+              ? `https://www.youtube.com/embed/${videoId}`
+              : "",
 
-          date: new Date(item.createdAt).toDateString(),
+            hasVideo: !item.thumbnail && videoId, // 👈 condition flag
 
-          comment: "0",
-          readNum: "0",
-        }));
+            badge: "News",
+            bgBadge: "bg-2",
+
+            title: item.title || "No Title",
+            description: item.subtitle || "No Description",
+
+            imgAuthor: "/assets/imgs/template/author/author-1.png",
+            author: "Admin",
+
+            date: new Date(item.createdAt).toDateString(),
+
+            comment: "0",
+            readNum: "0",
+          };
+        });
 
         setBlogs(formattedData);
       } else {
@@ -63,8 +126,6 @@ export default function Section1({ classList }: any) {
     })
     .finally(() => setLoading(false));
 }, []);
-
-
   return (
     <>
       {/*Home 2 Section 1*/}

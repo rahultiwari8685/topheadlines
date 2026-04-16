@@ -8,7 +8,11 @@ interface Props {
         linkPost: string;
         linkAuthor: string;
         img: string;
-       slug?: string;
+        slug?: string;
+       
+          // ✅ ADD THESE
+    hasVideo?: boolean;
+    videoUrl?: string;
         badge: string;
         bgBadge: string;
         title: string;
@@ -26,9 +30,23 @@ export default function ArticleCard11({ card, idx }: Props) {
         <>
             <div className="article card-11" key={idx}>
                 <div className="card-img-top thumbnail">
-            <Link href={`/single-2?slug=${card.slug || ""}`}>
-                        <img src={card.img} alt="magzin" className="cover-image" width={500} height={350} />
-                    </Link>
+          <Link href={`/single-2?slug=${card.slug || ""}`}>
+  {card.hasVideo ? (
+    <iframe
+      src={card.videoUrl}
+      width="100%"
+      height="250"
+      frameBorder="0"
+      allowFullScreen
+    />
+  ) : (
+    <img
+      src={card.img || "/assets/imgs/page/img-28.png"}
+      alt="news"
+      style={{ width: "100%", height: "250px", objectFit: "cover" }}
+    />
+  )}
+</Link>
                     <Link href={card.linkBadge} className={`badge ${card.bgBadge} fs-8`}>
                         {card.badge}
                     </Link>
