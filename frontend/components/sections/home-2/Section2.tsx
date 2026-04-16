@@ -1,0 +1,62 @@
+"use client";
+import CategoryCard2 from "@/components/cards/CategoryCard2";
+
+import { useState, useEffect } from "react";
+import setting from "../../../setting.json";
+import datacard from "@/public/data/cardHome-1.json";
+
+export default function Section2() {
+
+  const categoryCard2 = datacard.categoryCard2;
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+
+
+   useEffect(() => {
+  setLoading(true);
+
+  fetch(setting.api + "/api/categories/getAllCategory")
+    .then((res) => res.json())
+    .then((u) => {
+      if (u.success) {
+
+        const formattedData = u.data.map((item: any) => ({
+          linkPost: `/category/${item._id}`,
+
+          img: item.bannerImage
+            ? `${setting.api}/uploads/${item.bannerImage}`
+            : "/assets/imgs/page/img-20.png",
+
+          title: item.name,
+          bg: "bg-20", // static for now
+        }));
+
+        setCategories(formattedData);
+      } else {
+        setCategories([]);
+      }
+    })
+    .catch((err) => {
+      console.error("API Error:", err);
+      setCategories([]);
+    })
+    .finally(() => setLoading(false));
+}, []);
+  
+  return (
+    <>
+      {/*Home 2 Section 2*/}
+      <section className="sec-2-home-2">
+        <div className="container">
+          <div className="row g-3">
+            {categories.map((card, idx) => (
+              <div className="col-lg-2 col-sm-4 col-6" key={idx}>
+                <CategoryCard2 key={idx} card={card} idx={idx} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

@@ -1,0 +1,169 @@
+import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+
+import mongoose from "mongoose";
+
+export const saveUser = async (req, res) => {
+  try {
+    const { name, email, phone, password, role, post_permission } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Name, email, and password are required",
+      });
+    }
+
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already exists",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const profileImage = req.file ? req.file.filename : "";
+
+    const user = await User.create({
+      name,
+      email,
+      phone,
+      role,
+      post_permission,
+      password: hashedPassword,
+      profileImage,
+    });
+
+    const userData = user.toObject();
+    delete userData.password;
+
+    res.status(201).json({
+      success: true,
+      message: "User created successfully",
+      data: userData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const limit = Math.min(parseInt(req.query.limit) || 10, 50);
+
+    const users = await User.find()
+      .select("-password")
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    res.status(200).json({
+      success: true,
+      page,
+      count: users.length,
+      data: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const { _id, name, email, phone, password } = req.body;
+
+    if (!_id || !mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid user ID is required",
+      });
+    }
+
+    const existingUser = await User.findById(_id);
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const updateData = {
+      name,
+      email,
+      phone,
+    };
+
+    // ✅ Hash password if updated
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    // ✅ File update
+    if (req.file) {
+      updateData.profileImage = req.file.filename;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(_id, updateData, {
+      new: true,
+    }).select("-password");
+
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { _id } = req.params;
+
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    if (!_id || !mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid user ID is required",
+      });
+    }
+
+    const deletedUser = await User.findByIdAndDelete(_id);
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
