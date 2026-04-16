@@ -6,6 +6,7 @@ import {
   getNews,
   getNewsBySlug,
   updateNews,
+  getNewsById,
   deleteNews,
 } from "../controllers/newsController.js";
 
