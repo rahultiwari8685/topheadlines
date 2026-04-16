@@ -1,163 +1,125 @@
 "use client";
 
-
-import cardCollections from "@/public/data/cardHome-1.json";
-
-
 import ArticleCard5 from "@/components/cards/ArticleCard5";
 import ArticleCard11 from "@/components/cards/ArticleCard11";
 import { useState, useEffect } from "react";
 import setting from "../../../setting.json";
 
 export default function Section1({ classList }: any) {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  const cardCollectionsDataCol1 = cardCollections.sec7Card5Col1;
-  const cardCollectionsData11 = cardCollections.sec7Card11;
-  const cardCollectionsDataCol2 = cardCollections.sec7Card5Col2;
 
+  // ✅ Extract YouTube ID
+  const getYouTubeId = (url: string) => {
+    const regExp =
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
+    const match = url?.match(regExp);
+    return match ? match[1] : "";
+  };
 
-//   useEffect(() => {
-//   setLoading(true);
+  useEffect(() => {
+    setLoading(true);
 
-//   fetch(setting.api + "/api/news/getAllNews")
-//     .then((res) => res.json())
-//     .then((u) => {
-//       if (u.status !== false) {
+    fetch(setting.api + "/api/news/getAllNews")
+      .then((res) => res.json())
+      .then((u) => {
+        if (u.status !== false) {
+          const formattedData = u.data.map((item: any) => {
+            const videoId = getYouTubeId(item.youtubeUrl);
 
-//         const formattedData = u.data.map((item: any) => ({
-//           // 🔥 REQUIRED FIELDS FOR UI
-//            linkPost: `/single-2?slug=${item.slug}`,
-//           linkBadge: "#",
-//           linkAuthor: "#",
-//           linkComment: "#",
+            return {
+              linkPost: `/single-2?slug=${item.slug}`,
+              linkBadge: "#",
+              linkAuthor: "#",
+              linkComment: "#",
 
-//           img: item.thumbnail
-//             ? `${setting.api}/uploads/images/${item.thumbnail}`
-//             : "/assets/imgs/page/img-28.png",
+              img: item.thumbnail
+                ? `${setting.api}/uploads/images/${item.thumbnail}`
+                : "",
 
-//           badge: "News", // static for now
-//           bgBadge: "bg-2",
+              videoUrl: videoId
+                ? `https://www.youtube.com/embed/${videoId}`
+                : "",
 
-//           title: item.title || "No Title",
-//           description: item.subtitle || "No Description",
+              hasVideo: !!videoId,
 
-//           imgAuthor: "/assets/imgs/template/author/author-1.png",
-//           author: "Admin",
+              // ✅ Important for filtering
+              youtubeUrl: item.youtubeUrl || "",
 
-//           date: new Date(item.createdAt).toDateString(),
+              badge: "News",
+              bgBadge: "bg-2",
 
-//           comment: "0",
-//           readNum: "0",
-//         }));
+              title: item.title || "No Title",
+              description: item.subtitle || "No Description",
 
-//         setBlogs(formattedData);
-//       } else {
-//         setBlogs([]);
-//       }
-//     })
-//     .catch((err) => {
-//       console.error("API Error:", err);
-//       setBlogs([]);
-//     })
-//     .finally(() => setLoading(false));
-// }, []);
+              imgAuthor: "/assets/imgs/template/author/author-1.png",
+              author: "Admin",
 
-useEffect(() => {
-  setLoading(true);
+              date: new Date(item.createdAt).toDateString(),
 
-  fetch(setting.api + "/api/news/getAllNews")
-    .then((res) => res.json())
-    .then((u) => {
-      if (u.status !== false) {
+              comment: "0",
+              readNum: "0",
+            };
+          });
 
-        const getYouTubeId = (url: string) => {
-          const regExp =
-            /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
-          const match = url?.match(regExp);
-          return match ? match[1] : "";
-        };
-
-        const formattedData = u.data.map((item: any) => {
-          const videoId = getYouTubeId(item.youtubeUrl);
-
-          return {
-            linkPost: `/single-2?slug=${item.slug}`,
-            linkBadge: "#",
-            linkAuthor: "#",
-            linkComment: "#",
-
-            // 🔥 NEW LOGIC
-            img: item.thumbnail
-              ? `${setting.api}/uploads/images/${item.thumbnail}`
-              : "",
-
-            videoUrl: videoId
-              ? `https://www.youtube.com/embed/${videoId}`
-              : "",
-
-            hasVideo: !item.thumbnail && videoId, // 👈 condition flag
-
-            badge: "News",
-            bgBadge: "bg-2",
-
-            title: item.title || "No Title",
-            description: item.subtitle || "No Description",
-
-            imgAuthor: "/assets/imgs/template/author/author-1.png",
-            author: "Admin",
-
-            date: new Date(item.createdAt).toDateString(),
-
-            comment: "0",
-            readNum: "0",
-          };
-        });
-
-        setBlogs(formattedData);
-      } else {
+          setBlogs(formattedData);
+        } else {
+          setBlogs([]);
+        }
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
         setBlogs([]);
-      }
-    })
-    .catch((err) => {
-      console.error("API Error:", err);
-      setBlogs([]);
-    })
-    .finally(() => setLoading(false));
-}, []);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  // ✅ Filter TEXT NEWS (no youtube)
+  const textNews = blogs.filter((item) => !item.youtubeUrl);
+
+  if (loading) {
+    return <div className="text-center mt-5">Loading...</div>;
+  }
+
   return (
-    <>
-      {/*Home 2 Section 1*/}
-      <section className={`sec-1-home-2 sec-padding ${classList}`} data-background="/assets/imgs/page/bg-home1-sec1.png">
-        <div className="container">
-          <div className="row mt-2 g-4">
-            {blogs.slice(0, 1).map((card, idx) => (
-              <div className="col-lg-6" key={idx}>
-                <ArticleCard11  card={card} idx={idx} />
-              </div>
-            ))}
-            <div className="col-lg-3">
-              <div className="row g-4">
-                {blogs.map((card, idx) => (
-                  <div className="col-lg-12 col-md-6" key={idx}>
-                    <ArticleCard5 key={idx} card={card} idx={idx} />
-                  </div>
-                ))}
-              </div>
+    <section
+      className={`sec-1-home-2 sec-padding ${classList}`}
+      data-background="/assets/imgs/page/bg-home1-sec1.png"
+    >
+      <div className="container">
+        <div className="row mt-2 g-4">
+
+          {/* 🔥 1st Column (Featured News) */}
+          {blogs.slice(0, 1).map((card, idx) => (
+            <div className="col-lg-6" key={idx}>
+              <ArticleCard11 card={card} idx={idx} />
             </div>
-            <div className="col-lg-3">
-              <div className="row g-4">
-                {blogs.map((card, idx) => (
-                  <div className="col-lg-12 col-md-6" key={idx}>
-                    <ArticleCard5 key={idx} card={card} idx={idx} />
-                  </div>
-                ))}
-              </div>
+          ))}
+
+          {/* 🔥 2nd Column (TEXT NEWS ONLY) */}
+          <div className="col-lg-3">
+            <div className="row g-4">
+              {textNews.slice(0, 4).map((card, idx) => (
+                <div className="col-lg-12 col-md-6" key={idx}>
+                  <ArticleCard5 card={card} idx={idx} />
+                </div>
+              ))}
             </div>
           </div>
+
+          {/* 🔥 3rd Column (TEXT NEWS ONLY) */}
+          <div className="col-lg-3">
+            <div className="row g-4">
+              {textNews.slice(4, 8).map((card, idx) => (
+                <div className="col-lg-12 col-md-6" key={idx}>
+                  <ArticleCard5 card={card} idx={idx} />
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
