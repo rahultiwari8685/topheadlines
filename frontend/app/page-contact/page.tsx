@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Page_Contact() {
     return (
         <>
-            <Layout headerStyle={2} footerStyle={4}>
+            <Layout headerStyle={2} footerStyle={2}>
                 <div className="container">
                     <div className="row">
                         <div className="col-12">

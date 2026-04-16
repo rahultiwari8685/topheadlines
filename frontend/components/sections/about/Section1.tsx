@@ -8,7 +8,7 @@ export default function Section1() {
         <div className="container">
           <div className="row">
             <div className="col-lg-8 mx-auto text-center">
-              <h2 className="ds-2 mb-0">About Magzin</h2>
+              <h2 className="ds-2 mb-0">About Top Headlines News</h2>
               <p className="fs-56 m-0">
                 We are a dedicated team of creators, strategists, and specialists focused on <br className="d-none d-lg-block" />
                 delivering thoughtful, high-quality work.

@@ -8,7 +8,7 @@ export default function Single_2() {
     const cardCollectionsData = cardCollections.cardCollections;
     return (
         <>
-            <Layout headerStyle={2} footerStyle={4}>
+            <Layout headerStyle={2} footerStyle={2}>
                 <Section1 />
                 <section className="related-post sec-padding bg-white">
                     <div className="container">
@@ -24,7 +24,7 @@ export default function Single_2() {
                         </div>
                     </div>
                 </section>
-                <div className="bg-50 py-5">
+                {/* <div className="bg-50 py-5">
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 col-12 mx-lg-auto">
@@ -32,7 +32,7 @@ export default function Single_2() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </Layout>
         </>
     );

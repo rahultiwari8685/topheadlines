@@ -51,7 +51,7 @@ export default function Section1() {
                 <li>
                   <Link href="/">Home</Link>
                 </li>
-                <li>{news.title}</li>
+                {/* <li>{news.title}</li> */}
               </ul>
             </nav>
 

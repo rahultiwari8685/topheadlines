@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Page_About() {
     return (
         <>
-            <Layout headerStyle={2} footerStyle={4}>
+            <Layout headerStyle={2} footerStyle={2}>
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
