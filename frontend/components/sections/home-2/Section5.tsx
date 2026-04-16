@@ -26,7 +26,8 @@ export default function Section5() {
         if (u.status !== false) {
   
        const formattedData = u.data.slice(0, 5).map((item: any, idx: number) => ({
-  linkPost: `/news/${item.slug || "#"}`,
+        //  linkPost: `/news/${item.slug || "#"}`,
+          linkPost: `/single-2?slug=${item.slug}`,
   linkBadge: "#",
   linkAuthor: "#",
   linkComment: "#",

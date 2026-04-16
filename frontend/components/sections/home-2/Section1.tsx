@@ -28,7 +28,7 @@ export default function Section1({ classList }: any) {
 
         const formattedData = u.data.map((item: any) => ({
           // 🔥 REQUIRED FIELDS FOR UI
-   linkPost: `/single-2?slug=${item.slug}`,
+           linkPost: `/single-2?slug=${item.slug}`,
           linkBadge: "#",
           linkAuthor: "#",
           linkComment: "#",

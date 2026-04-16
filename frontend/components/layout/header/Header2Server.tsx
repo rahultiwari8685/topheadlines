@@ -17,11 +17,11 @@ export default function Header2Server() {
                         <Image className="dark-mode-invert" src="/assets/imgs/template/logo/top-dark.png" width={143} height={18} alt="logo" />
                     </Link>
                     <div className="d-flex align-items-center ms-auto gap-4">
-                        <div className="pe-4 d-none d-lg-block">
+                        {/* <div className="pe-4 d-none d-lg-block">
                             <a href="/page-login" className="text-decoration-underline">
                                 Subscribe
                             </a>
-                        </div>
+                        </div> */}
                         <a href="#" className="search-btn fs-7 d-none d-md-flex link-effect-2" aria-label="Open search">
                             <svg className="dark-mode-invert" xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32" fill="none">
                                 <path d="M25.6667 25.6667L20.6667 20.6667M6.33337 14.6667C6.33337 10.0643 10.0643 6.33337 14.6667 6.33337C19.2691 6.33337 23 10.0643 23 14.6667C23 19.2691 19.2691 23 14.6667 23C10.0643 23 6.33337 19.2691 6.33337 14.6667Z" stroke="#0E0E0F" strokeWidth="1.74463" strokeLinecap="round" strokeLinejoin="round" />
