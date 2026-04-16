@@ -17,6 +17,12 @@ const newsSchema = new mongoose.Schema(
       default: 2,
     },
 
+    // ✅ ADD THIS
+    youtubeUrl: { type: String, default: "" },
+
+    // (optional but you are using it)
+    videoType: { type: Number, default: 0 },
+
     thumbnail: { type: String, default: "" },
   },
   { timestamps: true },
