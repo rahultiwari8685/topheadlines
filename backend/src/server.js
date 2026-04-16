@@ -44,9 +44,8 @@ app.use(limiter);
 // );
 
 const allowedOrigins = [
-  "https://sanskritisutracreations.com",
-  "http://localhost:3000",
-  "https://admin.sanskritisutracreations.com",
+  "https://iotaclasses.in",
+  "https://admin.iotaclasses.in",
 ];
 
 app.use((req, res, next) => {
