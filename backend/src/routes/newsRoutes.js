@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post("/saveNews", upload.single("thumbnail"), createNews);
 
-router.put("/:id", upload.single("thumbnail"), updateNews);
+router.post("/updateNews", upload.single("thumbnail"), updateNews);
 
 router.get("/getAllNews", getNews);
 // router.get("/:slug", getNewsBySlug);

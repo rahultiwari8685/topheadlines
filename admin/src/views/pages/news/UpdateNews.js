@@ -182,11 +182,6 @@ const UpdateNews = () => {
 
     let endpoint = '/api/news/updateNews'
 
-    // if (editingNews) {
-    //   endpoint = '/api/news/update'
-    //   formData.append('id', editingNews.id)
-    // }
-
     try {
       const res = await fetch(setting.api + endpoint, {
         method: 'POST',
