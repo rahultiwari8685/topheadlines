@@ -221,7 +221,7 @@ const UpdateNews = () => {
       <CCol lg={7}>
         <CCard className="shadow border-0 rounded-4">
           <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
-            <h5 className="mb-0">{editingNews ? 'Update News' : 'Create News'}</h5>
+            <h5 className="mb-0">Update News</h5>
           </CCardHeader>
 
           <CCardBody>
