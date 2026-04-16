@@ -20,28 +20,38 @@ import authRoutes from "./routes/auth.js";
 import rateLimit from "express-rate-limit";
 // import orderRoutes from "./routes/orderRoutes.js";
 
+// const app = express();
+
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // max 100 requests per IP
+//   message: {
+//     success: false,
+//     message: "Too many requests, please try again later",
+//   },
+// });
+
+// app.use(limiter);
+
 const app = express();
 
+// ✅ VERY IMPORTANT (ADD THIS LINE)
+app.set("trust proxy", 1);
+
+// ✅ RATE LIMIT
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // max 100 requests per IP
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
   message: {
     success: false,
     message: "Too many requests, please try again later",
   },
 });
 
-app.use(limiter);
-
-// app.use(
-//   cors({
-//     origin: [
-//       "https://sanskritisutracreations.com",
-//       "https://admin.sanskritisutracreations.com",
-//     ],
-//     credentials: true,
-//   }),
-// );
+// ✅ APPLY ONLY TO API (BEST PRACTICE)
+app.use("/api", limiter);
 
 const allowedOrigins = [
   "https://iotaclasses.in",
