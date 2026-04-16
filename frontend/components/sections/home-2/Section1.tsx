@@ -99,7 +99,7 @@ export default function Section1({ classList }: any) {
           {/* 🔥 2nd Column (TEXT NEWS ONLY) */}
           <div className="col-lg-3">
             <div className="row g-4">
-              {textNews.slice(0, 4).map((card, idx) => (
+              {textNews.slice(0, 2).map((card, idx) => (
                 <div className="col-lg-12 col-md-6" key={idx}>
                   <ArticleCard5 card={card} idx={idx} />
                 </div>
@@ -110,7 +110,7 @@ export default function Section1({ classList }: any) {
           {/* 🔥 3rd Column (TEXT NEWS ONLY) */}
           <div className="col-lg-3">
             <div className="row g-4">
-              {textNews.slice(4, 8).map((card, idx) => (
+              {textNews.slice(2, 4).map((card, idx) => (
                 <div className="col-lg-12 col-md-6" key={idx}>
                   <ArticleCard5 card={card} idx={idx} />
                 </div>
