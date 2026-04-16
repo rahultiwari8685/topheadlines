@@ -22,6 +22,7 @@ import {
 } from '@coreui/react'
 import secureLocalStorage from 'react-secure-storage'
 import { useParams } from 'react-router-dom'
+import EditorJSComponent from '../../../../../../igistrategy/admin/src/components/EditorJSComponent'
 
 const schema = yup.object().shape({
   title: yup.string().required('Title is required'),
@@ -113,59 +114,45 @@ const UpdateNews = () => {
     setValue('categories', newCategories)
   }
 
-  const getYouTubeId = (url) => {
-    try {
-      const parsedUrl = new URL(url)
-      if (parsedUrl.hostname === 'youtu.be') {
-        return parsedUrl.pathname.slice(1)
-      }
-      if (parsedUrl.searchParams.has('v')) {
-        return parsedUrl.searchParams.get('v')
-      }
-      if (parsedUrl.pathname.includes('/embed/')) {
-        return parsedUrl.pathname.split('/embed/')[1]
-      }
-    } catch (e) {
-      return null
-    }
-    return null
-  }
+ const fetchNews = async () => {
+  try {
+    const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
 
-  const fetchNews = async () => {
-    try {
-      const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
+    const res = await fetch(setting.api + '/api/news/getAllNews', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
 
-      const res = await fetch(setting.api + '/api/news/getAllNews', {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
+    const data = await res.json()
+    const allNews = data.news || []
+    setNewsList(allNews)
+
+    // ✅ FIXED HERE
+    const selected = allNews.find((n) => String(n._id) === String(id))
+
+    if (selected) {
+      setEditingNews(selected)
+
+      reset({
+        title: selected.title || '',
+        slug: selected.slug || '',
+        subtitle: selected.sub_title || '',
+        type: String(selected.type || ''),
+        videoType: String(selected.video_type || ''),
+        youtubeUrl: selected.youtube_url || '',
+        categories: selected.categories
+          ? selected.categories.map((c) => c._id)
+          : [],
+        videoFile: null,
+        thumbnail: null,
       })
-      const data = await res.json()
-      const allNews = data.news || []
-      setNewsList(allNews)
-
-      const selected = allNews.find((n) => String(n.id) === String(id))
-
-      if (selected) {
-        setEditingNews(selected)
-
-        reset({
-          title: selected.title || '',
-          slug: selected.slug || '',
-          subtitle: selected.sub_title || '',
-          type: String(selected.type) || '',
-          videoType: String(selected.video_type) || '',
-          youtubeUrl: selected.youtube_url || '',
-          categories: selected.categories ? selected.categories.map((c) => c.id) : [],
-          videoFile: null,
-          thumbnail: null,
-        })
-      }
-    } catch (error) {
-      console.error('Error fetching news:', error)
     }
+  } catch (error) {
+    console.error('Error fetching news:', error)
   }
+}
 
   useEffect(() => {
     fetchNews()
@@ -195,7 +182,7 @@ const UpdateNews = () => {
 
     if (editingNews) {
       endpoint = '/api/news/updateNews'
-      formData.append('id', editingNews.id)
+      formData.append('id', editingNews._id)
     }
 
     try {
