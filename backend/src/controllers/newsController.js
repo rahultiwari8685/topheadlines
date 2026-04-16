@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import News from "../models/News.js";
 
 export const createNews = async (req, res) => {
