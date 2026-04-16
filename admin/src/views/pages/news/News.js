@@ -130,10 +130,11 @@ const News = () => {
     formData.append('video_type', data.videoType)
     formData.append('type', data.type)
 
-    data.categories.forEach((id) => {
-      // formData.append('categories[]', id)
-      formData.append('categories', JSON.stringify(data.categories))
-    })
+    // data.categories.forEach((id) => {
+    //   formData.append('categories[]', id)
+    //   formData.append('categories', JSON.stringify(data.categories))
+    // })
+    formData.append('categories', JSON.stringify(data.categories))
 
     if (data.videoType === '1') {
       formData.append('youtube_url', data.youtubeUrl)

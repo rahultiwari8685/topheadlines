@@ -5,20 +5,25 @@ export const createNews = async (req, res) => {
     const { title, sub_title, video_type, type, youtube_url, content } =
       req.body;
 
-    const rawCategories = req.body["categories[]"] || [];
+    // ✅ SAFE PARSE
+    let categories = [];
+    try {
+      categories = JSON.parse(req.body.categories || "[]");
+    } catch (err) {
+      categories = [];
+    }
 
-    const categories = Array.isArray(rawCategories)
-      ? rawCategories
-      : [rawCategories];
+    // ✅ CONVERT TO OBJECTID
+    categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
     const news = await News.create({
       title,
       subtitle: sub_title,
-      categories, // ✅ now correct
+      categories,
       videoType: video_type,
       type,
       youtubeUrl: youtube_url || "",
-      content: content ? JSON.parse(content) : "",
+      content: content ? JSON.parse(content) : {},
       thumbnail: req.file?.filename || "",
     });
 
