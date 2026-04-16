@@ -7,35 +7,12 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import newsRoutes from "./routes/newsRoutes.js";
-// import reportRoutes from "./routes/reportRoutes.js";
 import authRoutes from "./routes/auth.js";
-// import planRoutes from "./routes/planRoutes.js";
-// import customerRoutes from "./routes/customerRoutes.js";
-// import paymentRoutes from "./routes/paymentRoutes.js";
-// import webhookRoutes from "./routes/webhookRoutes.js";
 
-// import customerAuthRoutes from "./routes/customerAuth.js";
-// import pollRoutes from "./routes/pollRoutes.js";
-// import liveRoutes from "./routes/liveRoutes.js";
 import rateLimit from "express-rate-limit";
-// import orderRoutes from "./routes/orderRoutes.js";
-
-// const app = express();
-
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // max 100 requests per IP
-//   message: {
-//     success: false,
-//     message: "Too many requests, please try again later",
-//   },
-// });
-
-// app.use(limiter);
 
 const app = express();
 
-// ✅ VERY IMPORTANT (ADD THIS LINE)
 app.set("trust proxy", 1);
 
 // ✅ RATE LIMIT
@@ -49,6 +26,14 @@ const limiter = rateLimit({
     message: "Too many requests, please try again later",
   },
 });
+
+app.use(
+  "/api/auth",
+  rateLimit({
+    windowMs: 10 * 60 * 1000,
+    max: 10,
+  }),
+);
 
 // ✅ APPLY ONLY TO API (BEST PRACTICE)
 app.use("/api", limiter);
