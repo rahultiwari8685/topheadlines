@@ -76,6 +76,7 @@ export default function Section1({ classList }: any) {
 
   // ✅ Filter TEXT NEWS (no youtube)
   const textNews = blogs.filter((item) => !item.youtubeUrl);
+  const videoNews = blogs.filter((item) => item.youtubeUrl);
 
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
@@ -90,7 +91,7 @@ export default function Section1({ classList }: any) {
         <div className="row mt-2 g-4">
 
           {/* 🔥 1st Column (Featured News) */}
-          {blogs.slice(0, 1).map((card, idx) => (
+          {videoNews.slice(0, 1).map((card, idx) => (
             <div className="col-lg-6" key={idx}>
               <ArticleCard11 card={card} idx={idx} />
             </div>
