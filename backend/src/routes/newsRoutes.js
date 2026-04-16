@@ -19,6 +19,7 @@ router.get("/getAllNews", getNews);
 // router.get("/:slug", getNewsBySlug);
 
 router.get("/slug/:slug", getNewsBySlug);
+router.get("/id/:id", getNewsById);
 
 router.delete("/deleteNews/:id", deleteNews);
 

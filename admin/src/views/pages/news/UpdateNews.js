@@ -21,30 +21,25 @@ import {
   CDropdownItem,
 } from '@coreui/react'
 import secureLocalStorage from 'react-secure-storage'
-import { useParams } from 'react-router-dom'
 import EditorJSComponent from '../../../../../../igistrategy/admin/src/components/EditorJSComponent'
+import { useParams } from 'react-router-dom'
 
 const schema = yup.object().shape({
   title: yup.string().required('Title is required'),
-  slug: yup.string().required('Slug is required'),
   subtitle: yup.string().required('Subtitle is required'),
   videoType: yup.string().required('Video source is required'),
   type: yup.string().required('Video source is required'),
 })
 
-const categoriesList = [
-  { id: 1, name: 'Politics' },
-  { id: 2, name: 'Sport' },
-  { id: 3, name: 'Entertainment' },
-]
-
 const UpdateNews = () => {
+  const { id } = useParams()
+
   const [slugEdited, setSlugEdited] = useState(false)
   const [editingNews, setEditingNews] = useState(null)
   const [newsList, setNewsList] = useState([])
-  const { id } = useParams()
-
   const [categoriesList, setCategoryList] = useState([])
+
+  const [content, setContent] = useState({})
 
   const {
     register,
@@ -57,7 +52,6 @@ const UpdateNews = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       title: '',
-      slug: '',
       subtitle: '',
       categories: [],
       videoType: '',
@@ -69,6 +63,25 @@ const UpdateNews = () => {
   })
 
   const formDataValues = watch()
+
+  useEffect(() => {
+    if (formDataValues.title && !slugEdited) {
+      const generatedSlug = formDataValues.title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+      setValue('slug', generatedSlug)
+    }
+  }, [formDataValues.title, slugEdited, setValue])
+
+  const toggleCategory = (id) => {
+    const alreadySelected = formDataValues.categories.includes(id)
+    const newCategories = alreadySelected
+      ? formDataValues.categories.filter((c) => c !== id)
+      : [...formDataValues.categories, id]
+    setValue('categories', newCategories)
+  }
 
   const getAllCategory = async () => {
     await fetch(setting.api + '/api/categories/getAllCategory', {
@@ -95,46 +108,34 @@ const UpdateNews = () => {
     getAllCategory()
   }, [])
 
-  useEffect(() => {
-    if (formDataValues.title && !slugEdited) {
-      const generatedSlug = formDataValues.title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .trim()
-        .replace(/\s+/g, '-')
-      setValue('slug', generatedSlug)
-    }
-  }, [formDataValues.title, slugEdited, setValue])
+  const fetchNewsById = async () => {
+    try {
+      const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
 
-  const toggleCategory = (id) => {
-    const alreadySelected = formDataValues.categories.includes(id)
-    const newCategories = alreadySelected
-      ? formDataValues.categories.filter((c) => c !== id)
-      : [...formDataValues.categories, id]
-    setValue('categories', newCategories)
-  }
+      const res = await fetch(
+        `${setting.api}/api/news/id/${id}`, // ✅ your route
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        },
+      )
 
- const fetchNews = async () => {
-  try {
-    const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
+      const result = await res.json()
 
-    const res = await fetch(setting.api + '/api/news/getAllNews', {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    })
+      if (!result.status) {
+        alert('News not found')
+        return
+      }
 
-    const data = await res.json()
-    const allNews = data.news || []
-    setNewsList(allNews)
+      const selected = result.data
 
-    // ✅ FIXED HERE
-    const selected = allNews.find((n) => String(n._id) === String(id))
+      console.log('Selected News:', selected)
 
-    if (selected) {
       setEditingNews(selected)
 
+      // ✅ PREFILL FORM
       reset({
         title: selected.title || '',
         slug: selected.slug || '',
@@ -142,24 +143,25 @@ const UpdateNews = () => {
         type: String(selected.type || ''),
         videoType: String(selected.video_type || ''),
         youtubeUrl: selected.youtube_url || '',
-        categories: selected.categories
-          ? selected.categories.map((c) => c._id)
-          : [],
+        categories: selected.categories ? selected.categories.map((c) => c._id) : [],
         videoFile: null,
         thumbnail: null,
       })
+    } catch (error) {
+      console.error('Error fetching news:', error)
     }
-  } catch (error) {
-    console.error('Error fetching news:', error)
   }
-}
 
   useEffect(() => {
-    fetchNews()
-  }, [])
+    if (id) {
+      fetchNewsById()
+    }
+  }, [id])
 
-  const saveNews = async (data) => {
+  const updateNews = async (data) => {
     const formData = new FormData()
+    formData.append('id', id)
+
     formData.append('title', data.title)
     formData.append('sub_title', data.subtitle)
     formData.append('video_type', data.videoType)
@@ -178,12 +180,12 @@ const UpdateNews = () => {
       if (data.thumbnail?.[0]) formData.append('thumbnail', data.thumbnail[0])
     }
 
-    let endpoint = '/api/news/saveNews'
+    let endpoint = '/api/news/updateNews'
 
-    if (editingNews) {
-      endpoint = '/api/news/updateNews'
-      formData.append('id', editingNews._id)
-    }
+    // if (editingNews) {
+    //   endpoint = '/api/news/update'
+    //   formData.append('id', editingNews.id)
+    // }
 
     try {
       const res = await fetch(setting.api + endpoint, {
@@ -198,7 +200,7 @@ const UpdateNews = () => {
       console.log('News API response:', result)
 
       if (result.status) {
-        alert(editingNews ? 'News updated!' : 'News created!')
+        alert('News updated!')
 
         reset({
           title: '',
@@ -219,62 +221,16 @@ const UpdateNews = () => {
     }
   }
 
-  //   const saveNews = async (data) => {
-  //     const formData = new FormData()
-  //     formData.append('title', data.title)
-  //     formData.append('sub_title', data.subtitle)
-  //     formData.append('video_type', data.videoType)
-  //     formData.append('type', data.type)
-
-  //     data.categories.forEach((id) => {
-  //       formData.append('categories[]', id)
-  //     })
-
-  //     if (data.videoType === '1') {
-  //       formData.append('youtube_url', data.youtubeUrl)
-  //     } else if (data.videoType === '2') {
-  //       if (data.videoFile?.[0]) formData.append('uploade_video', data.videoFile[0])
-  //       if (data.thumbnail?.[0]) formData.append('featured_img', data.thumbnail[0])
-  //     }
-
-  //     let endpoint = '/api/news/updateNews'
-  //     formData.append('id', id)
-
-  //     try {
-  //       const res = await fetch(setting.api + endpoint, {
-  //         method: 'POST',
-  //         body: formData,
-  //         headers: {
-  //           Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
-  //         },
-  //       })
-
-  //       const result = await res.json()
-  //       console.log('News API response:', result)
-
-  //       if (result.status) {
-  //         alert(editingNews ? 'News updated!' : 'News created!')
-  //         fetchNews()
-  //         reset()
-  //         setEditingNews(null)
-  //       } else {
-  //         alert(result.message || 'Failed to save news')
-  //       }
-  //     } catch (error) {
-  //       console.error('Error saving news:', error)
-  //     }
-  //   }
-
   return (
     <div className="d-flex flex-column flex-lg-row gap-4">
       <CCol lg={7}>
         <CCard className="shadow border-0 rounded-4">
           <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
-            <h5 className="mb-0">{editingNews ? 'Update News' : 'Upload Video News'}</h5>
+            <h5 className="mb-0">{editingNews ? 'Update News' : 'Create News'}</h5>
           </CCardHeader>
 
           <CCardBody>
-            <CForm onSubmit={handleSubmit(saveNews)}>
+            <CForm onSubmit={handleSubmit(updateNews)}>
               <CRow className="mb-3">
                 <CCol md={12}>
                   <CFormInput
@@ -319,26 +275,26 @@ const UpdateNews = () => {
               </CRow>
               <CRow>
                 <CCol md={12}>
-                  <p className="mb-2 fw-bold">Select Categories</p>
+                  <p className="mb-2 ">Select Categories</p>
                   <CDropdown>
                     <CDropdownToggle color="secondary">
                       {formDataValues.categories.length > 0
                         ? categoriesList
-                            .filter((cat) => formDataValues.categories.includes(cat.id))
+                            .filter((cat) => formDataValues.categories.includes(cat._id))
                             .map((cat) => cat.name)
                             .join(', ')
                         : 'Select Categories'}
                     </CDropdownToggle>
                     <CDropdownMenu>
                       {categoriesList.map((cat) => {
-                        const isSelected = formDataValues.categories.includes(cat.id)
+                        const isSelected = formDataValues.categories.includes(cat._id)
                         return (
-                          <CDropdownItem key={cat.id}>
+                          <CDropdownItem key={cat._id}>
                             <CFormCheck
-                              id={`cat-${cat.id}`}
+                              id={`cat-${cat._id}`}
                               label={cat.name}
                               checked={isSelected}
-                              onChange={() => toggleCategory(cat.id)}
+                              onChange={() => toggleCategory(cat._id)}
                             />
                           </CDropdownItem>
                         )
@@ -365,13 +321,13 @@ const UpdateNews = () => {
 
                 <CCol md={6}>
                   <CFormSelect
-                    label="Video Source"
+                    label="News Type"
                     {...register('videoType')}
                     value={formDataValues.videoType}
                     onChange={(e) => setValue('videoType', e.target.value)}
                   >
                     <option value="">Select Type</option>
-                    <option value="1">YouTube</option>
+                    <option value="1">Video</option>
                     <option value="2">Text</option>
                   </CFormSelect>
                   {errors.videoType && (

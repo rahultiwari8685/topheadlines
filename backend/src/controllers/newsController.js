@@ -77,6 +77,31 @@ export const getNewsBySlug = async (req, res) => {
   }
 };
 
+export const getNewsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const news = await News.findById(id).populate("categories", "name slug");
+
+    if (!news) {
+      return res.status(404).json({
+        status: false,
+        message: "News not found",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: news,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
 export const updateNews = async (req, res) => {
   try {
     const { id, title, sub_title, video_type, type, youtube_url } = req.body;
