@@ -3,6 +3,8 @@ import Link from "next/link";
 import cardCollections from "@/public/data/cardHome-1.json";
 import ArticleCard5 from "@/components/cards/ArticleCard5";
 import MainMenu2Interactive from "./MainMenu2Interactive";
+import { useState, useEffect } from "react";
+import setting from "../../setting.json";
 
 export default function MainMenu2Server() {
     const cardCollectionsData = cardCollections.cardCollections;
