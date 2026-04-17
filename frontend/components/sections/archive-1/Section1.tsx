@@ -46,9 +46,9 @@ export default async function Section1({ searchParams }: Section1Props) {
 
   try {
     // ✅ Dynamic API (with/without category)
-    const url = categoryId
-      ? `https://api.iotaclasses.in/api/categories/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
-      : `https://api.iotaclasses.in/api/categories?page=${currentPage}&limit=${itemsPerPage}`;
+const url = categoryId
+  ? `https://api.iotaclasses.in/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
+  : `https://api.iotaclasses.in/api/news?page=${currentPage}&limit=${itemsPerPage}`;
 
     const res = await fetch(url, { cache: "no-store" });
     const data = await res.json();
@@ -59,7 +59,6 @@ export default async function Section1({ searchParams }: Section1Props) {
     console.error("Fetch Error:", error);
   }
 
-  // ✅ Mapping (FULL SAFE)
   const cards: CardType[] = news.map((item) => ({
     title: item.title,
     img: item.thumbnail
@@ -85,7 +84,7 @@ export default async function Section1({ searchParams }: Section1Props) {
       : "#",
   }));
 
-  // ✅ Pagination
+  
   const ServerPagination = () => {
     const pages = [];
 

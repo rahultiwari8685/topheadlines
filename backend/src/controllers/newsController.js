@@ -77,7 +77,8 @@ export const getAllNewsByCategory = async (req, res) => {
     const news = await News.find({
       categories: { $in: [categoryId] },
     })
-      .populate("categories", "name slug")
+      // .populate("categories", "name slug")
+      .populate("categories", "name slug _id")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit));

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import setting from "../../setting.json";
 
 type Category = {
   _id: string;
@@ -14,7 +15,7 @@ export default function MainMenu2Server() {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    fetch("https://api.iotaclasses.in/api/categories/getAllCategory")
+    fetch(`${setting.api}/api/categories/getAllCategory`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -37,15 +38,6 @@ export default function MainMenu2Server() {
         <li>
           <Link href="/">Home</Link>
         </li>
-
-        {/* First Category (replace Trending) */}
-        {/* {categories.length > 0 && (
-          <li>
-            <Link href={`/archive-2?category=${categories[0]._id}`}>
-              <span className="title">{categories[0].name}</span>
-            </Link>
-          </li>
-        )} */}
 
         {/* All Menu Categories */}
         {categories.map((cat) => (
