@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import setting from '../../../setting.json'
 
+import { useNavigate } from 'react-router-dom'
+
 import {
   CCard,
   CCardBody,
@@ -33,6 +35,8 @@ const schema = yup.object().shape({
 
 const UpdateNews = () => {
   const { id } = useParams()
+
+  const navigate = useNavigate()
 
   const [slugEdited, setSlugEdited] = useState(false)
   const [editingNews, setEditingNews] = useState(null)
@@ -152,10 +156,14 @@ const UpdateNews = () => {
         thumbnail: null,
       })
 
-      // ✅ OPTIONAL: Editor.js content set
-      if (selected.content && window.editorInstance) {
-        window.editorInstance.render(selected.content)
+      if (selected.content) {
+        setContent(selected.content)
       }
+
+      // ✅ OPTIONAL: Editor.js content set
+      // if (selected.content && window.editorInstance) {
+      //   window.editorInstance.render(selected.content)
+      // }
     } catch (error) {
       console.error('Error fetching news:', error)
     }
@@ -200,7 +208,7 @@ const UpdateNews = () => {
       const result = await res.json()
       console.log('News API response:', result)
 
-      if (result.status) {
+      if (result.status === true) {
         alert('News updated!')
 
         reset({
@@ -214,6 +222,7 @@ const UpdateNews = () => {
           thumbnail: null,
         })
         setEditingNews(null)
+        navigate('/PublishNews')
       } else {
         alert(result.message || 'Failed to save news')
       }
