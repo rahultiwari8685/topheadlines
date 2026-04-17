@@ -113,6 +113,7 @@ const Dashboard = () => {
                   <CProgress
                     value={progress}
                     className="progress-md rounded-pill"
+                    color="light"
                     style={{
                       height: '10px',
                       backgroundColor: 'rgba(255,255,255,0.3)',
