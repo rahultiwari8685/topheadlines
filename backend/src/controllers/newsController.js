@@ -60,6 +60,38 @@ export const getNews = async (req, res) => {
   }
 };
 
+export const getAllNewsByCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    // ✅ Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid category ID",
+      });
+    }
+
+    const news = await News.find({
+      categories: { $in: [categoryId] },
+    })
+      .populate("categories", "name slug")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      status: true,
+      results: news.length,
+      data: news,
+    });
+  } catch (error) {
+    console.error("Get News By Category Error:", error);
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getNewsBySlug = async (req, res) => {
   try {
     const news = await News.findOne({ slug: req.params.slug }).populate(

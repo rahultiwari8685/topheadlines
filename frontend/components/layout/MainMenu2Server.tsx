@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import cardCollections from "@/public/data/cardHome-1.json";
 import ArticleCard5 from "@/components/cards/ArticleCard5";
@@ -5,6 +6,18 @@ import MainMenu2Interactive from "./MainMenu2Interactive";
 
 export default function MainMenu2Server() {
     const cardCollectionsData = cardCollections.cardCollections;
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+  fetch(setting.api + "/api/categories/getAllCategory")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        setCategories(data.data);
+      }
+    });
+}, []);
 
     return (
         <ul className="navbar-nav">
@@ -161,7 +174,17 @@ export default function MainMenu2Server() {
                     </svg>
                 </span>
                 <Link className="nav-link link-effect-1 data-link-alt" href="/archive-2">
-                    <span>Trending</span>
+                    {/* <span>Trending</span> */}
+                    <span className="title">
+  {categories.length > 0 ? categories[0].name : "Loading..."}
+</span>
+                </Link>
+
+                  <Link className="nav-link link-effect-1 data-link-alt" href="/archive-2">
+                    {/* <span>Trending</span> */}
+                    <span className="title">
+  {categories.length > 0 ? categories[1].name : "Loading..."}
+</span>
                 </Link>
             </li>
 
