@@ -78,12 +78,12 @@ const Dashboard = () => {
     fetchDashboardData()
   }, [])
 
+  const maxCount = Math.max(...stats.map((s) => s.count), 1)
+
   return (
     <div className="p-4">
       <CRow className="g-4">
         {stats.map((item, index) => {
-          const maxCount = Math.max(...stats.map((s) => s.count), 1)
-
           const progress = Math.min((item.count / maxCount) * 100, 100)
 
           return (
@@ -109,11 +109,12 @@ const Dashboard = () => {
                     </div>
                   </div>
 
+                  {/* ✅ Progress */}
                   <CProgress
                     value={progress}
                     className="progress-md rounded-pill"
                     style={{
-                      height: '8px',
+                      height: '10px',
                       backgroundColor: 'rgba(255,255,255,0.3)',
                     }}
                   />
