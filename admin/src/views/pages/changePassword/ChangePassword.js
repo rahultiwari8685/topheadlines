@@ -14,6 +14,8 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilLockUnlocked } from '@coreui/icons'
+import secureLocalStorage from 'react-secure-storage'
+import setting from '../../../setting.json'
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
