@@ -58,7 +58,7 @@ export default function ArticleCard7({ card, idx }: CardProps) {
                         </Link>
                         <div className="position-relative card-img">
                             <Link href={card.linkPost}>
-                                <Image className="rounded-16 overflow-hidden cover-image" src={card.img} alt="magzin" width={310} height={206} />
+                                <img className="rounded-16 overflow-hidden cover-image" src={card.img} alt="magzin" width={310} height={206} />
                             </Link>
                             <Link href={card.linkVideo} className={`${card.layoutVideo} play-btn popup-video z-2 rounded-circle icon-shape icon-xl position-absolute top-50 start-50 translate-middle`}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none">

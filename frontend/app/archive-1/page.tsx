@@ -11,7 +11,7 @@ interface PageProps {
 export default function Archive_1({ searchParams }: PageProps) {
     return (
         <>
-            <Layout headerStyle={2} footerStyle={4}>
+            <Layout headerStyle={2} footerStyle={2}>
                 {/* <Breadcumb page_current="Travel & Culture" title="Travel & Culture" count_articles="187 articles" description="Journey across the globe to uncover the stories, traditions, and beauty that shape our shared human experience." /> */}
                 <Section1 searchParams={searchParams} />
                 {/* <Section2 /> */}
