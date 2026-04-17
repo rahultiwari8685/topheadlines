@@ -167,3 +167,56 @@ export const deleteUser = async (req, res) => {
     });
   }
 };
+
+export const changePassword = async (req, res) => {
+  try {
+    const userId = req.user.id; // from auth middleware
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    // ✅ check empty
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        status: false,
+        message: "All fields are required",
+      });
+    }
+
+    // ✅ check match
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        status: false,
+        message: "Passwords do not match",
+      });
+    }
+
+    // ✅ get user
+    const user = await User.findById(userId);
+
+    // ✅ verify old password
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({
+        status: false,
+        message: "Old password is incorrect",
+      });
+    }
+
+    // ✅ hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({
+      status: true,
+      message: "Password changed successfully",
+    });
+  } catch (error) {
+    console.error("Change Password Error:", error);
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
