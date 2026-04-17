@@ -66,7 +66,8 @@ const url = categoryId
       : "/assets/imgs/default.jpg",
 
     description: item.subtitle || "",
-    linkPost: `/news/${item.slug}`,
+    // linkPost: `/news/${item.slug}`,
+    linkPost: `/single-2?slug=${item.slug}`,
 
     badge1: item.categories?.[0]?.name || "News",
     badge2: "",
