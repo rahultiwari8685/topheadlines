@@ -47,8 +47,8 @@ export default async function Section1({ searchParams }: Section1Props) {
   try {
     // ✅ Dynamic API (with/without category)
     const url = categoryId
-      ? `https://api.iotaclasses.in/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
-      : `https://api.iotaclasses.in/api/news?page=${currentPage}&limit=${itemsPerPage}`;
+      ? `https://api.iotaclasses.in/api/categories/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
+      : `https://api.iotaclasses.in/api/categories?page=${currentPage}&limit=${itemsPerPage}`;
 
     const res = await fetch(url, { cache: "no-store" });
     const data = await res.json();
