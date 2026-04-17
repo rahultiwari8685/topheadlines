@@ -107,7 +107,7 @@ const Category = () => {
 
       const result = await res.json()
 
-      if (result.status) {
+      if (result.status === true) {
         reset()
         getAllCategory()
         setEditingCategory(null)

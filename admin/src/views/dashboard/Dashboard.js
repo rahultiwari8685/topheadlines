@@ -82,7 +82,9 @@ const Dashboard = () => {
     <div className="p-4">
       <CRow className="g-4">
         {stats.map((item, index) => {
-          const progress = Math.min((item.count / item.goal) * 100, 100)
+          const maxCount = Math.max(...stats.map((s) => s.count), 1)
+
+          const progress = Math.min((item.count / maxCount) * 100, 100)
 
           return (
             <CCol md={6} lg={3} sm={12} key={index}>
@@ -103,9 +105,7 @@ const Dashboard = () => {
                     </div>
                     <div>
                       <h5 className="fw-bold mb-1">{item.title}</h5>
-                      <small>
-                        {item.count} of {item.goal}
-                      </small>
+                      <small>{item.count}</small>
                     </div>
                   </div>
 
