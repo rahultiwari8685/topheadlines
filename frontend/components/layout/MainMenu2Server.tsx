@@ -20,7 +20,7 @@ export default function MainMenu2Server() {
         if (data.success) {
           // ✅ FILTER: only showInMenu = 1
           const filtered = data.data.filter(
-            (cat: Category) => cat.showInMenu === 1
+            (cat: Category) => cat.showInMenu == 1
           );
 
           setCategories(filtered);
