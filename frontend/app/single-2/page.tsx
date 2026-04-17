@@ -10,7 +10,7 @@ export default function Single_2() {
         <>
             <Layout headerStyle={2} footerStyle={2}>
                 <Section1 />
-                <section className="related-post sec-padding bg-white">
+                {/* <section className="related-post sec-padding bg-white">
                     <div className="container">
                         <div className="row g-4">
                             <div className="col-12">
@@ -23,7 +23,7 @@ export default function Single_2() {
                             ))}
                         </div>
                     </div>
-                </section>
+                </section> */}
                 {/* <div className="bg-50 py-5">
                     <div className="container">
                         <div className="row">
