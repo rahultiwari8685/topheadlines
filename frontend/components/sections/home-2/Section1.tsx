@@ -9,7 +9,6 @@ export default function Section1({ classList }: any) {
   const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Extract YouTube ID
   const getYouTubeId = (url: string) => {
     const regExp =
       /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
@@ -43,10 +42,9 @@ export default function Section1({ classList }: any) {
 
               hasVideo: !!videoId,
 
-              // ✅ Important for filtering
               youtubeUrl: item.youtubeUrl || "",
 
-              badge: "News",
+            badge: item.categories?.[0]?.name || "News",
               bgBadge: "bg-2",
 
               title: item.title || "No Title",
@@ -74,7 +72,7 @@ export default function Section1({ classList }: any) {
       .finally(() => setLoading(false));
   }, []);
 
-  // ✅ Filter TEXT NEWS (no youtube)
+
   const textNews = blogs.filter((item) => !item.youtubeUrl);
   const videoNews = blogs.filter((item) => item.youtubeUrl);
 
