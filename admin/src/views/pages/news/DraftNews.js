@@ -1,156 +1,241 @@
 import React, { useEffect, useState } from 'react'
 import {
-    CCard,
-    CCardBody,
-    CCardHeader,
-    CCol,
-    CRow,
-    CFormInput,
-    CFormLabel,
-    CForm,
-    CTable,
-    CTableBody,
-    CTableDataCell,
-    CTableHead,
-    CTableHeaderCell,
-    CTableRow,
-    CButton
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CRow,
+  CFormInput,
+  CFormLabel,
+  CForm,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow,
+  CButton,
+  CPagination,
+  CPaginationItem,
 } from '@coreui/react'
 import { cilTrash, cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import secureLocalStorage from "react-secure-storage";
 import setting from '../../../setting.json'
+import secureLocalStorage from 'react-secure-storage'
+import { useNavigate } from 'react-router-dom'
 
 const DraftNews = () => {
+  const [newsList, setNewsList] = useState([])
+  const navigate = useNavigate()
+  const [searchText, setSearchText] = useState('')
+  const [userList, setUserList] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 30
 
+  const fetchNews = async () => {
+    try {
+      const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
 
-    const [searchText, setSearchText] = useState("");
-    const [newsList, setNewsList] = useState([]);
+      const res = await fetch(setting.api + '/api/news/getAllNews', {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
 
+      const data = await res.json()
 
-    const fetchNews = async () => {
-        try {
-            const token = JSON.parse(secureLocalStorage.getItem("logininfo")).token;
+      // ✅ FILTER only type = 1
+      const filteredNews = (data.data || []).filter((item) => item.type === 2)
 
-            const res = await fetch(setting.api + "/api/news/draftNews", {
-                method: "GET",
-                headers: {
-                    Authorization: "Bearer " + token,
-                },
-            });
-
-            const data = await res.json();
-            setNewsList(data.news || []);
-        } catch (error) {
-            console.error("Error fetching news:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchNews();
-    }, []);
-
-    function handleDelete(id) {
-        var ans = confirm("Are you sure For Delete?");
-        console.log(ans);
-
-        if (ans == true) {
-            deleteNews(id);
-        }
-
+      setNewsList(filteredNews)
+    } catch (error) {
+      console.error('Error fetching news:', error)
     }
+  }
 
-    const deleteNews = async (id) => {
-        try {
-            const token = JSON.parse(secureLocalStorage.getItem("logininfo"))?.token;
+  useEffect(() => {
+    fetchNews()
+  }, [])
 
-            const response = await fetch(`${setting.api}/api/news/delete/${id}`, {
-                method: "POST",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (!response.ok) {
-                console.error("Delete failed:", response.status);
-            } else {
-                console.log("User deleted:", await response.json());
-                fetchNews(); // ✅ refresh after delete
-            }
-        } catch (err) {
-            console.error("Error deleting user:", err);
+  const allUserList = async () => {
+    await fetch(setting.api + '/api/users/getAllUser', {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
+      },
+    })
+      .then((response) => response.json())
+      .then((u) => {
+        if (u.status == false) {
+          // secureLocalStorage.clear();
+          navigate('/login')
+        } else {
+          setUserList(u.data)
         }
-    };
+      })
+  }
 
-    const filteredNews = newsList.filter((news) =>
-        news.title.toLowerCase().includes(searchText.toLowerCase())
-    );
+  useEffect(() => {
+    allUserList()
+  }, [])
 
-    return (
-        <CCard className="shadow-sm border-0 rounded-4">
-            <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
-                <div className="d-flex justify-content-between align-items-center">
+  const getUserName = (id) => {
+    console.log(id)
+    const user = userList.find((c) => String(c.id) === String(id))
+    return user ? user.name : 'N/A'
+  }
 
-                    <h5 className="mb-0">
-                        <i className="bi bi-file-earmark-text-fill me-2 text-warning"></i> Draft Video
-                    </h5>
+  const handleEdit = (news) => {
+    navigate(`/UpdateNews/${news._id}`)
+  }
 
-                </div>
-            </CCardHeader>
+  function handleDelete(id) {
+    var ans = confirm('Are you sure For Delete?')
+    console.log(ans)
 
-            <CCardBody>
-                <CForm className="mb-4">
-                    <CRow className="g-3">
+    if (ans == true) {
+      deleteNews(id)
+    }
+  }
 
-                        <CCol md={12}>
-                            <CFormInput
-                                type="text"
-                                id="searchText"
-                                placeholder="Search by Title"
-                                value={searchText} // bind state
-                                onChange={(e) => setSearchText(e.target.value)} // update state
-                            />
-                        </CCol>
-                    </CRow>
-                </CForm>
+  const deleteNews = async (id) => {
+    try {
+      const response = await fetch(`${setting.api}/api/news/deleteNews/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
 
-                <CTable align="middle" hover responsive bordered>
-                    <CTableHead color="light">
-                        <CTableRow>
-                            <CTableHeaderCell scope="col">#</CTableHeaderCell>
-                            <CTableHeaderCell scope="col">Title</CTableHeaderCell>
-                            <CTableHeaderCell scope="col">Type</CTableHeaderCell>
-                            <CTableHeaderCell scope="col">Sub Title</CTableHeaderCell>
-                            <CTableHeaderCell scope="col">Action</CTableHeaderCell>
-                        </CTableRow>
-                    </CTableHead>
-                    <CTableBody>
-                        {newsList && newsList.map((news, index) => (
+      const data = await response.json()
+      fetchNews()
 
-                            <CTableRow key={index}>
-                                <CTableDataCell>{index + 1}</CTableDataCell>
-                                <CTableDataCell>{news.title}</CTableDataCell>
-                                <CTableDataCell>{news.type == "1" ? "Published" : "Draft"}</CTableDataCell>
-                                <CTableDataCell>{news.sub_title}</CTableDataCell>
-                                <CTableDataCell>
-                                    <CButton size="sm" color="primary" className="rounded-pill px-3 shadow-sm fw-semibold">
-                                        <CIcon icon={cilPencil} /> Edit
-                                    </CButton>{" "}
-                                    <CButton size="sm" color="danger" className="rounded-pill px-3 shadow-sm fw-semibold" onClick={() => handleDelete(news.id)}>
-                                        <CIcon icon={cilTrash} /> Delete
-                                    </CButton>
-                                </CTableDataCell>
-                            </CTableRow>
-                        ))}
+      if (data.status === true) {
+        console.log('Deleted successfully')
 
+        // optional: remove from UI
+        setBlogs((prev) => prev.filter((item) => item._id !== id))
+        fetchNews()
+      }
+    } catch (error) {
+      console.error('Delete Error:', error)
+    }
+  }
 
-                    </CTableBody>
-                </CTable>
-            </CCardBody>
-        </CCard>
-    )
+  const filteredNews = newsList.filter((news) =>
+    news.title.toLowerCase().includes(searchText.toLowerCase()),
+  )
+
+  const totalPages = Math.ceil(newsList.length / itemsPerPage)
+  const paginatedItems = newsList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  )
+
+  return (
+    <CCard className="shadow-sm border-0 rounded-4">
+      <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">
+            <i className="bi bi-play-circle-fill me-2 text-danger"></i> Draft News
+          </h5>
+        </div>
+      </CCardHeader>
+
+      <CCardBody>
+        <CForm className="mb-4">
+          <CRow className="g-3">
+            {/* <CCol md={3}>
+              <CFormLabel htmlFor="fromDate">From Date</CFormLabel>
+              <CFormInput type="date" id="fromDate" />
+            </CCol>
+            <CCol md={3}>
+              <CFormLabel htmlFor="toDate">To Date</CFormLabel>
+              <CFormInput type="date" id="toDate" />
+            </CCol> */}
+            <CCol md={12}>
+              <CFormInput
+                type="text"
+                id="searchText"
+                placeholder="Search by Title"
+                value={searchText} // bind state
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+            </CCol>
+          </CRow>
+        </CForm>
+
+        <CTable align="middle" hover responsive bordered>
+          <CTableHead color="light">
+            <CTableRow>
+              <CTableHeaderCell scope="col">#</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Title</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Category</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Author</CTableHeaderCell>
+              {/* <CTableHeaderCell scope="col">Date</CTableHeaderCell> */}
+              <CTableHeaderCell scope="col">Action</CTableHeaderCell>
+            </CTableRow>
+          </CTableHead>
+          <CTableBody>
+            {paginatedItems.map((news, index) => {
+              const actualIndex = (currentPage - 1) * itemsPerPage + index
+              return (
+                <CTableRow key={news.id}>
+                  <CTableDataCell>{actualIndex + 1}</CTableDataCell>
+                  <CTableDataCell>{news.title}</CTableDataCell>
+
+                  <CTableDataCell>
+                    {news.categories && news.categories.length > 0
+                      ? news.categories.map((cat) => cat.name).join(', ')
+                      : '-'}
+                  </CTableDataCell>
+
+                  <CTableDataCell>{getUserName(news.user_id)}</CTableDataCell>
+                  {/* <CTableDataCell>{new Date(news.created_at).toLocaleDateString()}</CTableDataCell> */}
+
+                  <CTableDataCell>
+                    <CButton
+                      size="sm"
+                      color="primary"
+                      className="rounded-pill px-3 shadow-sm fw-semibold"
+                      onClick={() => handleEdit(news)}
+                    >
+                      <CIcon icon={cilPencil} /> Edit
+                    </CButton>{' '}
+                    <CButton
+                      size="sm"
+                      color="danger"
+                      className="rounded-pill px-3 shadow-sm fw-semibold"
+                      onClick={() => handleDelete(news._id)}
+                    >
+                      <CIcon icon={cilTrash} /> Delete
+                    </CButton>
+                  </CTableDataCell>
+                </CTableRow>
+              )
+            })}
+          </CTableBody>
+        </CTable>
+
+        <div className="d-flex justify-content-end mt-3">
+          <CPagination align="end">
+            {[...Array(totalPages)].map((_, idx) => (
+              <CPaginationItem
+                key={idx + 1}
+                active={currentPage === idx + 1}
+                onClick={() => setCurrentPage(idx + 1)}
+              >
+                {idx + 1}
+              </CPaginationItem>
+            ))}
+          </CPagination>
+        </div>
+      </CCardBody>
+    </CCard>
+  )
 }
 
 export default DraftNews

@@ -44,7 +44,11 @@ const PublishedNews = () => {
       })
 
       const data = await res.json()
-      setNewsList(data.data || [])
+
+      // ✅ FILTER only type = 1
+      const filteredNews = (data.data || []).filter((item) => item.type === 1)
+
+      setNewsList(filteredNews)
     } catch (error) {
       console.error('Error fetching news:', error)
     }
@@ -136,7 +140,7 @@ const PublishedNews = () => {
       <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="mb-0">
-            <i className="bi bi-play-circle-fill me-2 text-danger"></i> Published Video
+            <i className="bi bi-play-circle-fill me-2 text-danger"></i> Published News
           </h5>
         </div>
       </CCardHeader>
