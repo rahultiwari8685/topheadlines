@@ -12,7 +12,7 @@ export default function Section2() {
   const [categories, setCategories] = useState([]);
 
 
-   useEffect(() => {
+useEffect(() => {
   setLoading(true);
 
   fetch(setting.api + "/api/categories/getAllCategory")
@@ -21,14 +21,15 @@ export default function Section2() {
       if (u.success) {
 
         const formattedData = u.data.map((item: any) => ({
-          linkPost: `/category/${item._id}`,
+          // ✅ FIXED
+          linkPost: `/archive-1?category=${item._id}`,
 
           img: item.bannerImage
             ? `${setting.api}/uploads/${item.bannerImage}`
             : "/assets/imgs/page/img-20.png",
 
           title: item.name,
-          bg: "bg-20", // static for now
+          bg: "bg-20",
         }));
 
         setCategories(formattedData);
