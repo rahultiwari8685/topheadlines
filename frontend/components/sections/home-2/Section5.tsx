@@ -33,7 +33,8 @@ export default function Section5() {
               ? `${setting.api}/uploads/images/${item.thumbnail}`
               : "/assets/imgs/page/img-66.png",
 
-            badge: "News",
+                       badge: item.categories?.[0]?.name || "News",
+
             bgBadge: `bg-${(idx % 5) + 1}`,
 
             title: item.title || "No Title",

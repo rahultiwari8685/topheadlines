@@ -1,7 +1,36 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
+import { useEffect, useState } from "react";
+import setting from "../../../setting.json";
+
+type Category = {
+  _id: string;
+  name: string;
+  slug?: string;
+  showInMenu?: number;
+};
 
 export default function Footer() {
+
+     const [categories, setCategories] = useState<Category[]>([]);
+    
+      useEffect(() => {
+        fetch(`${setting.api}/api/categories/getAllCategory`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              // ✅ FILTER: only showInMenu = 1
+              const filtered = data.data.filter(
+                (cat: Category) => cat.showInMenu == 1
+              );
+    
+              setCategories(filtered);
+            }
+          })
+          .catch((err) => console.log(err));
+      }, []);
+
     return (
         <>
             {/* Footer */}
@@ -14,7 +43,7 @@ export default function Footer() {
                                     <Link className="dark-mode-invert" href="/index-2">
                                         <Image src="/assets/imgs/template/logo/top-dark.png" width={143} height={18} alt="logo" />
                                     </Link>
-                                    <p className="fs-7 m-0">The colors of life.</p>
+                                    {/* <p className="fs-7 m-0">The colors of life.</p> */}
                                 </div>
                                 <p className="fs-7 text-dark mt-4">Blending tech, life, and business. Stay informed with fresh trends, smart insights, and expert takes across every topic that matters.</p>
                                 <div className="d-inline-flex group-social-icons">
@@ -43,76 +72,64 @@ export default function Footer() {
                             <div className="col-lg-8">
                                 <div className="row g-4 justify-content-between">
                                     <div className="col-lg-1" />
+
+                                  <div className="col-lg-3 col-md-3 col-6">
+  <h6 className="mb-3">Categories</h6>
+
+  <ul className="list-unstyled ps-0">
+    {categories.length > 0 ? (
+      categories.map((cat) => (
+        <li className="mb-3" key={cat._id}>
+          <a
+            className="text-500 hover-dark"
+            href={`/archive-1?category=${cat._id}`}
+          >
+            {cat.name}
+          </a>
+        </li>
+      ))
+    ) : (
+      <li>Loading...</li>
+    )}
+  </ul>
+</div>
+
                                     <div className="col-lg-3 col-md-3 col-6">
-                                        <h6 className="mb-3">Categories</h6>
+                                        <h6 className="mb-3">Pages</h6>
                                         <ul className="list-unstyled ps-0">
                                             <li className="mb-3">
                                                 <a className="text-500 hover-dark" href="#">
-                                                    Lifestyle
+                                                    Home
                                                 </a>
                                             </li>
                                             <li className="mb-3">
                                                 <a className="text-500 hover-dark" href="#">
-                                                    Business
+                                                    About Us
                                                 </a>
                                             </li>
                                             <li className="mb-3">
                                                 <a className="text-500 hover-dark" href="#">
-                                                    Science
+                                                    Contact Us
                                                 </a>
                                             </li>
                                             <li className="mb-3">
                                                 <a className="text-500 hover-dark" href="#">
-                                                    Technology
+                                                Privacy Policy
                                                 </a>
                                             </li>
                                             <li className="mb-3">
                                                 <a className="text-500 hover-dark" href="#">
-                                                    Gaming
+                                                    Terms &amp; Conditions
                                                 </a>
                                             </li>
                                             <li className="mb-3">
                                                 <a className="text-500 hover-dark" href="#">
-                                                    Fashion
+                                                    Disclaimer
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div className="col-lg-3 col-md-3 col-6">
-                                        <h6 className="mb-3">Company</h6>
-                                        <ul className="list-unstyled ps-0">
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Mission &amp; Vision
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Become an author
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Careers
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Press &amp; Media
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Advertising
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Testimonials
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+
                                     <div className="col-lg-3 col-md-3 col-6">
                                         <h6 className="mb-3">Membership</h6>
                                         <ul className="list-unstyled ps-0">
