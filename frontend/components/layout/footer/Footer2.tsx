@@ -17,25 +17,20 @@ export default function Footer() {
 
      const [categories, setCategories] = useState<Category[]>([]);
     
-      useEffect(() => {
-        fetch(`${setting.api}/api/categories/getAllCategory`)
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              // ✅ FILTER: only showInMenu = 1
-              const filtered = data.data.filter(
-                (cat: Category) => cat.showInMenu == 1
-              );
-    
-              setCategories(filtered);
-            }
-          })
-          .catch((err) => console.log(err));
-      }, []);
+    useEffect(() => {
+  fetch(`${setting.api}/api/categories/getAllCategory`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        setCategories(data.data);
+      }
+    })
+    .catch((err) => console.log(err));
+}, []);
 
     return (
         <>
-            {/* Footer */}
+            
             <footer>
                 <div className="section-footer-2 overflow-hidden">
                     <div className="container">
@@ -80,7 +75,7 @@ export default function Footer() {
 
   <ul className="list-unstyled ps-0">
     {categories.length > 0 ? (
-      categories.map((cat) => (
+      categories.slice(0, 6).map((cat) => (
         <li className="mb-3" key={cat._id}>
           <a
             className="text-500 hover-dark"
@@ -105,12 +100,12 @@ export default function Footer() {
                                                 </a>
                                             </li>
                                             <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
+                                                <a className="text-500 hover-dark" href="/page-about">
                                                     About Us
                                                 </a>
                                             </li>
                                             <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
+                                                <a className="text-500 hover-dark" href="/page-contact">
                                                     Contact Us
                                                 </a>
                                             </li>
