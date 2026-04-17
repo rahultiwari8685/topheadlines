@@ -109,16 +109,21 @@ const Dashboard = () => {
                     </div>
                   </div>
 
-                  {/* ✅ Progress */}
                   <CProgress
-                    value={progress}
-                    className="progress-md rounded-pill"
-                    color="light"
+                    className="rounded-pill"
                     style={{
                       height: '10px',
                       backgroundColor: 'rgba(255,255,255,0.3)',
                     }}
-                  />
+                  >
+                    <CProgressBar
+                      value={progress}
+                      style={{
+                        backgroundColor: '#fff',
+                        transition: 'width 0.6s ease',
+                      }}
+                    />
+                  </CProgress>
                 </CCardBody>
               </CCard>
             </CCol>
