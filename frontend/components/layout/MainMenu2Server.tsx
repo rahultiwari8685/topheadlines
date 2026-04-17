@@ -7,18 +7,23 @@ type Category = {
   _id: string;
   name: string;
   slug?: string;
+  showInMenu?: number;
 };
 
 export default function MainMenu2Server() {
   const [categories, setCategories] = useState<Category[]>([]);
 
-  // ✅ Fetch Categories
   useEffect(() => {
     fetch("https://api.iotaclasses.in/api/categories/getAllCategory")
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          setCategories(data.data);
+          // ✅ FILTER: only showInMenu = 1
+          const filtered = data.data.filter(
+            (cat: Category) => cat.showInMenu === 1
+          );
+
+          setCategories(filtered);
         }
       })
       .catch((err) => console.log(err));
@@ -33,24 +38,16 @@ export default function MainMenu2Server() {
           <Link href="/">Home</Link>
         </li>
 
-        {/* Dynamic Category (Replacing Trending) */}
-        <li>
-          <Link
-            href={
-              categories.length > 0
-                ? `/archieve-2?category=${categories[0]._id}`
-                : "#"
-            }
-          >
-            <span className="title">
-              {categories.length > 0
-                ? categories[0]?.name
-                : "Loading..."}
-            </span>
-          </Link>
-        </li>
+        {/* First Category (replace Trending) */}
+        {categories.length > 0 && (
+          <li>
+            <Link href={`/archieve-2?category=${categories[0]._id}`}>
+              <span className="title">{categories[0].name}</span>
+            </Link>
+          </li>
+        )}
 
-        {/* Optional: Show All Categories */}
+        {/* All Menu Categories */}
         {categories.map((cat) => (
           <li key={cat._id}>
             <Link href={`/archieve-2?category=${cat._id}`}>
