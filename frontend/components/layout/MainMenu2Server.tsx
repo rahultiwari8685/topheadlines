@@ -39,18 +39,18 @@ export default function MainMenu2Server() {
         </li>
 
         {/* First Category (replace Trending) */}
-        {categories.length > 0 && (
+        {/* {categories.length > 0 && (
           <li>
-            <Link href={`/archieve-2?category=${categories[0]._id}`}>
+            <Link href={`/archive-2?category=${categories[0]._id}`}>
               <span className="title">{categories[0].name}</span>
             </Link>
           </li>
-        )}
+        )} */}
 
         {/* All Menu Categories */}
         {categories.map((cat) => (
           <li key={cat._id}>
-            <Link href={`/archieve-2?category=${cat._id}`}>
+            <Link href={`/archive-2?category=${cat._id}`}>
               {cat.name}
             </Link>
           </li>
