@@ -110,17 +110,15 @@ const UpdateNews = () => {
 
   const fetchNewsById = async () => {
     try {
-      const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
+      const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo') || '{}')
+      const token = loginInfo.token
 
-      const res = await fetch(
-        `${setting.api}/api/news/id/${id}`, // ✅ your route
-        {
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
+      const res = await fetch(`${setting.api}/api/news/id/${id}`, {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
         },
-      )
+      })
 
       const result = await res.json()
 
@@ -135,17 +133,29 @@ const UpdateNews = () => {
 
       setEditingNews(selected)
 
+      // ✅ Prefill form (JS version)
       reset({
         title: selected.title || '',
         slug: selected.slug || '',
-        subtitle: selected.sub_title || '',
-        type: String(selected.type || ''),
-        videoType: String(selected.video_type || ''),
-        youtubeUrl: selected.youtube_url || '',
-        categories: selected.categories ? selected.categories.map((c) => c._id) : [],
+        subtitle: selected.subtitle || '',
+
+        type: selected.type ? String(selected.type) : '',
+        videoType: selected.videoType ? String(selected.videoType) : '',
+
+        // ✅ FIXED (correct field name)
+        youtubeUrl: selected.youtubeUrl || '',
+
+        // ✅ SAFE categories mapping
+        categories: Array.isArray(selected.categories) ? selected.categories.map((c) => c._id) : [],
+
         videoFile: null,
         thumbnail: null,
       })
+
+      // ✅ OPTIONAL: Editor.js content set
+      if (selected.content && window.editorInstance) {
+        window.editorInstance.render(selected.content)
+      }
     } catch (error) {
       console.error('Error fetching news:', error)
     }
