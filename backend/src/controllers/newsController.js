@@ -63,8 +63,8 @@ export const getNews = async (req, res) => {
 export const getAllNewsByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
+    const { page = 1, limit = 6 } = req.query;
 
-    // ✅ Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(categoryId)) {
       return res.status(400).json({
         status: false,
@@ -72,15 +72,24 @@ export const getAllNewsByCategory = async (req, res) => {
       });
     }
 
+    const skip = (page - 1) * limit;
+
     const news = await News.find({
       categories: { $in: [categoryId] },
     })
       .populate("categories", "name slug")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    const total = await News.countDocuments({
+      categories: { $in: [categoryId] },
+    });
 
     return res.status(200).json({
       status: true,
-      results: news.length,
+      totalPages: Math.ceil(total / limit),
+      total,
       data: news,
     });
   } catch (error) {

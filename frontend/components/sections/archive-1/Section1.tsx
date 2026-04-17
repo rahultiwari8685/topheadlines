@@ -5,24 +5,30 @@ interface Section1Props {
   searchParams?: Promise<{ page?: string; category?: string }>;
 }
 
-// ✅ Define API News Type
+// ✅ API News Type
 type NewsItem = {
   _id: string;
   title: string;
   subtitle?: string;
   slug: string;
   thumbnail: string;
-  categories?: { name: string }[];
+  categories?: { _id: string; name: string }[];
 };
 
-// ✅ Define Card Type (ArticleCard7 compatible)
+// ✅ Full Card Type (MATCH ArticleCard7)
 type CardType = {
   title: string;
   img: string;
   description: string;
   linkPost: string;
   badge1: string;
+  badge2: string;
+  classBadge1: string;
+  classBadge2: string;
   readTime: string;
+  linkVideo: string;
+  layoutVideo: string;
+  linkBadge: string;
 };
 
 export default async function Section1({ searchParams }: Section1Props) {
@@ -35,16 +41,16 @@ export default async function Section1({ searchParams }: Section1Props) {
   const categoryId = resolvedSearchParams?.category || "";
   const itemsPerPage = 6;
 
-  // ✅ Fetch API
   let news: NewsItem[] = [];
   let totalPages = 1;
 
   try {
-    const res = await fetch(
-      `https://api.iotaclasses.in/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`,
-      { cache: "no-store" }
-    );
+    // ✅ Dynamic API (with/without category)
+    const url = categoryId
+      ? `https://api.iotaclasses.in/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
+      : `https://api.iotaclasses.in/api/news?page=${currentPage}&limit=${itemsPerPage}`;
 
+    const res = await fetch(url, { cache: "no-store" });
     const data = await res.json();
 
     news = data.data || [];
@@ -53,30 +59,33 @@ export default async function Section1({ searchParams }: Section1Props) {
     console.error("Fetch Error:", error);
   }
 
-const cards = news.map((item: any) => ({
-  title: item.title,
-  img: item.thumbnail
-    ? `https://api.iotaclasses.in/uploads/images/${item.thumbnail}`
-    : "/assets/imgs/default.jpg",
+  // ✅ Mapping (FULL SAFE)
+  const cards: CardType[] = news.map((item) => ({
+    title: item.title,
+    img: item.thumbnail
+      ? `https://api.iotaclasses.in/uploads/images/${item.thumbnail}`
+      : "/assets/imgs/default.jpg",
 
-  description: item.subtitle || "",
-  linkPost: `/news/${item.slug}`,
+    description: item.subtitle || "",
+    linkPost: `/news/${item.slug}`,
 
-  badge1: item.categories?.[0]?.name || "News",
-  badge2: "",
+    badge1: item.categories?.[0]?.name || "News",
+    badge2: "",
 
-  classBadge1: "bg-1",
-  classBadge2: "bg-2",
+    classBadge1: "bg-1",
+    classBadge2: "bg-2",
 
-  readTime: "5 min read",
+    readTime: "5 min read",
 
-  linkVideo: "#",
-  layoutVideo: "d-none",
+    linkVideo: "#",
+    layoutVideo: "d-none",
 
-  linkBadge: `/archive-1?category=${item.categories?.[0]?._id || ""}`,
-}));
+    linkBadge: item.categories?.[0]?._id
+      ? `/archive-1?category=${item.categories[0]._id}`
+      : "#",
+  }));
 
-  // ✅ Pagination Component
+  // ✅ Pagination
   const ServerPagination = () => {
     const pages = [];
 
@@ -84,7 +93,7 @@ const cards = news.map((item: any) => ({
       pages.push(
         <li key={i} className={`page-item ${i === currentPage ? "active" : ""}`}>
           <Link
-            href={`/archive-1?category=${categoryId}&page=${i}`}
+            href={`/archive-1?page=${i}${categoryId ? `&category=${categoryId}` : ""}`}
             className="page-link icon-lg pagination_item rounded-circle icon-shape fs-18 fw-semi-bold"
           >
             {i}
@@ -99,7 +108,7 @@ const cards = news.map((item: any) => ({
           {currentPage > 1 && (
             <li className="page-item">
               <Link
-                href={`/archive-1?category=${categoryId}&page=${currentPage - 1}`}
+                href={`/archive-1?page=${currentPage - 1}${categoryId ? `&category=${categoryId}` : ""}`}
                 className="page-link"
               >
                 Prev
@@ -112,7 +121,7 @@ const cards = news.map((item: any) => ({
           {currentPage < totalPages && (
             <li className="page-item">
               <Link
-                href={`/archive-1?category=${categoryId}&page=${currentPage + 1}`}
+                href={`/archive-1?page=${currentPage + 1}${categoryId ? `&category=${categoryId}` : ""}`}
                 className="page-link"
               >
                 Next
