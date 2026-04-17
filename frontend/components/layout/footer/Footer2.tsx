@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import setting from "../../../setting.json";
 
+import Image from "next/image";
+
 type Category = {
   _id: string;
   name: string;
