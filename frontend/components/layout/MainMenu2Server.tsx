@@ -50,7 +50,7 @@ export default function MainMenu2Server() {
         {/* All Menu Categories */}
         {categories.map((cat) => (
           <li key={cat._id}>
-            <Link href={`/archive-2?category=${cat._id}`}>
+            <Link href={`/archive-1?category=${cat._id}`}>
               {cat.name}
             </Link>
           </li>

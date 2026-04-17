@@ -1,34 +1,92 @@
 import ArticleCard7 from "@/components/cards/ArticleCard7";
-import DataCard from "@/public/data/cardArchive-1.json";
 import Link from "next/link";
 
 interface Section1Props {
-  searchParams?: Promise<{ page?: string }>;
+  searchParams?: Promise<{ page?: string; category?: string }>;
 }
+
+// ✅ Define API News Type
+type NewsItem = {
+  _id: string;
+  title: string;
+  subtitle?: string;
+  slug: string;
+  thumbnail: string;
+  categories?: { name: string }[];
+};
+
+// ✅ Define Card Type (ArticleCard7 compatible)
+type CardType = {
+  title: string;
+  img: string;
+  description: string;
+  linkPost: string;
+  badge1: string;
+  readTime: string;
+};
 
 export default async function Section1({ searchParams }: Section1Props) {
   const resolvedSearchParams = await searchParams;
-  const currentPage = resolvedSearchParams?.page ? parseInt(resolvedSearchParams.page) : 1;
-  const itemsPerPage7_1 = 3;
-  const itemsPerPage7_2 = 2;
-  const itemsPerPage7_3 = 6;
 
-  const totalCard7_1 = Math.ceil(DataCard.sec1Card7_1.length / itemsPerPage7_1);
-  const totalCard7_2 = Math.ceil(DataCard.sec1Card7_2.length / itemsPerPage7_2);
-  const totalCard7_3 = Math.ceil(DataCard.sec1Card7_3.length / itemsPerPage7_3);
-  const totalPages = Math.max(totalCard7_1, totalCard7_2, totalCard7_3);
+  const currentPage = resolvedSearchParams?.page
+    ? parseInt(resolvedSearchParams.page)
+    : 1;
 
-  const paginatedArticles7_1 = DataCard.sec1Card7_1.slice((currentPage - 1) * itemsPerPage7_1, currentPage * itemsPerPage7_1);
-  const paginatedArticles7_2 = DataCard.sec1Card7_2.slice((currentPage - 1) * itemsPerPage7_2, currentPage * itemsPerPage7_2);
-  const paginatedArticles7_3 = DataCard.sec1Card7_3.slice((currentPage - 1) * itemsPerPage7_3, currentPage * itemsPerPage7_3);
+  const categoryId = resolvedSearchParams?.category || "";
+  const itemsPerPage = 6;
 
-  // Server-side pagination component
+  // ✅ Fetch API
+  let news: NewsItem[] = [];
+  let totalPages = 1;
+
+  try {
+    const res = await fetch(
+      `https://api.iotaclasses.in/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`,
+      { cache: "no-store" }
+    );
+
+    const data = await res.json();
+
+    news = data.data || [];
+    totalPages = data.totalPages || 1;
+  } catch (error) {
+    console.error("Fetch Error:", error);
+  }
+
+const cards = news.map((item: any) => ({
+  title: item.title,
+  img: item.thumbnail
+    ? `https://api.iotaclasses.in/uploads/images/${item.thumbnail}`
+    : "/assets/imgs/default.jpg",
+
+  description: item.subtitle || "",
+  linkPost: `/news/${item.slug}`,
+
+  badge1: item.categories?.[0]?.name || "News",
+  badge2: "",
+
+  classBadge1: "bg-1",
+  classBadge2: "bg-2",
+
+  readTime: "5 min read",
+
+  linkVideo: "#",
+  layoutVideo: "d-none",
+
+  linkBadge: `/archive-1?category=${item.categories?.[0]?._id || ""}`,
+}));
+
+  // ✅ Pagination Component
   const ServerPagination = () => {
     const pages = [];
+
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
-        <li key={i} className={`page-item ${i === currentPage ? 'active' : ''}`}>
-          <Link href={`/archive-1?page=${i}`} className="page-link icon-lg pagination_item rounded-circle icon-shape fs-18 fw-semi-bold">
+        <li key={i} className={`page-item ${i === currentPage ? "active" : ""}`}>
+          <Link
+            href={`/archive-1?category=${categoryId}&page=${i}`}
+            className="page-link icon-lg pagination_item rounded-circle icon-shape fs-18 fw-semi-bold"
+          >
             {i}
           </Link>
         </li>
@@ -36,26 +94,28 @@ export default async function Section1({ searchParams }: Section1Props) {
     }
 
     return (
-      <nav aria-label="Page navigation">
+      <nav>
         <ul className="pagination">
           {currentPage > 1 && (
             <li className="page-item">
-              <Link href={`/archive-1?page=${currentPage - 1}`} className="page-link icon-lg pagination_item rounded-circle icon-shape">
-                <svg className="" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                  <path d="M9.49993 6.5L4.78564 11L9.49993 15.5" stroke="#0E0E0F" strokeWidth="1.28571" strokeLinecap="round" strokeLinejoin="round"></path>
-                  <path d="M17.2143 11H5" stroke="#0E0E0F" strokeWidth="1.28571" strokeLinecap="round" strokeLinejoin="round"></path>
-                </svg>
+              <Link
+                href={`/archive-1?category=${categoryId}&page=${currentPage - 1}`}
+                className="page-link"
+              >
+                Prev
               </Link>
             </li>
           )}
+
           {pages}
+
           {currentPage < totalPages && (
             <li className="page-item">
-              <Link href={`/archive-1?page=${currentPage + 1}`} className="page-link icon-lg pagination_item rounded-circle icon-shape">
-                <svg className="" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                  <path d="M12.5 6.5L17.2143 11L12.5 15.5" stroke="#0E0E0F" strokeWidth="1.28571" strokeLinecap="round" strokeLinejoin="round"></path>
-                  <path d="M16.9999 11H4.78564" stroke="#0E0E0F" strokeWidth="1.28571" strokeLinecap="round" strokeLinejoin="round"></path>
-                </svg>
+              <Link
+                href={`/archive-1?category=${categoryId}&page=${currentPage + 1}`}
+                className="page-link"
+              >
+                Next
               </Link>
             </li>
           )}
@@ -65,38 +125,30 @@ export default async function Section1({ searchParams }: Section1Props) {
   };
 
   return (
-    <>
-      {/*Archive 1 Section 1*/}
-      <section className="sec-1-archive-1">
-        <div className="container">
-          <div className="row mt-2 g-4">
-            {paginatedArticles7_1.map((card, idx) => (
+    <section className="sec-1-archive-1">
+      <div className="container">
+
+        {/* ✅ News List */}
+        <div className="row mt-4 g-4">
+          {cards.length > 0 ? (
+            cards.map((card, idx) => (
               <div className="col-lg-4" key={idx}>
-                <ArticleCard7 key={idx} card={card} idx={idx} />
+                <ArticleCard7 card={card} idx={idx} />
               </div>
-            ))}
-          </div>
-          <div className="row mt-4 g-4">
-            {paginatedArticles7_2.map((card, idx) => (
-              <div className="col-lg-6" key={idx}>
-                <ArticleCard7 key={idx} card={card} idx={idx} />
-              </div>
-            ))}
-          </div>
-          <div className="row mt-4 g-4">
-            {paginatedArticles7_3.map((card, idx) => (
-              <div className="col-lg-4" key={idx}>
-                <ArticleCard7 key={idx} card={card} idx={idx} />
-              </div>
-            ))}
-          </div>
-          <div className="row mt-5">
-            <div className="col-12 d-flex justify-content-center align-items-center">
-              <ServerPagination />
-            </div>
+            ))
+          ) : (
+            <p>No News Found</p>
+          )}
+        </div>
+
+        {/* ✅ Pagination */}
+        <div className="row mt-5">
+          <div className="col-12 d-flex justify-content-center">
+            <ServerPagination />
           </div>
         </div>
-      </section>
-    </>
+
+      </div>
+    </section>
   );
 }
