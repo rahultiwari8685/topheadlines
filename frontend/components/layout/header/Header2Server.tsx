@@ -5,6 +5,8 @@ import ThemeSwitcher from "@/util/ThemeSwitcherServer";
 import SideBar from "@/components/layout/SideBarServer";
 import Header2Interactive from "./Header2Interactive";
 import Header1Interactive from "./Header1Interactive";
+import WeatherWidget from "@/components/MarketWidget";
+import MarketWidget from "@/components/MarketWidget";
 
 export default function Header2Server() {
     return (
@@ -14,42 +16,14 @@ export default function Header2Server() {
                     <div className="overflow-hidden">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="left">
-                                <ul className="list-unstyled d-inline-flex gap-3">
-                                    <li>
-                                        <a href="#" className="btn btn-sm fs-7 border-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width={20} height={21} viewBox="0 0 20 21" fill="none">
-                                                <g opacity="0.5">
-                                                    <path d="M10 16.5417C13.3368 16.5417 16.0417 13.8367 16.0417 10.5C16.0417 7.16327 13.3368 4.45833 10 4.45833C6.66332 4.45833 3.95837 7.16327 3.95837 10.5C3.95837 13.8367 6.66332 16.5417 10 16.5417Z" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                                                    <path d="M12.7083 10.5C12.7083 14.25 11.0355 16.5417 9.99996 16.5417C8.96446 16.5417 7.29163 14.25 7.29163 10.5C7.29163 6.74999 8.96446 4.45833 9.99996 4.45833C11.0355 4.45833 12.7083 6.74999 12.7083 10.5Z" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                                                    <path d="M4.16663 10.5H9.99996H15.8333" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                                                </g>
-                                            </svg>
-                                            <span className="text-white dark-mode-invert">Breaking</span>
-                                        </a>
-                                    </li>
-                                    <li className="mw-350px">
-                                        {/* Swiper will be handled by client component */}
-                                        <div className="swiper-container swiper-topbar" style={{ height: "27px", overflow: "hidden" }}>
-                                            {/* SwiperDynamic will be rendered here by Header1Interactive */}
 
-                                            <Header1Interactive />
-                                        </div>
-                                    </li>
-                                    <li className="switch-btn">
-                                        <button type="button" className="btn btn-sm fs-7 switch-btn-prev border-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16" fill="none">
-                                                <path d="M6.83335 4.5L3.16669 8L6.83335 11.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                <path d="M12.8333 8H3.33331" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                            </svg>
-                                        </button>
-                                        <button type="button" className="btn btn-sm fs-7 switch-btn-next border-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16" fill="none">
-                                                <path d="M9.16669 4.5L12.8334 8L9.16669 11.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                <path d="M12.6667 8H3.16669" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                            </svg>
-                                        </button>
-                                    </li>
-                                </ul>
+                                <WeatherWidget
+                                />
+                            </div>
+                             <div className="right">
+                                <MarketWidget />
+                                </div>
+                                
                             </div>
                             <div className="right">
                                 <ul className="list-unstyled d-flex ps-0">
@@ -83,7 +57,7 @@ export default function Header2Server() {
                             </div>
                         </div>
                     </div>
-                </div>
+                
                 <nav className="navbar style-2">
                  
                     <div className="navbar-collapse d-none d-lg-block" id="navbarNav">
