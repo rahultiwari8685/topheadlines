@@ -46,8 +46,10 @@ const ChangePassword = () => {
     e.preventDefault()
 
     try {
-      const token = JSON.parse(secureLocalStorage.getItem('logininfo'))?.token
-      const userId = JSON.parse(secureLocalStorage.getItem('logininfo'))?.user.id
+      const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo') || '{}')
+
+      const userId = loginInfo?.user?.id
+      const token = loginInfo?.token
 
       const res = await fetch(setting.api + '/api/users/change-password', {
         method: 'POST',
