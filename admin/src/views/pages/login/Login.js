@@ -66,6 +66,7 @@ const Login = () => {
           let user = {
             ...dd.user,
             token: dd.token,
+            user: dd.user.id,
           }
 
           secureLocalStorage.setItem('logininfo', JSON.stringify(user))

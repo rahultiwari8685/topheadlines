@@ -170,8 +170,8 @@ export const deleteUser = async (req, res) => {
 
 export const changePassword = async (req, res) => {
   try {
-    const userId = req.user.id; // from auth middleware
-    const { oldPassword, newPassword, confirmPassword } = req.body;
+    // const userId = req.user.id;
+    const { oldPassword, newPassword, confirmPassword, userId } = req.body;
 
     // ✅ check empty
     if (!oldPassword || !newPassword || !confirmPassword) {
