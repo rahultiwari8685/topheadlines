@@ -10,8 +10,7 @@ export default function Header2Server() {
     return (
         <>
             <header>
-                <nav className="navbar style-2">
-                         <div className="topbar d-none d-lg-block">
+                        <div className="topbar d-none d-lg-block">
                     <div className="overflow-hidden">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="left">
@@ -85,6 +84,8 @@ export default function Header2Server() {
                         </div>
                     </div>
                 </div>
+                <nav className="navbar style-2">
+                 
                     <div className="navbar-collapse d-none d-lg-block" id="navbarNav">
                         <MainMenu2 />
                     </div>
