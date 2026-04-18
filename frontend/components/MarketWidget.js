@@ -8,10 +8,19 @@ const MarketWidget = () => {
     const fetchMarket = async () => {
       try {
         const res = await fetch(
-          "https://query1.finance.yahoo.com/v7/finance/quote?symbols=%5ENSEI",
+          "https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/%5ENSEI",
+          {
+            method: "GET",
+            headers: {
+              "X-RapidAPI-Key":
+                "9623eb7bd7msh97100e55a468471p1711cjsn93b931fc7238",
+              "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
+            },
+          },
         );
+
         const data = await res.json();
-        setMarket(data.quoteResponse.result[0]);
+        console.log(data);
       } catch (err) {
         console.error(err);
       }
