@@ -48,7 +48,10 @@ const ChangePassword = () => {
     try {
       const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo') || '{}')
 
-      const userId = loginInfo?.user?.id
+      // const userId = loginInfo?.user?.id
+
+      const userId = loginInfo?.user?.id || loginInfo?.userId
+      console.log('User ID from storage:', userId)
       const token = loginInfo?.token
 
       const res = await fetch(setting.api + '/api/users/change-password', {
