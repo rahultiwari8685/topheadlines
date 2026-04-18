@@ -63,13 +63,12 @@ const Login = () => {
         if (dd.result === 'success') {
           console.log('Login successful')
 
-          let user = {
-            ...dd.user,
+          let loginData = {
             token: dd.token,
-            user: dd.user.id,
+            user: dd.user,
           }
 
-          secureLocalStorage.setItem('logininfo', JSON.stringify(user))
+          secureLocalStorage.setItem('logininfo', JSON.stringify(loginData))
           navigate('/dashboard')
         } else {
           console.error('Login failed:', dd.message || dd.reason)
