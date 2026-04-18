@@ -21,6 +21,7 @@ const MarketWidget = () => {
 
         const data = await res.json();
         console.log(data);
+        setMarket(data);
       } catch (err) {
         console.error(err);
       }
