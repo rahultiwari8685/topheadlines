@@ -47,6 +47,7 @@ const ChangePassword = () => {
 
     try {
       const token = JSON.parse(secureLocalStorage.getItem('logininfo'))?.token
+      const userId = JSON.parse(secureLocalStorage.getItem('logininfo'))?.user.id
 
       const res = await fetch(setting.api + '/api/users/change-password', {
         method: 'POST',
@@ -54,7 +55,7 @@ const ChangePassword = () => {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, userId }),
       })
 
       const data = await res.json()
