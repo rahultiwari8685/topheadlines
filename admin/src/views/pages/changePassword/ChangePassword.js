@@ -17,7 +17,7 @@ import { cilLockLocked, cilLockUnlocked } from '@coreui/icons'
 import secureLocalStorage from 'react-secure-storage'
 import setting from '../../../setting.json'
 
-import useNavigate from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const ChangePassword = () => {
   const navigate = useNavigate()
