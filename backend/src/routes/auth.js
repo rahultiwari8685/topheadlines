@@ -26,6 +26,7 @@ router.post("/login", async (req, res) => {
       result: "success",
       message: "Login success",
       token,
+      role: user.role,
       user: { id: user._id, email: user.email, name: user.name },
     });
   } catch (error) {
