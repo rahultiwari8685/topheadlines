@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import CIcon from '@coreui/icons-react'
-import { cilFactory, cilNewspaper } from '@coreui/icons'
+import { cilEnvelopeOpen, cilFactory, cilPen, cilShieldAlt, cilUser } from '@coreui/icons'
 import {
   CCloseButton,
   CSidebar,
@@ -13,17 +13,42 @@ import {
 
 import { AppSidebarNav } from './AppSidebarNav'
 
-import logo from 'src/assets/brand/logo.png'
-
-import { sygnet } from 'src/assets/brand/sygnet'
-
-// sidebar nav config
-import navigation from '../_nav'
+import { editorNav, adminNav, correspondenceNav } from '../_nav'
+import secureLocalStorage from 'react-secure-storage'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+
+  const userRole = JSON.parse(secureLocalStorage.getItem('logininfo')).role
+
+  let navigation = []
+  let panelTitle = 'Panel'
+  let panelIcon = cilUser
+  switch (userRole) {
+    case '1':
+      navigation = adminNav
+      panelTitle = 'Admin Panel'
+      panelIcon = cilShieldAlt
+
+      break
+    case '2':
+      navigation = editorNav
+      panelTitle = 'Editor Panel'
+      panelIcon = cilPen
+      break
+    case '3':
+      navigation = correspondenceNav
+      panelTitle = 'Correspondence'
+      panelIcon = cilEnvelopeOpen
+      break
+    case '4':
+      navigation = subscriberNav
+      panelTitle = 'Subscriber'
+      panelIcon = cilEnvelopeOpen
+      break
+  }
 
   return (
     <CSidebar
@@ -36,20 +61,20 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-      <CSidebarHeader className="border-bottom px-3 py-2 d-flex align-items-center justify-content-between bg-dark shadow-sm">
+      <CSidebarHeader className="border-bottom px-3 py-0 d-flex align-items-center justify-content-between bg-dark shadow-sm">
         <div className="d-flex align-items-center gap-2">
-          <CIcon icon={cilNewspaper} size="xl" className="text-white" />
+          <CIcon icon={panelIcon} size="md" className="text-primary" />
           <span
             className="text-white"
             style={{
-              fontSize: '1.3rem',
+              fontSize: '1.2rem',
               fontWeight: 700,
               letterSpacing: '1px',
               fontFamily: 'Segoe UI, sans-serif',
               textTransform: 'uppercase',
             }}
           >
-            Top Headlines
+            {panelTitle}
           </span>
         </div>
 

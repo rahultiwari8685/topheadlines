@@ -65,6 +65,7 @@ const Login = () => {
 
           let loginData = {
             token: dd.token,
+            role: dd.role,
             user: dd.user,
           }
 

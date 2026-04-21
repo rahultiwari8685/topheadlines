@@ -17,7 +17,10 @@ import { cilLockLocked, cilLockUnlocked } from '@coreui/icons'
 import secureLocalStorage from 'react-secure-storage'
 import setting from '../../../setting.json'
 
+import useNavigate from 'react-router-dom'
+
 const ChangePassword = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     oldPassword: '',
     newPassword: '',
@@ -73,6 +76,7 @@ const ChangePassword = () => {
           newPassword: '',
           confirmPassword: '',
         })
+        navigate('/login')
       } else {
         alert(data.message || 'Error')
       }

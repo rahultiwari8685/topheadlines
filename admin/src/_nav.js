@@ -21,14 +21,13 @@ import {
   cilTags,
 } from '@coreui/icons'
 
-const _nav = [
+export const adminNav = [
   {
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
-
 
   {
     component: CNavGroup,
@@ -75,10 +74,166 @@ const _nav = [
     to: '/Category',
     icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
   },
-
-
-
-
 ]
+export const editorNav = [
+  {
+    component: CNavItem,
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  },
 
-export default _nav
+  {
+    component: CNavGroup,
+    name: 'News',
+    to: '/news',
+    icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add News',
+        to: '/news',
+        icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Published News',
+        to: '/PublishedNews',
+        icon: <CIcon icon={cilCheckCircle} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Draft News',
+        to: '/DraftNews',
+        icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Deleted News',
+        to: '/DeletedNews',
+        icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
+      },
+    ],
+  },
+
+  {
+    component: CNavItem,
+    name: 'Users',
+    to: '/Users',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Category',
+    to: '/Category',
+    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  },
+]
+export const correspondenceNav = [
+  {
+    component: CNavItem,
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavGroup,
+    name: 'News',
+    to: '/news',
+    icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add News',
+        to: '/news',
+        icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Published News',
+        to: '/PublishedNews',
+        icon: <CIcon icon={cilCheckCircle} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Draft News',
+        to: '/DraftNews',
+        icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Deleted News',
+        to: '/DeletedNews',
+        icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
+      },
+    ],
+  },
+
+  {
+    component: CNavItem,
+    name: 'Users',
+    to: '/Users',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Category',
+    to: '/Category',
+    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  },
+]
+export const subscriberNav = [
+  {
+    component: CNavItem,
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavGroup,
+    name: 'News',
+    to: '/news',
+    icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add News',
+        to: '/news',
+        icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Published News',
+        to: '/PublishedNews',
+        icon: <CIcon icon={cilCheckCircle} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Draft News',
+        to: '/DraftNews',
+        icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Deleted News',
+        to: '/DeletedNews',
+        icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
+      },
+    ],
+  },
+
+  {
+    component: CNavItem,
+    name: 'Users',
+    to: '/Users',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Category',
+    to: '/Category',
+    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  },
+]

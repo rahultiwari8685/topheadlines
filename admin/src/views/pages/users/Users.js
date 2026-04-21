@@ -360,10 +360,11 @@ const Users = () => {
                   <option value="1">Admin</option>
                   <option value="2">Editor</option>
                   <option value="3">Correspondent</option>
+                  <option value="4">Subscriber</option>
                 </CFormSelect>
                 {errors.role && <small className="text-danger">{errors.role.message}</small>}
               </CCol>
-              
+
               <CCol md={6}>
                 <CFormSelect
                   label="Post Permission"
