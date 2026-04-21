@@ -13,7 +13,7 @@ import {
 
 import { AppSidebarNav } from './AppSidebarNav'
 
-import { editorNav, adminNav, correspondenceNav } from '../_nav'
+import { editorNav, adminNav, correspondenceNav, subscriberNav } from '../_nav'
 import secureLocalStorage from 'react-secure-storage'
 
 const AppSidebar = () => {
@@ -22,6 +22,8 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
   const userRole = JSON.parse(secureLocalStorage.getItem('logininfo')).role
+
+  console.log('User role from storage:', userRole)
 
   let navigation = []
   let panelTitle = 'Panel'
