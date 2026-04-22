@@ -164,20 +164,26 @@ const Users = () => {
 
   const deleteUser = async (id) => {
     try {
+      const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo') || '{}')
+
+      const token = loginInfo?.token || ''
 
       const response = await fetch(`${setting.api}/api/users/deleteUser/${id}`, {
         method: 'POST',
         mode: 'cors',
-        headers = {
-        Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
-      }
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
       })
 
+      const result = await response.json()
+
       if (!response.ok) {
-        console.error('Delete failed:', response.status)
+        console.error('Delete failed:', result)
       } else {
-        console.log('User deleted:', await response.json())
-        allUserList() // ✅ refresh after delete
+        console.log('User deleted:', result)
+        allUserList() // refresh
       }
     } catch (err) {
       console.error('Error deleting user:', err)
