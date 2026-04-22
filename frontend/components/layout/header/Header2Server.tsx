@@ -14,7 +14,7 @@ export default function Header2Server() {
             <header>
                         <div className="topbar d-none d-lg-block">
                     <div className="overflow-hidden">
-                        <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex justify-content-between align-items-center bg-light">
                             <div className="left">
 
                                 <WeatherWidget/>
