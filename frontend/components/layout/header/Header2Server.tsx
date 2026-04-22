@@ -5,7 +5,7 @@ import ThemeSwitcher from "@/util/ThemeSwitcherServer";
 import SideBar from "@/components/layout/SideBarServer";
 import Header2Interactive from "./Header2Interactive";
 import Header1Interactive from "./Header1Interactive";
-import WeatherWidget from "@/components/MarketWidget";
+import WeatherWidget from "@/components/WeatherWidget";
 import MarketWidget from "@/components/MarketWidget";
 
 export default function Header2Server() {
