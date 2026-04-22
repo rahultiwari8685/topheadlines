@@ -5,29 +5,28 @@ import ThemeSwitcher from "@/util/ThemeSwitcherServer";
 import SideBar from "@/components/layout/SideBarServer";
 import Header2Interactive from "./Header2Interactive";
 import Header1Interactive from "./Header1Interactive";
-import WeatherWidget from "@/components/WeatherWidget";
 import MarketWidget from "@/components/MarketWidget";
+import WeatherWidget from "@/components/WeatherWidget";
 
 export default function Header2Server() {
     return (
         <>
             <header>
-                        {/* <div className="topbar d-none d-lg-block">
+                        <div className="topbar d-none d-lg-block">
                     <div className="overflow-hidden">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="left">
 
-                                <WeatherWidget
-                                />
+                                <WeatherWidget/>
                             </div>
-                             <div className="right">
+                             {/* <div className="right">
                                 <MarketWidget />
-                                </div>
+                                </div> */}
                                 
                             </div>
                            
                         </div>
-                    </div> */}
+                    </div>
                 
                 <nav className="navbar style-2">
                  
