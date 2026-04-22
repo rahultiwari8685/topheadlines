@@ -5,7 +5,8 @@ import mongoose from "mongoose";
 
 export const saveUser = async (req, res) => {
   try {
-    const { name, email, phone, password, role, post_permission } = req.body;
+    const { name, email, phone, password, role, post_permission, user_status } =
+      req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -31,6 +32,7 @@ export const saveUser = async (req, res) => {
       email,
       phone,
       role,
+      user_status,
       post_permission,
       password: hashedPassword,
       profileImage,
@@ -170,10 +172,8 @@ export const deleteUser = async (req, res) => {
 
 export const changePassword = async (req, res) => {
   try {
-    // const userId = req.user.id;
     const { oldPassword, newPassword, confirmPassword, userId } = req.body;
 
-    // ✅ check empty
     if (!oldPassword || !newPassword || !confirmPassword) {
       return res.status(400).json({
         status: false,
@@ -181,7 +181,6 @@ export const changePassword = async (req, res) => {
       });
     }
 
-    // ✅ check match
     if (newPassword !== confirmPassword) {
       return res.status(400).json({
         status: false,
@@ -189,10 +188,8 @@ export const changePassword = async (req, res) => {
       });
     }
 
-    // ✅ get user
     const user = await User.findById(userId);
 
-    // ✅ verify old password
     const isMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!isMatch) {
@@ -202,7 +199,6 @@ export const changePassword = async (req, res) => {
       });
     }
 
-    // ✅ hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     user.password = hashedPassword;

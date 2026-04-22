@@ -29,10 +29,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // status: {
-    //   type: String,
-    //   required: true,
-    // },
+    user_status: {
+      type: String,
+      required: true,
+    },
     profileImage: {
       type: String,
       default: "",

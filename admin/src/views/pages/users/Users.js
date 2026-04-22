@@ -34,7 +34,7 @@ const schema = yup.object().shape({
   email: yup.string().required('Phone is required'),
   password: yup.string().required('Enter HSN Code'),
   role: yup.string().required('Status is required'),
-  // status: yup.string().required('Status is required'),
+  user_status: yup.string().required('Status is required'),
   phone: yup.string().required('Status is required'),
   post_permission: yup.string().required('Status is required'),
   image: yup.file,
@@ -104,7 +104,7 @@ const Users = () => {
     formData.append('password', data.password)
     formData.append('role', data.role)
     formData.append('post_permission', data.post_permission)
-    formData.append('status', data.status)
+    formData.append('user_status', data.user_status)
 
     if (data.image?.[0]) {
       formData.append('profileImage', data.image[0])
@@ -338,7 +338,7 @@ const Users = () => {
             </CRow>
 
             <CRow className="mb-3">
-              <CCol md={12}>
+              <CCol md={6}>
                 <CFormInput
                   type="password"
                   label="Password"
@@ -349,6 +349,20 @@ const Users = () => {
                 />
                 {errors.password && (
                   <small className="text-danger">{errors.password.message}</small>
+                )}
+              </CCol>
+
+              <CCol md={6}>
+                <CFormSelect
+                  label="Status"
+                  {...register('user_status', { required: 'Status is required' })}
+                >
+                  <option value="">Select Status</option>
+                  <option value="1">Active</option>
+                  <option value="0">In-Active</option>
+                </CFormSelect>
+                {errors.user_status && (
+                  <small className="text-danger">{errors.user_status.message}</small>
                 )}
               </CCol>
             </CRow>
