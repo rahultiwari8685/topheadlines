@@ -4,31 +4,31 @@ import { useEffect, useState } from "react";
 const MarketWidget = () => {
   const [market, setMarket] = useState(null);
 
-  //   useEffect(() => {
-  //     const fetchMarket = async () => {
-  //       try {
-  //         const res = await fetch(
-  //           "https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/%5ENSEI",
-  //           {
-  //             method: "GET",
-  //             headers: {
-  //               "X-RapidAPI-Key":
-  //                 "9623eb7bd7msh97100e55a468471p1711cjsn93b931fc7238",
-  //               "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
-  //             },
-  //           },
-  //         );
+  useEffect(() => {
+    const fetchMarket = async () => {
+      try {
+        const res = await fetch(
+          "https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/%5ENSEI",
+          {
+            method: "GET",
+            headers: {
+              "X-RapidAPI-Key":
+                "9623eb7bd7msh97100e55a468471p1711cjsn93b931fc7238",
+              "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
+            },
+          },
+        );
 
-  //         const data = await res.json();
-  //         console.log(data);
-  //         setMarket(data);
-  //       } catch (err) {
-  //         console.error(err);
-  //       }
-  //     };
+        const data = await res.json();
+        console.log(data);
+        setMarket(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  //     fetchMarket();
-  //   }, []);
+    fetchMarket();
+  }, []);
 
   return (
     <div className="card p-3 shadow">

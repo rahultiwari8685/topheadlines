@@ -224,11 +224,11 @@ const Users = () => {
             <CTableHead color="dark">
               <CTableRow>
                 <CTableHeaderCell>#</CTableHeaderCell>
-
                 <CTableHeaderCell>Name</CTableHeaderCell>
                 <CTableHeaderCell>Phone</CTableHeaderCell>
                 <CTableHeaderCell>Email</CTableHeaderCell>
                 <CTableHeaderCell>Role</CTableHeaderCell>
+                <CTableHeaderCell>Status</CTableHeaderCell>
                 <CTableHeaderCell>Action</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
@@ -241,6 +241,7 @@ const Users = () => {
                     <CTableDataCell>{a.name}</CTableDataCell>
                     <CTableDataCell>{a.phone}</CTableDataCell>
                     <CTableDataCell>{a.email}</CTableDataCell>
+
                     <CTableDataCell>
                       <span className="badge bg-dark">
                         {a.role === '1'
@@ -252,6 +253,13 @@ const Users = () => {
                               : 'Subscriber'}
                       </span>
                     </CTableDataCell>
+
+                    <CTableDataCell>
+                      <span className="badge bg-dark">
+                        {a.user_status === '1' ? 'Active' : 'Inactive'}
+                      </span>
+                    </CTableDataCell>
+
                     <CTableDataCell>
                       <CButton
                         size="sm"
