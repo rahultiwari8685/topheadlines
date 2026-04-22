@@ -164,15 +164,13 @@ const Users = () => {
 
   const deleteUser = async (id) => {
     try {
-      const token = JSON.parse(secureLocalStorage.getItem('logininfo'))?.token
 
       const response = await fetch(`${setting.api}/api/users/deleteUser/${id}`, {
         method: 'POST',
         mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // ✅ send token
-        },
+        headers = {
+        Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
+      }
       })
 
       if (!response.ok) {
