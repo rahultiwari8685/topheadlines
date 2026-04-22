@@ -33,48 +33,89 @@ const GoldPrice = () => {
   }, []);
 
   return (
-    <div className="gold-wrapper d-flex align-items-center justify-content-end gap-3">
-      {/* ICON + TITLE */}
+    <div className="gold-bar d-flex justify-content-between align-items-center px-3 py-2">
+      {/* LEFT TITLE */}
       <div className="d-flex align-items-center gap-2">
         <span className="gold-dot"></span>
-        <span className="fw-semibold">Gold Price (India)</span>
+        <span className="gold-title">Gold Price (India)</span>
       </div>
 
-      {/* VALUES */}
+      {/* RIGHT VALUES */}
       {gold ? (
-        <div className="gold-values d-flex gap-3">
-          <span>24K: ₹{gold.k24}</span>
-          <span>22K: ₹{gold.k22}</span>
-          <span>18K: ₹{gold.k18}</span>
+        <div className="gold-values d-flex gap-4">
+          <div className="gold-item">
+            <span className="label">24K</span>
+            <span className="price">₹{gold.k24}</span>
+          </div>
+
+          <div className="gold-item">
+            <span className="label">22K</span>
+            <span className="price">₹{gold.k22}</span>
+          </div>
+
+          <div className="gold-item">
+            <span className="label">18K</span>
+            <span className="price">₹{gold.k18}</span>
+          </div>
         </div>
       ) : (
-        <span className="text-muted">Loading...</span>
+        <span className="loading">Loading...</span>
       )}
 
       {/* CSS */}
       <style jsx>{`
-        .gold-wrapper {
-          font-size: 13px;
+        .gold-bar {
+          background: #f8f9fa;
+          border-radius: 10px;
+        }
+
+        .gold-title {
+          font-size: 16px;
+          font-weight: 600;
         }
 
         .gold-dot {
-          width: 10px;
-          height: 10px;
+          width: 12px;
+          height: 12px;
           background: linear-gradient(135deg, #ffd700, #ffb700);
           border-radius: 50%;
-          display: inline-block;
         }
 
-        .gold-values span {
+        .gold-values {
+          align-items: center;
+        }
+
+        .gold-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .label {
+          font-size: 12px;
+          color: #777;
+        }
+
+        .price {
+          font-size: 18px; /* 🔥 BIG FONT */
+          font-weight: 700;
           color: #111;
-          font-weight: 500;
+        }
+
+        .loading {
+          font-size: 14px;
+          color: #999;
         }
 
         @media (max-width: 768px) {
-          .gold-wrapper {
+          .gold-bar {
             flex-direction: column;
             align-items: flex-start;
-            gap: 2px;
+            gap: 5px;
+          }
+
+          .price {
+            font-size: 16px;
           }
         }
       `}</style>
