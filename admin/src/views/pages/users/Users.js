@@ -116,7 +116,7 @@ const Users = () => {
 
     if (editingUser) {
       endpoint = '/api/users/updateUser'
-      formData.append('id', editingUser.id)
+      formData.append('id', editingUser._id)
 
       // ✅ only set token when updating
       headers = {
