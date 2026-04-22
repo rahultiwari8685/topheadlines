@@ -1,29 +1,43 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const GoldPriceINR = () => {
-  const [price, setPrice] = useState(null);
+const GoldPrice = () => {
+  const [gold, setGold] = useState(null);
 
   useEffect(() => {
     const fetchGold = async () => {
       try {
         const res = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=tether-gold&vs_currencies=usd",
+          "https://api.coingecko.com/api/v3/simple/price?ids=gold&vs_currencies=usd",
         );
+
         const data = await res.json();
 
-        const usdPrice = data["tether-gold"]?.usd;
+        // fallback if "gold" not available → use tether-gold
+        const usd = data.gold?.usd || data["tether-gold"]?.usd;
 
-        // ✅ USD → INR conversion (approx)
         const usdToInr = 83;
 
-        // 1 ounce = 31.1 grams
-        const perGram = (usdPrice * usdToInr) / 31.1;
-        const per10g = perGram * 10;
+        // 1 ounce = 31.1 gram
+        const perGram24K = (usd * usdToInr) / 31.1;
 
-        setPrice({
-          perGram: perGram.toFixed(2),
-          per10g: per10g.toFixed(2),
+        const prices = {
+          "24K": perGram24K,
+          "22K": perGram24K * 0.916,
+          "18K": perGram24K * 0.75,
+        };
+
+        setGold({
+          perGram: {
+            "24K": prices["24K"].toFixed(2),
+            "22K": prices["22K"].toFixed(2),
+            "18K": prices["18K"].toFixed(2),
+          },
+          per10g: {
+            "24K": (prices["24K"] * 10).toFixed(2),
+            "22K": (prices["22K"] * 10).toFixed(2),
+            "18K": (prices["18K"] * 10).toFixed(2),
+          },
         });
       } catch (err) {
         console.error("Gold Error:", err);
@@ -35,22 +49,27 @@ const GoldPriceINR = () => {
 
   return (
     <div className="gold-bar d-flex justify-content-between align-items-center px-3 py-2">
-      {/* LEFT: DATA */}
+      {/* LEFT */}
       <div>
-        {price ? (
+        {gold ? (
           <>
-            <h5 className="mb-0 text-warning">🟡 Gold ₹{price.per10g} / 10g</h5>
-            <small>₹{price.perGram} per gram</small>
+            <h6 className="text-warning mb-1">🟡 Gold Price (India)</h6>
+
+            <small>24K: ₹{gold.per10g["24K"]} / 10g</small>
+            <br />
+            <small>22K: ₹{gold.per10g["22K"]} / 10g</small>
+            <br />
+            <small>18K: ₹{gold.per10g["18K"]} / 10g</small>
           </>
         ) : (
-          <p className="mb-0">Loading...</p>
+          <p>Loading...</p>
         )}
       </div>
 
-      {/* RIGHT: BUTTON */}
-      <button className="btn btn-warning btn-sm">Buy Gold</button>
+      {/* RIGHT */}
+      <button className="btn btn-warning btn-sm">Check Rate</button>
     </div>
   );
 };
 
-export default GoldPriceINR;
+export default GoldPrice;
