@@ -82,7 +82,7 @@ export const getAllUsers = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const {
-      _id,
+      id,
       name,
       email,
       phone,
@@ -92,14 +92,14 @@ export const updateUser = async (req, res) => {
       user_status,
     } = req.body;
 
-    if (!_id || !mongoose.Types.ObjectId.isValid(_id)) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
         message: "Valid user ID is required",
       });
     }
 
-    const existingUser = await User.findById(_id);
+    const existingUser = await User.findById(id);
     if (!existingUser) {
       return res.status(404).json({
         success: false,
@@ -127,7 +127,7 @@ export const updateUser = async (req, res) => {
       updateData.profileImage = req.file.filename;
     }
 
-    const updatedUser = await User.findByIdAndUpdate(_id, updateData, {
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
       new: true,
     }).select("-password");
 
@@ -148,12 +148,12 @@ export const deleteUser = async (req, res) => {
   try {
     const { _id } = req.params;
 
-    if (!req.user || req.user.role !== "admin") {
-      return res.status(403).json({
-        success: false,
-        message: "Unauthorized",
-      });
-    }
+    // if (!req.user || req.user.role !== "admin") {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "Unauthorized",
+    //   });
+    // }
 
     if (!_id || !mongoose.Types.ObjectId.isValid(_id)) {
       return res.status(400).json({
