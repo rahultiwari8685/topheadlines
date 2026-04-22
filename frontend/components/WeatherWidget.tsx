@@ -40,37 +40,47 @@ const WeatherWidget = () => {
   }, [city]);
 
   return (
-    <div className="card p-3 shadow">
-      <h5>🌦️ Weather</h5>
+<div className="card p-3 shadow">
 
-      <select
-        className="form-control mb-3"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-      >
-        <option value="Lucknow">Lucknow</option>
-        <option value="Delhi">Delhi</option>
-        <option value="Mumbai">Mumbai</option>
-        <option value="Kolkata">Kolkata</option>
-      </select>
+  <div className="d-flex align-items-center justify-content-between gap-3 flex-wrap">
 
-      {weather && weather.main ? (
-        <>
-          <h3>{weather.main.temp}°C</h3>
-          <p>{weather.weather[0].description}</p>
-          <small>
-            {weather.name}, {weather.sys.country}
-          </small>
+    {/* ✅ Dropdown */}
+    <select
+      className="form-control"
+      style={{ maxWidth: "150px" }}
+      value={city}
+      onChange={(e) => setCity(e.target.value)}
+    >
+      <option value="Lucknow">Lucknow</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Kolkata">Kolkata</option>
+    </select>
 
-          <div className="mt-2">
-            <small>Humidity: {weather.main.humidity}%</small><br />
-            <small>Feels Like: {weather.main.feels_like}°C</small>
-          </div>
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    {/* ✅ Weather Info */}
+    {weather && weather.main ? (
+      <div className="d-flex align-items-center gap-3">
+
+        <h4 className="mb-0">{weather.main.temp}°C</h4>
+
+        <div>
+          <p className="mb-0">{weather.weather[0].description}</p>
+          <small>{weather.name}</small>
+        </div>
+
+        <div>
+          <small>💧 {weather.main.humidity}%</small><br />
+          <small>🌡 {weather.main.feels_like}°C</small>
+        </div>
+
+      </div>
+    ) : (
+      <p className="mb-0">Loading...</p>
+    )}
+
+  </div>
+
+</div>
   );
 };
 
