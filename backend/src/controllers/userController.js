@@ -81,7 +81,16 @@ export const getAllUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { _id, name, email, phone, password } = req.body;
+    const {
+      _id,
+      name,
+      email,
+      phone,
+      password,
+      role,
+      post_permission,
+      user_status,
+    } = req.body;
 
     if (!_id || !mongoose.Types.ObjectId.isValid(_id)) {
       return res.status(400).json({
@@ -102,6 +111,10 @@ export const updateUser = async (req, res) => {
       name,
       email,
       phone,
+      password,
+      role,
+      post_permission,
+      user_status,
     };
 
     // ✅ Hash password if updated

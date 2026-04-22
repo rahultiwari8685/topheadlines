@@ -166,7 +166,7 @@ const Users = () => {
     try {
       const token = JSON.parse(secureLocalStorage.getItem('logininfo'))?.token
 
-      const response = await fetch(`${setting.api}/api/users/delete/${id}`, {
+      const response = await fetch(`${setting.api}/api/users/deleteUser/${id}`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -245,7 +245,7 @@ const Users = () => {
                             ? 'Editor'
                             : a.role === '3'
                               ? 'Correspondent'
-                              : 'Unknown'}
+                              : 'Subscriber'}
                       </span>
                     </CTableDataCell>
                     <CTableDataCell>
