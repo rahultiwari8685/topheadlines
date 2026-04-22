@@ -5,7 +5,6 @@ import Link from "next/link";
 import useSidebarMenu from "@/util/useSidebarMenu";
 import setting from "@/setting.json";
 
-// ✅ Category Type
 type Category = {
   _id: string;
   name: string;
@@ -15,7 +14,6 @@ type Category = {
 export default function SideBarInteractive() {
   const { toggleSidebar } = useSidebarMenu();
 
-  // ✅ FIXED TYPES
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const [categories, setCategories] = useState<Category[]>([]);
 

@@ -10,8 +10,7 @@ export default function Section1({ classList }: any) {
   const [loading, setLoading] = useState(true);
 
   const getYouTubeId = (url: string) => {
-    const regExp =
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
+    const regExp = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
     const match = url?.match(regExp);
     return match ? match[1] : "";
   };
@@ -28,35 +27,28 @@ export default function Section1({ classList }: any) {
 
             return {
               linkPost: `/single-2?slug=${item.slug}`,
-              linkBadge: "#",
-              linkAuthor: "#",
-              linkComment: "#",
-
               img: item.thumbnail
-                ? `${setting.api}/uploads/images/${item.thumbnail}`
-                : "",
+                ? `${setting.api}/uploads/${item.thumbnail}`
+                : "/assets/imgs/default.jpg",
 
               videoUrl: videoId
                 ? `https://www.youtube.com/embed/${videoId}`
                 : "",
 
               hasVideo: !!videoId,
-
               youtubeUrl: item.youtubeUrl || "",
 
-            badge: item.categories?.[0]?.name || "News",
+              // ✅ CATEGORY INFO
+              categoryName: item.categories?.[0]?.name || "",
+              categoryId: item.categories?.[0]?._id || "",
+
+              badge: item.categories?.[0]?.name || "News",
               bgBadge: "bg-2",
 
               title: item.title || "No Title",
               description: item.subtitle || "No Description",
 
-              imgAuthor: "/assets/imgs/template/author/author-1.png",
-              author: "Admin",
-
               date: new Date(item.createdAt).toDateString(),
-
-              comment: "0",
-              readNum: "0",
             };
           });
 
@@ -72,9 +64,40 @@ export default function Section1({ classList }: any) {
       .finally(() => setLoading(false));
   }, []);
 
-
+  // ✅ FILTER
   const textNews = blogs.filter((item) => !item.youtubeUrl);
   const videoNews = blogs.filter((item) => item.youtubeUrl);
+
+  // ✅ FIXED CATEGORY ORDER
+  const fixedCategories = [
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "Maharashtra",
+    "Jharkhand",
+  ];
+
+  // ✅ PICK 1 NEWS FROM EACH CATEGORY
+  let categoryWiseNews = fixedCategories
+    .map((cat) =>
+      textNews.find(
+        (item) =>
+          item.categoryName?.toLowerCase() === cat.toLowerCase()
+      )
+    )
+    .filter(Boolean);
+
+  // ✅ FALLBACK (if less than 4)
+  if (categoryWiseNews.length < 4) {
+    const remaining = textNews.filter(
+      (item) =>
+        !categoryWiseNews.some((n) => n.linkPost === item.linkPost)
+    );
+
+    categoryWiseNews = [
+      ...categoryWiseNews,
+      ...remaining.slice(0, 4 - categoryWiseNews.length),
+    ];
+  }
 
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
@@ -88,17 +111,17 @@ export default function Section1({ classList }: any) {
       <div className="container">
         <div className="row mt-2 g-4">
 
-          {/* 🔥 1st Column (Featured News) */}
+          {/* 🔥 1st Column (Video Featured) */}
           {videoNews.slice(0, 1).map((card, idx) => (
             <div className="col-lg-6" key={idx}>
               <ArticleCard11 card={card} idx={idx} />
             </div>
           ))}
 
-          {/* 🔥 2nd Column (TEXT NEWS ONLY) */}
+          {/* 🔥 2nd Column */}
           <div className="col-lg-3">
             <div className="row g-4">
-              {textNews.slice(0, 2).map((card, idx) => (
+              {categoryWiseNews.slice(0, 2).map((card, idx) => (
                 <div className="col-lg-12 col-md-6" key={idx}>
                   <ArticleCard5 card={card} idx={idx} />
                 </div>
@@ -106,10 +129,10 @@ export default function Section1({ classList }: any) {
             </div>
           </div>
 
-          {/* 🔥 3rd Column (TEXT NEWS ONLY) */}
+          {/* 🔥 3rd Column */}
           <div className="col-lg-3">
             <div className="row g-4">
-              {textNews.slice(2, 4).map((card, idx) => (
+              {categoryWiseNews.slice(2, 4).map((card, idx) => (
                 <div className="col-lg-12 col-md-6" key={idx}>
                   <ArticleCard5 card={card} idx={idx} />
                 </div>
