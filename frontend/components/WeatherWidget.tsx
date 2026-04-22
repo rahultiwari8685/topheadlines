@@ -40,11 +40,11 @@ const WeatherWidget = () => {
   }, [city]);
 
   return (
-<div className="card p-3 shadow bg-dark text-white">
+<div className="card p-3 shadow ">
 
   <div className="d-flex justify-content-between align-items-center flex-wrap">
 
-    {/* ✅ LEFT SIDE (Weather Data) */}
+  
     {weather && weather.main ? (
       <div className="d-flex align-items-center gap-4">
 
@@ -67,7 +67,7 @@ const WeatherWidget = () => {
       <p className="mb-0">Loading...</p>
     )}
 
-    {/* ✅ RIGHT SIDE (Dropdown Button) */}
+  
     <select
       className="form-control"
       style={{
