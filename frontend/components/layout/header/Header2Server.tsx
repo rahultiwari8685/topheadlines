@@ -12,21 +12,21 @@ export default function Header2Server() {
     return (
         <>
             <header>
-                        <div className="topbar d-none d-lg-block">
-                    <div className="overflow-hidden">
-                        <div className="d-flex justify-content-between align-items-center bg-light">
-                            <div className="left">
+                    <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
+  <div className="overflow-hidden">
+    <div className="d-flex justify-content-between align-items-center">
+      
+      <div className="left">
+        <WeatherWidget />
+      </div>
 
-                                <WeatherWidget/>
-                            </div>
-                             {/* <div className="right">
-                                <MarketWidget />
-                                </div> */}
-                                
-                            </div>
-                           
-                        </div>
-                    </div>
+      {/* <div className="right">
+        <MarketWidget />
+      </div> */}
+
+    </div>
+  </div>
+</div>
                 
                 <nav className="navbar style-2">
                  
