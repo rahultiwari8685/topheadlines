@@ -262,7 +262,7 @@ const Users = () => {
                         size="sm"
                         color="danger"
                         className="rounded-pill px-3 shadow-sm fw-semibold"
-                        onClick={() => handleDelete(a.id)}
+                        onClick={() => handleDelete(a._id)}
                       >
                         <CIcon icon={cilTrash} style={{ marginRight: '5px' }} />
                         Delete
