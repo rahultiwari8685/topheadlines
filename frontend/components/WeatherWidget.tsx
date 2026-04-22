@@ -40,31 +40,20 @@ const WeatherWidget = () => {
   }, [city]);
 
   return (
-<div className="card p-3 shadow">
+<div className="card p-3 shadow bg-dark text-white">
 
-  <div className="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+  <div className="d-flex justify-content-between align-items-center flex-wrap">
 
-    {/* ✅ Dropdown */}
-    <select
-      className="form-control"
-      style={{ maxWidth: "150px" }}
-      value={city}
-      onChange={(e) => setCity(e.target.value)}
-    >
-      <option value="Lucknow">Lucknow</option>
-      <option value="Delhi">Delhi</option>
-      <option value="Mumbai">Mumbai</option>
-      <option value="Kolkata">Kolkata</option>
-    </select>
-
-    {/* ✅ Weather Info */}
+    {/* ✅ LEFT SIDE (Weather Data) */}
     {weather && weather.main ? (
-      <div className="d-flex align-items-center gap-3">
+      <div className="d-flex align-items-center gap-4">
 
-        <h4 className="mb-0">{weather.main.temp}°C</h4>
+        <h2 className="mb-0">{weather.main.temp}°C</h2>
 
         <div>
-          <p className="mb-0">{weather.weather[0].description}</p>
+          <p className="mb-0 text-capitalize">
+            {weather.weather[0].description}
+          </p>
           <small>{weather.name}</small>
         </div>
 
@@ -77,6 +66,23 @@ const WeatherWidget = () => {
     ) : (
       <p className="mb-0">Loading...</p>
     )}
+
+    {/* ✅ RIGHT SIDE (Dropdown Button) */}
+    <select
+      className="form-control"
+      style={{
+        maxWidth: "160px",
+        borderRadius: "30px",
+        padding: "8px 15px"
+      }}
+      value={city}
+      onChange={(e) => setCity(e.target.value)}
+    >
+      <option value="Lucknow">Lucknow</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Kolkata">Kolkata</option>
+    </select>
 
   </div>
 
