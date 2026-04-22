@@ -7,11 +7,13 @@ const GoldPrice = () => {
   useEffect(() => {
     const fetchGold = async () => {
       try {
-        const res = await fetch("https://api.metals.live/v1/spot/gold");
+        const res = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=tether-gold&vs_currencies=usd",
+        );
         const data = await res.json();
 
-        // API format: [{ gold: 2300.45 }]
-        setPrice(data[0]?.gold);
+        // ✅ Correct path
+        setPrice(data["tether-gold"]?.usd);
       } catch (err) {
         console.error("Gold API Error:", err);
       }
@@ -21,35 +23,21 @@ const GoldPrice = () => {
   }, []);
 
   return (
-    <div className="gold-bar">
-      {price ? (
-        <div className="ticker">🟡 Gold: ${price} / oz</div>
-      ) : (
-        <p>Loading gold price...</p>
-      )}
+    <div className="gold-bar d-flex justify-content-between align-items-center px-3 py-2">
+      {/* LEFT: Gold Data */}
+      <div>
+        {price ? (
+          <>
+            <h5 className="mb-0 text-warning">🟡 Gold: ${price}</h5>
+            <small>Live Market Price</small>
+          </>
+        ) : (
+          <p className="mb-0">Loading...</p>
+        )}
+      </div>
 
-      <style jsx>{`
-        .gold-bar {
-          background: #111;
-          color: #ffd700;
-          padding: 8px;
-          overflow: hidden;
-        }
-
-        .ticker {
-          display: inline-block;
-          animation: scroll 12s linear infinite;
-        }
-
-        @keyframes scroll {
-          0% {
-            transform: translateX(100%);
-          }
-          100% {
-            transform: translateX(-100%);
-          }
-        }
-      `}</style>
+      {/* RIGHT: Button */}
+      <button className="btn btn-warning btn-sm">View Details</button>
     </div>
   );
 };
