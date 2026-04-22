@@ -48,7 +48,7 @@ const WeatherWidget = () => {
     {weather && weather.main ? (
       <div className="d-flex align-items-center gap-4">
 
-        <h2 className="mb-0">{weather.main.temp}°C</h2>
+        <h2 className="mb-0">{weather.main.feels_like}°C</h2>
 
         <div>
           <p className="mb-0 text-capitalize">
