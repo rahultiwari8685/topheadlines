@@ -68,36 +68,31 @@ export default function Section1({ classList }: any) {
   const textNews = blogs.filter((item) => !item.youtubeUrl);
   const videoNews = blogs.filter((item) => item.youtubeUrl);
 
-  // ✅ FIXED CATEGORY ORDER
-  const fixedCategories = [
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "Maharashtra",
-    "Jharkhand",
-  ];
+ const fixedCategories = [
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "Maharashtra",
+  "Jharkhand",
+];
 
-  // ✅ PICK 1 NEWS FROM EACH CATEGORY
-  let categoryWiseNews = fixedCategories
-    .map((cat) =>
-      textNews.find(
-        (item) =>
-          item.categoryName?.toLowerCase() === cat.toLowerCase()
-      )
-    )
-    .filter(Boolean);
+// ✅ strict filter (only these categories)
+const allowedNews = textNews.filter((item) =>
+  fixedCategories.some(
+    (cat) => item.categoryName?.toLowerCase() === cat.toLowerCase()
+  )
+);
 
-  // ✅ FALLBACK (if less than 4)
-  if (categoryWiseNews.length < 4) {
-    const remaining = textNews.filter(
+// ✅ pick first from each category
+let categoryWiseNews = fixedCategories
+  .map((cat) =>
+    allowedNews.find(
       (item) =>
-        !categoryWiseNews.some((n) => n.linkPost === item.linkPost)
-    );
+        item.categoryName?.toLowerCase() === cat.toLowerCase()
+    )
+  )
+  .filter(Boolean);
 
-    categoryWiseNews = [
-      ...categoryWiseNews,
-      ...remaining.slice(0, 4 - categoryWiseNews.length),
-    ];
-  }
+ 
 
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
