@@ -116,12 +116,12 @@ export const editorNav = [
     ],
   },
 
-  {
-    component: CNavItem,
-    name: 'Users',
-    to: '/Users',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Users',
+  //   to: '/Users',
+  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  // },
   {
     component: CNavItem,
     name: 'Category',
@@ -170,18 +170,18 @@ export const correspondenceNav = [
     ],
   },
 
-  {
-    component: CNavItem,
-    name: 'Users',
-    to: '/Users',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Category',
-    to: '/Category',
-    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Users',
+  //   to: '/Users',
+  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: 'Category',
+  //   to: '/Category',
+  //   icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  // },
 ]
 export const subscriberNav = [
   {
@@ -197,12 +197,12 @@ export const subscriberNav = [
     to: '/news',
     icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: 'Add News',
-        to: '/news',
-        icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Add News',
+      //   to: '/news',
+      //   icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+      // },
       {
         component: CNavItem,
         name: 'Published News',
@@ -224,16 +224,16 @@ export const subscriberNav = [
     ],
   },
 
-  {
-    component: CNavItem,
-    name: 'Users',
-    to: '/Users',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Category',
-    to: '/Category',
-    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Users',
+  //   to: '/Users',
+  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: 'Category',
+  //   to: '/Category',
+  //   icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  // },
 ]
