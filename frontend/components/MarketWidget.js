@@ -13,7 +13,7 @@ const MarketWidget = () => {
             method: "GET",
             headers: {
               "X-RapidAPI-Key":
-                "9623eb7bd7msh97100e55a468471p1711cjsn93b931fc7238", // 🔥 replace this
+                "0773162b35msh805d10f205ed4c9p11a7d8jsn05c33205eda1", // 🔥 replace this
               "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
             },
           },
