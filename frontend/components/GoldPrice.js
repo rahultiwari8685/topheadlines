@@ -12,20 +12,17 @@ const GoldPrice = () => {
         );
 
         const data = await res.json();
-
         const usd = data["tether-gold"]?.usd;
 
-        // ❌ if no data → stop
         if (!usd) return;
 
         const usdToInr = 83;
-
-        const perGram24K = (usd * usdToInr) / 31.1;
+        const perGram = (usd * usdToInr) / 31.1;
 
         setGold({
-          "24K": (perGram24K * 10).toFixed(2),
-          "22K": (perGram24K * 10 * 0.916).toFixed(2),
-          "18K": (perGram24K * 10 * 0.75).toFixed(2),
+          k24: (perGram * 10).toFixed(0),
+          k22: (perGram * 10 * 0.916).toFixed(0),
+          k18: (perGram * 10 * 0.75).toFixed(0),
         });
       } catch (err) {
         console.error(err);
@@ -36,16 +33,51 @@ const GoldPrice = () => {
   }, []);
 
   return (
-    <div>
+    <div className="gold-wrapper d-flex align-items-center justify-content-end gap-3">
+      {/* ICON + TITLE */}
+      <div className="d-flex align-items-center gap-2">
+        <span className="gold-dot"></span>
+        <span className="fw-semibold">Gold Price (India)</span>
+      </div>
+
+      {/* VALUES */}
       {gold ? (
-        <>
-          <p>24K: ₹{gold["24K"]} / 10g</p>
-          <p>22K: ₹{gold["22K"]} / 10g</p>
-          <p>18K: ₹{gold["18K"]} / 10g</p>
-        </>
+        <div className="gold-values d-flex gap-3">
+          <span>24K: ₹{gold.k24}</span>
+          <span>22K: ₹{gold.k22}</span>
+          <span>18K: ₹{gold.k18}</span>
+        </div>
       ) : (
-        <p>Loading...</p>
+        <span className="text-muted">Loading...</span>
       )}
+
+      {/* CSS */}
+      <style jsx>{`
+        .gold-wrapper {
+          font-size: 13px;
+        }
+
+        .gold-dot {
+          width: 10px;
+          height: 10px;
+          background: linear-gradient(135deg, #ffd700, #ffb700);
+          border-radius: 50%;
+          display: inline-block;
+        }
+
+        .gold-values span {
+          color: #111;
+          font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+          .gold-wrapper {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+          }
+        }
+      `}</style>
     </div>
   );
 };
