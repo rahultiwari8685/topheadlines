@@ -13,7 +13,7 @@ export default function SideBarServer() {
             <div className="sidebar-left">
                 <div className="header-sidebar d-flex align-items-center justify-content-between py-3">
                     <Link href="/" className="sidebar-brand fw-bold fs-3 dark-mode-invert">
-                        <Image src="/assets/imgs/template/logo/logo-dark.svg" width={143} height={18} alt="logo" />
+                        <Image src="/assets/imgs/template/logo/top-dark.png" width={143} height={18} alt="logo" />
                     </Link>
                     <a href="#" className="close-sidebar">
                         <svg className="dark-mode-invert" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none">
@@ -26,7 +26,7 @@ export default function SideBarServer() {
                 {/* Client component for interactive navigation */}
                 <SideBarInteractive />
 
-                <div className="block-popular">
+                {/* <div className="block-popular">
                     <h5>Popular posts</h5>
                     <div className="d-flex flex-column gap-2">
                         {cardSideBarData.map((card, idx) => (
@@ -41,9 +41,9 @@ export default function SideBarServer() {
                         </SwiperDynamic>
                         <div className="swiper-pagination mb-3" />
                     </div>
-                </div>
+                </div> */}
 
-                <div className="sidebar-footer">
+                {/* <div className="sidebar-footer">
                     <div>
                         <div className="d-flex align-items-center">
                             <svg className="dark-mode-invert" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none">
@@ -61,11 +61,11 @@ export default function SideBarServer() {
                             Subscribe
                         </button>
                     </form>
-                </div>
+                </div> */}
 
                 <div className="text-center">
                     <p className="fs-7">
-                        2026 Copyright @ <span className="text-dark">Magzine.</span> <br className="d-none d-lg-block" />
+                        2026 Copyright @ <span className="text-dark">Top Headlines News.</span> <br className="d-none d-lg-block" />
                         <span> All Rights Reserved </span>
                     </p>
                 </div>
