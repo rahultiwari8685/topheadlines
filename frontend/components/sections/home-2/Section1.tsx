@@ -16,13 +16,11 @@ export default function Section1({ classList }: any) {
   };
 
   useEffect(() => {
-    setLoading(true);
-
     fetch(setting.api + "/api/news/getAllNews")
       .then((res) => res.json())
       .then((u) => {
-        if (u.status !== false) {
-          const formattedData = u.data.map((item: any) => {
+        if (u.status) {
+          const formattedData = (u.data || []).map((item: any) => {
             const videoId = getYouTubeId(item.youtubeUrl);
 
             return {
@@ -31,98 +29,71 @@ export default function Section1({ classList }: any) {
                 ? `${setting.api}/uploads/${item.thumbnail}`
                 : "/assets/imgs/default.jpg",
 
-              videoUrl: videoId
-                ? `https://www.youtube.com/embed/${videoId}`
-                : "",
-
-              hasVideo: !!videoId,
               youtubeUrl: item.youtubeUrl || "",
+              hasVideo: !!videoId,
 
-              // ✅ CATEGORY INFO
               categoryName: item.categories?.[0]?.name || "",
               categoryId: item.categories?.[0]?._id || "",
 
               badge: item.categories?.[0]?.name || "News",
-              bgBadge: "bg-2",
 
               title: item.title || "No Title",
               description: item.subtitle || "No Description",
 
-              date: new Date(item.createdAt).toDateString(),
+              date: item.createdAt
+                ? new Date(item.createdAt).toDateString()
+                : "",
             };
           });
 
           setBlogs(formattedData);
-        } else {
-          setBlogs([]);
         }
       })
-      .catch((err) => {
-        console.error("API Error:", err);
-        setBlogs([]);
-      })
+      .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   }, []);
 
-  // ✅ FILTER
-  const textNews = blogs.filter((item) => !item.youtubeUrl);
-  const videoNews = blogs.filter((item) => item.youtubeUrl);
+  // ✅ SAFE FILTER
+  const textNews = blogs.filter((item) => !item.hasVideo);
+  const videoNews = blogs.filter((item) => item.hasVideo);
 
- const fixedCategories = [
-  "Uttar Pradesh",
-  "Uttarakhand",
-  "Maharashtra",
-  "Jharkhand",
-];
+  // ✅ FIXED CATEGORY ORDER
+  const fixedCategories = [
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "Maharashtra",
+    "Jharkhand",
+  ];
 
-// ✅ strict filter (only these categories)
-const allowedNews = textNews.filter((item) =>
-  fixedCategories.some(
-    (cat) => item.categoryName?.toLowerCase() === cat.toLowerCase()
-  )
-);
-
-// ✅ pick first from each category
-let categoryWiseNews = fixedCategories
-  .map((cat) =>
-    allowedNews.find(
-      (item) =>
-        item.categoryName?.toLowerCase() === cat.toLowerCase()
+  // ✅ STRICT CATEGORY MATCH
+  let categoryWiseNews = fixedCategories
+    .map((cat) =>
+      textNews.find(
+        (item) =>
+          item.categoryName &&
+          item.categoryName.toLowerCase() === cat.toLowerCase()
+      )
     )
-  )
-  .filter(Boolean);
+    .filter((item) => item !== undefined);
 
-  // ✅ FALLBACK (if less than 4)
-  if (categoryWiseNews.length < 4) {
-    const remaining = textNews.filter(
-      (item) =>
-        !categoryWiseNews.some((n) => n.linkPost === item.linkPost)
-    );
-
-    categoryWiseNews = [
-      ...categoryWiseNews,
-      ...remaining.slice(0, 4 - categoryWiseNews.length),
-    ];
-  }
+  // ❌ REMOVE RANDOM FALLBACK (IMPORTANT)
+  // No random category allowed → avoid crash + wrong data
 
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
   }
 
   return (
-    <section
-      className={`sec-1-home-2 sec-padding ${classList}`}
-      data-background="/assets/imgs/page/bg-home1-sec1.png"
-    >
+    <section className={`sec-1-home-2 sec-padding ${classList}`}>
       <div className="container">
         <div className="row mt-2 g-4">
 
-          {/* 🔥 1st Column (Video Featured) */}
-          {videoNews.slice(0, 1).map((card, idx) => (
-            <div className="col-lg-6" key={idx}>
-              <ArticleCard11 card={card} idx={idx} />
+          {/* 🔥 1st Column */}
+          {videoNews.length > 0 && (
+            <div className="col-lg-6">
+              <ArticleCard11 card={videoNews[0]} idx={0} />
             </div>
-          ))}
+          )}
 
           {/* 🔥 2nd Column */}
           <div className="col-lg-3">
