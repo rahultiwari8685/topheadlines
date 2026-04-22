@@ -5,7 +5,7 @@ import ThemeSwitcher from "@/util/ThemeSwitcherServer";
 import SideBar from "@/components/layout/SideBarServer";
 import Header2Interactive from "./Header2Interactive";
 import Header1Interactive from "./Header1Interactive";
-import MarketWidget from "@/components/MarketWidget";
+import GoldPrice from "@/components/GoldPrice";
 import WeatherWidget from "@/components/WeatherWidget";
 
 export default function Header2Server() {
@@ -21,7 +21,7 @@ export default function Header2Server() {
       </div>
 
       <div className="right">
-        <MarketWidget />
+        <GoldPrice/>
       </div>
 
     </div>
