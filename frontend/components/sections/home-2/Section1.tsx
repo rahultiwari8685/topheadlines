@@ -92,7 +92,18 @@ let categoryWiseNews = fixedCategories
   )
   .filter(Boolean);
 
- 
+  // ✅ FALLBACK (if less than 4)
+  if (categoryWiseNews.length < 4) {
+    const remaining = textNews.filter(
+      (item) =>
+        !categoryWiseNews.some((n) => n.linkPost === item.linkPost)
+    );
+
+    categoryWiseNews = [
+      ...categoryWiseNews,
+      ...remaining.slice(0, 4 - categoryWiseNews.length),
+    ];
+  }
 
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
