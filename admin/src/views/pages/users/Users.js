@@ -34,7 +34,7 @@ const schema = yup.object().shape({
   email: yup.string().required('Phone is required'),
   password: yup.string().required('Enter HSN Code'),
   role: yup.string().required('Status is required'),
-  status: yup.string().required('Status is required'),
+  // status: yup.string().required('Status is required'),
   phone: yup.string().required('Status is required'),
   post_permission: yup.string().required('Status is required'),
   image: yup.file,
