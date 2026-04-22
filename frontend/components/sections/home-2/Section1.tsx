@@ -118,7 +118,7 @@ export default function Section1({ classList }: any) {
             </div>
           ))}
 
-          {/* 🔥 2nd Column */}
+          
           <div className="col-lg-3">
             <div className="row g-4">
               {categoryWiseNews.slice(0, 2).map((card, idx) => (
@@ -129,7 +129,7 @@ export default function Section1({ classList }: any) {
             </div>
           </div>
 
-          {/* 🔥 3rd Column */}
+        
           <div className="col-lg-3">
             <div className="row g-4">
               {categoryWiseNews.slice(2, 4).map((card, idx) => (
