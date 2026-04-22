@@ -20,9 +20,9 @@ export default function Header2Server() {
         <WeatherWidget />
       </div>
 
-      {/* <div className="right">
+      <div className="right">
         <MarketWidget />
-      </div> */}
+      </div>
 
     </div>
   </div>

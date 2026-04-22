@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 const MarketWidget = () => {
-  const [market, setMarket] = useState(null);
+  const [market, setMarket] = useState < any > null;
 
   useEffect(() => {
     const fetchMarket = async () => {
@@ -13,17 +13,20 @@ const MarketWidget = () => {
             method: "GET",
             headers: {
               "X-RapidAPI-Key":
-                "9623eb7bd7msh97100e55a468471p1711cjsn93b931fc7238",
+                "9623eb7bd7msh97100e55a468471p1711cjsn93b931fc7238", // ⚠️ replace later
               "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
             },
           },
         );
 
         const data = await res.json();
-        console.log(data);
-        setMarket(data);
+
+        // 🔥 IMPORTANT: correct data path
+        const result = data?.body?.[0] || null;
+
+        setMarket(result);
       } catch (err) {
-        console.error(err);
+        console.error("Market Error:", err);
       }
     };
 
@@ -31,22 +34,46 @@ const MarketWidget = () => {
   }, []);
 
   return (
-    <div className="card p-3 shadow">
-      <h5>📈 Nifty 50</h5>
+    <div className="market-bar">
       {market ? (
-        <>
-          <h3>{market.regularMarketPrice}</h3>
-          <p
+        <div className="ticker">
+          📈 Nifty 50: {market.regularMarketPrice} |{" "}
+          <span
             style={{
               color: market.regularMarketChange > 0 ? "green" : "red",
             }}
           >
             {market.regularMarketChange} ({market.regularMarketChangePercent}%)
-          </p>
-        </>
+          </span>
+        </div>
       ) : (
         <p>Loading...</p>
       )}
+
+      {/* ✅ CSS */}
+      <style jsx>{`
+        .market-bar {
+          background: #000;
+          color: #fff;
+          overflow: hidden;
+          white-space: nowrap;
+          padding: 8px;
+        }
+
+        .ticker {
+          display: inline-block;
+          animation: scroll 15s linear infinite;
+        }
+
+        @keyframes scroll {
+          0% {
+            transform: translateX(100%);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+      `}</style>
     </div>
   );
 };
