@@ -21,7 +21,7 @@ useEffect(() => {
       if (u.success) {
 
         const formattedData = u.data.map((item: any) => ({
-          // ✅ FIXED
+        
           linkPost: `/archive-1?category=${item._id}`,
 
           img: item.bannerImage
@@ -50,7 +50,7 @@ useEffect(() => {
       <section className="sec-2-home-2">
         <div className="container">
           <div className="row g-3">
-            {categories.map((card, idx) => (
+            {categories.slice(0, 6).map((card, idx) => (
               <div className="col-lg-2 col-sm-4 col-6" key={idx}>
                 <CategoryCard2 key={idx} card={card} idx={idx} />
               </div>
