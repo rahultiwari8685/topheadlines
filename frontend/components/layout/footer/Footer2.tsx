@@ -127,36 +127,26 @@ export default function Footer() {
                                         </ul>
                                     </div>
 
-                                    <div className="col-lg-3 col-md-3 col-6">
-                                        <h6 className="mb-3">Membership</h6>
-                                        <ul className="list-unstyled ps-0">
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Account
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Membership
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Subscribe
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Tags
-                                                </a>
-                                            </li>
-                                            <li className="mb-3">
-                                                <a className="text-500 hover-dark" href="#">
-                                                    Authors
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                                                     <div className="col-lg-3 col-md-3 col-6">
+  <h6 className="mb-3">Remaining Categories</h6>
+
+  <ul className="list-unstyled ps-0">
+    {categories.length > 0 ? (
+      categories.slice(6, 12).map((cat) => (
+        <li className="mb-3" key={cat._id}>
+          <a
+            className="text-500 hover-dark"
+            href={`/archive-1?category=${cat._id}`}
+          >
+            {cat.name}
+          </a>
+        </li>
+      ))
+    ) : (
+      <li>Loading...</li>
+    )}
+  </ul>
+</div>
                                 </div>
                             </div>
                         </div>
