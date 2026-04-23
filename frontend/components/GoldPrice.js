@@ -45,7 +45,7 @@ const GoldPrice = () => {
 
       {/* CENTER */}
       {gold ? (
-        <div className="value">₹{gold.per10g} / 10g</div>
+        <div className="value"> ₹{gold.per10g} / 10g</div>
       ) : (
         <span>Loading...</span>
       )}
