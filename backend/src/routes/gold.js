@@ -1,54 +1,64 @@
 import express from "express";
-import fetch from "node-fetch";
 
 const router = express.Router();
 
-// Example using gold-api (XAU spot) + your own city adjustments
 router.get("/india-gold", async (req, res) => {
   try {
-    const { city = "Delhi" } = req.query;
+    // ✅ Default Lucknow + 24K
+    const { city = "Lucknow", carat = "24K" } = req.query;
 
-    // 🔹 REAL GOLD (XAU) per ounce
-    const r = await fetch("https://api.gold-api.com/price/XAU");
-    const d = await r.json();
+    const response = await fetch("https://api.gold-api.com/price/XAU");
+    const data = await response.json();
 
-    const usd = d?.price; // per ounce
+    const usd = data?.price;
     if (!usd) {
-      return res.status(500).json({ status: false, message: "No price" });
+      return res.status(500).json({
+        status: false,
+        message: "Gold price not available",
+      });
     }
 
-    // 🔹 Convert to INR/gram
-    const usdToInr = 83; // keep dynamic if you want (forex API)
+    const usdToInr = 83;
     const perGram24 = (usd * usdToInr) / 31.1;
 
-    // 🔹 City multipliers (approx local variance)
-    const cityFactor =
-      {
-        Delhi: 1.0,
-        Lucknow: 1.005,
-        Mumbai: 0.995,
-        Kolkata: 1.01,
-      }[city] || 1;
-
-    const prices = {
-      city,
-      perGram: {
-        "24K": +(perGram24 * cityFactor).toFixed(2),
-        "22K": +(perGram24 * 0.916 * cityFactor).toFixed(2),
-        "18K": +(perGram24 * 0.75 * cityFactor).toFixed(2),
-      },
-      per10g: {
-        "24K": +(perGram24 * 10 * cityFactor).toFixed(0),
-        "22K": +(perGram24 * 10 * 0.916 * cityFactor).toFixed(0),
-        "18K": +(perGram24 * 10 * 0.75 * cityFactor).toFixed(0),
-      },
-      source: "XAU spot (converted to INR)",
-      updatedAt: new Date().toISOString(),
+    const cityFactorMap = {
+      Delhi: 1.0,
+      Lucknow: 1.005,
+      Mumbai: 0.995,
+      Kolkata: 1.01,
     };
 
-    res.json({ status: true, data: prices });
-  } catch (e) {
-    res.status(500).json({ status: false, message: e.message });
+    const factor = cityFactorMap[city] || 1;
+
+    const caratMap = {
+      "24K": 1,
+      "22K": 0.916,
+      "18K": 0.75,
+    };
+
+    const selectedCaratFactor = caratMap[carat] || 1;
+
+    const pricePerGram = perGram24 * selectedCaratFactor * factor;
+    const pricePer10g = pricePerGram * 10;
+
+    return res.json({
+      status: true,
+      data: {
+        city,
+        carat,
+        perGram: +pricePerGram.toFixed(2),
+        per10g: +pricePer10g.toFixed(0),
+        source: "XAU spot (converted to INR)",
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  } catch (error) {
+    console.error("Gold API Error:", error);
+
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
   }
 });
 
