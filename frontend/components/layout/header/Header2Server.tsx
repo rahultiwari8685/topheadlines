@@ -16,16 +16,14 @@ export default function Header2Server() {
   <div className="overflow-hidden">
   <div className="topbar-container">
 
-  {/* LEFT - Weather */}
+  {/* LEFT */}
   <div className="topbar-left">
     <WeatherWidget />
   </div>
 
+  {/* RIGHT → AD SLOT */}
   <div className="topbar-right">
-    {/* Google Ad / Image Ad */}
-    <div className="ad-box">
-      <img src="/ads/top-ad.jpg" alt="Ad" />
-    </div>
+    <div id="topbar-ad-slot" className="ad-slot"></div>
   </div>
 
   <style jsx>{`
@@ -48,11 +46,24 @@ export default function Header2Server() {
       min-width: 300px;
     }
 
-    .ad-box img {
+    /* 🔥 AD SLOT (empty container) */
+    .ad-slot {
       width: 300px;
       height: 60px;
-      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* optional placeholder */
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed rgba(255,255,255,0.2);
       border-radius: 6px;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .ad-slot::before {
+      content: "Ad Space";
     }
 
     @media (max-width: 768px) {
@@ -66,9 +77,8 @@ export default function Header2Server() {
         justify-content: flex-start;
       }
 
-      .ad-box img {
+      .ad-slot {
         width: 100%;
-        height: auto;
       }
     }
   `}</style>
