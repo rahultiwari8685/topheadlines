@@ -19,18 +19,15 @@ const GoldPrice = () => {
 
   const fetchGold = async () => {
     try {
-      // 1️⃣ Fetch gold
+      // 1️⃣ Gold API
       const goldRes = await fetch(
-        `https://api.metalpriceapi.com/v1/latest?api_key=274fdb8527f806d0adffc4721f4f46e5&base=USD&currencies=XAU`,
+        `https://api.metalpriceapi.com/v1/latest?api_key=YOUR_KEY&base=USD&currencies=XAU`,
       );
       const goldData = await goldRes.json();
 
-      const xau = goldData?.rates?.XAU;
-      if (!xau) return;
+      const usdPerOunce = goldData?.rates?.USDXAU; // ✅ USE THIS
 
-      const usdPerOunce = 1 / xau;
-
-      // 2️⃣ Fetch USD → INR (LIVE)
+      // 2️⃣ Forex API
       const forexRes = await fetch(
         "https://api.exchangerate-api.com/v4/latest/USD",
       );
@@ -38,24 +35,21 @@ const GoldPrice = () => {
 
       const usdToInr = forexData?.rates?.INR;
 
-      if (!usdToInr) return;
+      if (!usdPerOunce || !usdToInr) return;
 
-      // 3️⃣ Convert
+      // 3️⃣ Convert to INR per gram (24K)
       const perGram24 = (usdPerOunce * usdToInr) / 31.1;
 
-      const caratMap = {
-        "24K": 1,
-        "22K": 0.916,
-        "18K": 0.75,
+      // 4️⃣ Dynamic carat calculation
+      const result = {
+        "24K": (perGram24 * 10).toFixed(0),
+        "22K": (perGram24 * 10 * 0.916).toFixed(0),
+        "18K": (perGram24 * 10 * 0.75).toFixed(0),
       };
 
-      const price = perGram24 * caratMap[carat];
-
-      setGold({
-        per10g: (price * 10).toFixed(0),
-      });
+      setGold(result);
     } catch (err) {
-      console.error("Metal API Error:", err);
+      console.error(err);
     }
   };
 
