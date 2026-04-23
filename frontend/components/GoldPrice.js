@@ -20,12 +20,37 @@ const GoldPrice = () => {
   const fetchGold = async () => {
     try {
       const res = await fetch(
-        `${setting.api}/api/india-gold?city=${city}&carat=${carat}`,
+        `https://api.metalpriceapi.com/v1/latest?api_key=274fdb8527f806d0adffc4721f4f46e5&base=USD&currencies=XAU`,
       );
+
       const data = await res.json();
-      if (data.status) setGold(data.data);
+
+      // ❗ MetalpriceAPI gives inverse sometimes
+      const xau = data?.rates?.XAU;
+
+      if (!xau) return;
+
+      // USD per ounce
+      const usdPerOunce = 1 / xau;
+
+      const usdToInr = 83;
+
+      // convert to INR per gram
+      const perGram24 = (usdPerOunce * usdToInr) / 31.1;
+
+      const caratMap = {
+        "24K": 1,
+        "22K": 0.916,
+        "18K": 0.75,
+      };
+
+      const price = perGram24 * caratMap[carat];
+
+      setGold({
+        per10g: (price * 10).toFixed(0),
+      });
     } catch (err) {
-      console.error(err);
+      console.error("Metal API Error:", err);
     }
   };
 
