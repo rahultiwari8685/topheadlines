@@ -19,43 +19,58 @@ const GoldPrice = () => {
 
   const fetchGold = async () => {
     try {
-      // 1️⃣ Gold API
-      const goldRes = await fetch(
-        `https://api.metalpriceapi.com/v1/latest?api_key=274fdb8527f806d0adffc4721f4f46e5&base=USD&currencies=XAU`,
-      );
+      // 🔥 PARALLEL API CALL (FAST)
+      const [goldRes, forexRes] = await Promise.all([
+        fetch(
+          `https://api.metalpriceapi.com/v1/latest?api_key=274fdb8527f806d0adffc4721f4f46e5&base=USD&currencies=XAU`,
+        ),
+        fetch("https://api.exchangerate-api.com/v4/latest/USD"),
+      ]);
+
       const goldData = await goldRes.json();
-
-      const usdPerOunce = goldData?.rates?.USDXAU; // ✅ USE THIS
-
-      // 2️⃣ Forex API
-      const forexRes = await fetch(
-        "https://api.exchangerate-api.com/v4/latest/USD",
-      );
       const forexData = await forexRes.json();
+
+      // ✅ FIX: handle both formats
+      let usdPerOunce =
+        goldData?.rates?.USDXAU ||
+        (goldData?.rates?.XAU ? 1 / goldData.rates.XAU : null);
 
       const usdToInr = forexData?.rates?.INR;
 
       if (!usdPerOunce || !usdToInr) return;
 
-      // 3️⃣ Convert to INR per gram (24K)
+      // ✅ Convert to INR per gram (24K)
       const perGram24 = (usdPerOunce * usdToInr) / 31.1;
 
-      // 4️⃣ Dynamic carat calculation
+      // ✅ City factor (optional realistic adjustment)
+      const cityFactor =
+        {
+          Lucknow: 1.005,
+          Delhi: 1.0,
+          Mumbai: 0.995,
+          Kolkata: 1.01,
+        }[city] || 1;
+
+      // ✅ Dynamic carat calculation
       const result = {
-        "24K": (perGram24 * 10).toFixed(0),
-        "22K": (perGram24 * 10 * 0.916).toFixed(0),
-        "18K": (perGram24 * 10 * 0.75).toFixed(0),
+        "24K": (perGram24 * 10 * cityFactor).toFixed(0),
+        "22K": (perGram24 * 10 * 0.916 * cityFactor).toFixed(0),
+        "18K": (perGram24 * 10 * 0.75 * cityFactor).toFixed(0),
       };
 
       setGold(result);
     } catch (err) {
-      console.error(err);
+      console.error("Gold API Error:", err);
     }
   };
 
   useEffect(() => {
     fetchGold();
-  }, [city, carat]);
+
+    // 🔄 auto refresh every 60 sec
+    const interval = setInterval(fetchGold, 60000);
+    return () => clearInterval(interval);
+  }, [city]);
 
   return (
     <div className={`gold-bar ${dark ? "dark" : "light"}`}>
@@ -69,7 +84,7 @@ const GoldPrice = () => {
 
       {/* CENTER */}
       {gold ? (
-        <div className="value"> ₹{gold.per10g} / 10g</div>
+        <div className="value">₹{gold[carat]} / 10g</div>
       ) : (
         <span>Loading...</span>
       )}
@@ -84,9 +99,9 @@ const GoldPrice = () => {
         </select>
 
         <select value={carat} onChange={(e) => setCarat(e.target.value)}>
-          <option>24K</option>
-          <option>22K</option>
-          <option>18K</option>
+          <option value="24K">24K</option>
+          <option value="22K">22K</option>
+          <option value="18K">18K</option>
         </select>
       </div>
 
@@ -97,21 +112,18 @@ const GoldPrice = () => {
           align-items: center;
           padding: 8px 14px;
           border-radius: 12px;
-          transition: all 0.3s ease;
         }
 
-        /* ✅ LIGHT MODE */
-        .gold-bar.light {
-          background: #ffffff;
+        /* LIGHT */
+        .light {
+          background: #fff;
           border: 1px solid #eee;
           color: #111;
         }
 
-        /* ✅ DARK MODE */
-        .gold-bar.dark {
-          background: rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+        /* DARK */
+        .dark {
+          background: transparent;
           color: #fff;
         }
 
@@ -130,7 +142,7 @@ const GoldPrice = () => {
         }
 
         .value {
-          font-size: 18px;
+          font-size: 20px;
           font-weight: 700;
         }
 
@@ -140,23 +152,16 @@ const GoldPrice = () => {
         }
 
         select {
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          color: inherit;
+          padding: 2px 6px;
           border-radius: 6px;
-          padding: 3px 6px;
           font-size: 12px;
-          border: none;
-          outline: none;
         }
 
-        /* Dark select */
-        .dark select {
-          background: rgba(255, 255, 255, 0.1);
-          color: #fff;
-        }
-
-        /* Light select */
-        .light select {
-          background: #f5f5f5;
-          color: #111;
+        select option {
+          color: #000;
         }
 
         @media (max-width: 768px) {
