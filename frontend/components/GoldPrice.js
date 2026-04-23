@@ -21,7 +21,7 @@ const GoldPrice = () => {
     try {
       // 1️⃣ Gold API
       const goldRes = await fetch(
-        `https://api.metalpriceapi.com/v1/latest?api_key=YOUR_KEY&base=USD&currencies=XAU`,
+        `https://api.metalpriceapi.com/v1/latest?api_key=274fdb8527f806d0adffc4721f4f46e5&base=USD&currencies=XAU`,
       );
       const goldData = await goldRes.json();
 
