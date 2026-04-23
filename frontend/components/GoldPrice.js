@@ -1,124 +1,75 @@
 "use client";
 import { useEffect, useState } from "react";
+import setting from "../setting.json";
 
 const GoldPrice = () => {
+  const [city, setCity] = useState("Delhi");
   const [gold, setGold] = useState(null);
 
+  const load = async () => {
+    try {
+      const res = await fetch(`${setting.api}/api/india-gold?city=${city}`);
+      const json = await res.json();
+      if (json.status) setGold(json.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
-    const fetchGold = async () => {
-      try {
-        // ✅ REAL GOLD API (XAU)
-        const res = await fetch("https://api.gold-api.com/price/XAU");
-        const data = await res.json();
-
-        const usd = data?.price;
-
-        if (!usd) return;
-
-        const usdToInr = 83;
-        const perGram = (usd * usdToInr) / 31.1;
-
-        setGold({
-          k24: (perGram * 10).toFixed(0),
-          k22: (perGram * 10 * 0.916).toFixed(0),
-          k18: (perGram * 10 * 0.75).toFixed(0),
-        });
-      } catch (err) {
-        console.error("Gold API Error:", err);
-      }
-    };
-
-    fetchGold();
-  }, []);
+    load();
+  }, [city]);
 
   return (
     <div className="gold-bar d-flex justify-content-between align-items-center px-3 py-2">
-      {/* LEFT */}
       <div className="d-flex align-items-center gap-2">
-        <span className="gold-dot"></span>
-        <span className="gold-title">Gold Price (India)</span>
+        <span className="dot"></span>
+        <span className="title">Gold ({city})</span>
       </div>
 
-      {/* RIGHT */}
       {gold ? (
-        <div className="gold-values d-flex gap-4">
-          <div className="gold-item">
-            <span className="label">24K</span>
-            <span className="price">₹{gold.k24}</span>
+        <div className="values d-flex gap-4">
+          <div>
+            <small>24K</small>
+            <b>₹{gold.per10g["24K"]}</b>
           </div>
-
-          <div className="gold-item">
-            <span className="label">22K</span>
-            <span className="price">₹{gold.k22}</span>
+          <div>
+            <small>22K</small>
+            <b>₹{gold.per10g["22K"]}</b>
           </div>
-
-          <div className="gold-item">
-            <span className="label">18K</span>
-            <span className="price">₹{gold.k18}</span>
+          <div>
+            <small>18K</small>
+            <b>₹{gold.per10g["18K"]}</b>
           </div>
         </div>
       ) : (
-        <span className="loading">Loading...</span>
+        <span>Loading...</span>
       )}
 
-      {/* ✅ FORCED LIGHT DESIGN */}
+      <select value={city} onChange={(e) => setCity(e.target.value)}>
+        <option>Delhi</option>
+        <option>Lucknow</option>
+        <option>Mumbai</option>
+        <option>Kolkata</option>
+      </select>
+
       <style jsx>{`
         .gold-bar {
-          background: #ffffff; /* 🔥 ALWAYS LIGHT */
-          border: 1px solid #eaeaea;
+          background: #fff;
+          border: 1px solid #eee;
           border-radius: 12px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-
-        .gold-title {
-          font-size: 16px;
+        .title {
           font-weight: 600;
-          color: #111;
         }
-
-        .gold-dot {
-          width: 12px;
-          height: 12px;
-          background: linear-gradient(135deg, #ffd700, #ffb700);
+        .dot {
+          width: 10px;
+          height: 10px;
+          background: #ffd700;
           border-radius: 50%;
         }
-
-        .gold-values {
-          align-items: center;
-        }
-
-        .gold-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .label {
-          font-size: 12px;
-          color: #888;
-        }
-
-        .price {
-          font-size: 20px; /* 🔥 Bigger font */
-          font-weight: 700;
-          color: #000;
-        }
-
-        .loading {
-          font-size: 14px;
-          color: #aaa;
-        }
-
-        @media (max-width: 768px) {
-          .gold-bar {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 6px;
-          }
-
-          .price {
-            font-size: 18px;
-          }
+        .values b {
+          font-size: 18px;
         }
       `}</style>
     </div>

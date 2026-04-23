@@ -10,6 +10,7 @@ import newsRoutes from "./routes/newsRoutes.js";
 import authRoutes from "./routes/auth.js";
 
 import rateLimit from "express-rate-limit";
+import goldRoutes from "./routes/gold.js";
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(
 
 // ✅ APPLY ONLY TO API (BEST PRACTICE)
 app.use("/api", limiter);
+app.use("/api", goldRoutes);
 
 const allowedOrigins = [
   "https://iotaclasses.in",
