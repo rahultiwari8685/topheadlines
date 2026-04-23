@@ -38,7 +38,6 @@ app.use(
 
 // ✅ APPLY ONLY TO API (BEST PRACTICE)
 app.use("/api", limiter);
-app.use("/api", goldRoutes);
 
 const allowedOrigins = [
   "https://iotaclasses.in",
@@ -70,19 +69,9 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/news", newsRoutes);
-// app.use("/api/reports", reportRoutes);
-// app.use("/api/plans", planRoutes);
-// app.use("/api/customers", customerRoutes);
-// app.use("/api/payments", paymentRoutes);
-// app.use("/api/webhooks", webhookRoutes);
 
 app.use("/api/auth", authRoutes);
-// app.use("/api/customer-auth", customerAuthRoutes);
-
-// app.use("/api/polls", pollRoutes);
-
-// app.use("/api/live", liveRoutes);
-// app.use("/api/orders", orderRoutes);
+app.use("/api", goldRoutes);
 
 const PORT = process.env.PORT || 5001;
 const MONGO_URI = process.env.MONGO_URI;
