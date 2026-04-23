@@ -14,17 +14,65 @@ export default function Header2Server() {
             <header>
                     <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
   <div className="overflow-hidden">
-    <div className="d-flex justify-content-between align-items-center">
-      
-      <div className="left">
-        <WeatherWidget />
-      </div>
+  <div className="topbar-container">
 
-      {/* <div className="right">
-        <GoldPrice/>
-      </div> */}
+  {/* LEFT - Weather */}
+  <div className="topbar-left">
+    <WeatherWidget />
+  </div>
 
+  <div className="topbar-right">
+    {/* Google Ad / Image Ad */}
+    <div className="ad-box">
+      <img src="/ads/top-ad.jpg" alt="Ad" />
     </div>
+  </div>
+
+  <style jsx>{`
+    .topbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      gap: 10px;
+    }
+
+    .topbar-left {
+      flex: 1;
+    }
+
+    .topbar-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      min-width: 300px;
+    }
+
+    .ad-box img {
+      width: 300px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .topbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .topbar-right {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .ad-box img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  `}</style>
+</div>
   </div>
 </div>
                 
