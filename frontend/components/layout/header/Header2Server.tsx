@@ -14,75 +14,17 @@ export default function Header2Server() {
             <header>
                     <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
   <div className="overflow-hidden">
-  <div className="topbar-container">
+    <div className="d-flex justify-content-between align-items-center">
+      
+      <div className="left">
+        <WeatherWidget />
+      </div>
 
-  {/* LEFT */}
-  <div className="topbar-left">
-    <WeatherWidget />
-  </div>
+      {/* <div className="right">
+        <GoldPrice/>
+      </div> */}
 
-  {/* RIGHT → AD SLOT */}
-  <div className="topbar-right">
-    <div id="topbar-ad-slot" className="ad-slot"></div>
-  </div>
-
-  <style jsx>{`
-    .topbar-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      gap: 10px;
-    }
-
-    .topbar-left {
-      flex: 1;
-    }
-
-    .topbar-right {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      min-width: 300px;
-    }
-
-    /* 🔥 AD SLOT (empty container) */
-    .ad-slot {
-      width: 300px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      /* optional placeholder */
-      background: rgba(255,255,255,0.05);
-      border: 1px dashed rgba(255,255,255,0.2);
-      border-radius: 6px;
-      font-size: 12px;
-      color: #aaa;
-    }
-
-    .ad-slot::before {
-      content: "Ad Space";
-    }
-
-    @media (max-width: 768px) {
-      .topbar-container {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .topbar-right {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .ad-slot {
-        width: 100%;
-      }
-    }
-  `}</style>
-</div>
+    </div>
   </div>
 </div>
                 

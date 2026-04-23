@@ -32,6 +32,10 @@ const PublishedNews = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 30
 
+  const userRole = JSON.parse(secureLocalStorage.getItem('logininfo')).role
+
+  console.log('User role from storage:', userRole)
+
   const fetchNews = async () => {
     try {
       const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
@@ -205,14 +209,17 @@ const PublishedNews = () => {
                     >
                       <CIcon icon={cilPencil} /> Edit
                     </CButton>{' '}
-                    <CButton
-                      size="sm"
-                      color="danger"
-                      className="rounded-pill px-3 shadow-sm fw-semibold"
-                      onClick={() => handleDelete(news._id)}
-                    >
-                      <CIcon icon={cilTrash} /> Delete
-                    </CButton>
+                    {userRole === 'admin' ||
+                      (userRole === 'editor' && (
+                        <CButton
+                          size="sm"
+                          color="danger"
+                          className="rounded-pill px-3 shadow-sm fw-semibold"
+                          onClick={() => handleDelete(news._id)}
+                        >
+                          <CIcon icon={cilTrash} /> Delete
+                        </CButton>
+                      ))}
                   </CTableDataCell>
                 </CTableRow>
               )
