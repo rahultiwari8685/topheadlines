@@ -1,10 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const GoldInline = () => {
+const GoldPrice = () => {
   const [gold, setGold] = useState(null);
   const [city, setCity] = useState("Lucknow");
   const [carat, setCarat] = useState("24K");
+  const [dark, setDark] = useState(false);
+
+  // ✅ Detect theme
+  useEffect(() => {
+    const isDark =
+      document.documentElement.classList.contains("dark") ||
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    setDark(isDark);
+  }, []);
 
   const fetchGold = async () => {
     try {
@@ -21,19 +31,23 @@ const GoldInline = () => {
   }, [city, carat]);
 
   return (
-    <div className="gold-inline">
-      {/* LEFT TEXT */}
-      <div className="gold-info">
+    <div className={`gold-bar ${dark ? "dark" : "light"}`}>
+      {/* LEFT */}
+      <div className="left">
         <span className="dot"></span>
-
-        <span className="price">₹{gold?.per10g || "--"}</span>
-
-        <span className="meta">
-          Gold ({city}) {carat}
+        <span className="title">
+          Gold ({city}) - {carat}
         </span>
       </div>
 
-      {/* RIGHT DROPDOWN */}
+      {/* CENTER */}
+      {gold ? (
+        <div className="value">₹{gold.per10g} / 10g</div>
+      ) : (
+        <span>Loading...</span>
+      )}
+
+      {/* RIGHT */}
       <div className="controls">
         <select value={city} onChange={(e) => setCity(e.target.value)}>
           <option>Lucknow</option>
@@ -50,35 +64,47 @@ const GoldInline = () => {
       </div>
 
       <style jsx>{`
-        .gold-inline {
+        .gold-bar {
           display: flex;
-          align-items: center;
           justify-content: space-between;
-          gap: 12px;
+          align-items: center;
+          padding: 8px 14px;
+          border-radius: 12px;
+          transition: all 0.3s ease;
+        }
+
+        /* ✅ LIGHT MODE */
+        .gold-bar.light {
+          background: #ffffff;
+          border: 1px solid #eee;
+          color: #111;
+        }
+
+        /* ✅ DARK MODE */
+        .gold-bar.dark {
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           color: #fff;
         }
 
-        .gold-info {
+        .left {
           display: flex;
           align-items: center;
           gap: 8px;
+          font-weight: 600;
         }
 
         .dot {
-          width: 8px;
-          height: 8px;
+          width: 10px;
+          height: 10px;
           background: #ffd700;
           border-radius: 50%;
         }
 
-        .price {
-          font-size: 22px;
+        .value {
+          font-size: 18px;
           font-weight: 700;
-        }
-
-        .meta {
-          font-size: 13px;
-          color: #bbb;
         }
 
         .controls {
@@ -87,22 +113,30 @@ const GoldInline = () => {
         }
 
         select {
-          background: transparent;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          color: #fff;
-          padding: 2px 6px;
           border-radius: 6px;
+          padding: 3px 6px;
           font-size: 12px;
+          border: none;
+          outline: none;
         }
 
-        select option {
-          color: #000;
+        /* Dark select */
+        .dark select {
+          background: rgba(255, 255, 255, 0.1);
+          color: #fff;
+        }
+
+        /* Light select */
+        .light select {
+          background: #f5f5f5;
+          color: #111;
         }
 
         @media (max-width: 768px) {
-          .gold-inline {
+          .gold-bar {
             flex-direction: column;
             align-items: flex-start;
+            gap: 6px;
           }
         }
       `}</style>
@@ -110,4 +144,4 @@ const GoldInline = () => {
   );
 };
 
-export default GoldInline;
+export default GoldPrice;
