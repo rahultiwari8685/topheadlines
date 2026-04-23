@@ -7,12 +7,11 @@ const GoldPrice = () => {
   useEffect(() => {
     const fetchGold = async () => {
       try {
-        const res = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=tether-gold&vs_currencies=usd",
-        );
-
+        // ✅ REAL GOLD API (XAU)
+        const res = await fetch("https://api.gold-api.com/price/XAU");
         const data = await res.json();
-        const usd = data["tether-gold"]?.usd;
+
+        const usd = data?.price;
 
         if (!usd) return;
 
@@ -25,7 +24,7 @@ const GoldPrice = () => {
           k18: (perGram * 10 * 0.75).toFixed(0),
         });
       } catch (err) {
-        console.error(err);
+        console.error("Gold API Error:", err);
       }
     };
 
@@ -34,13 +33,13 @@ const GoldPrice = () => {
 
   return (
     <div className="gold-bar d-flex justify-content-between align-items-center px-3 py-2">
-      {/* LEFT TITLE */}
+      {/* LEFT */}
       <div className="d-flex align-items-center gap-2">
         <span className="gold-dot"></span>
         <span className="gold-title">Gold Price (India)</span>
       </div>
 
-      {/* RIGHT VALUES */}
+      {/* RIGHT */}
       {gold ? (
         <div className="gold-values d-flex gap-4">
           <div className="gold-item">
@@ -62,16 +61,19 @@ const GoldPrice = () => {
         <span className="loading">Loading...</span>
       )}
 
-      {/* CSS */}
+      {/* ✅ FORCED LIGHT DESIGN */}
       <style jsx>{`
         .gold-bar {
-          background: #f8f9fa;
-          border-radius: 10px;
+          background: #ffffff; /* 🔥 ALWAYS LIGHT */
+          border: 1px solid #eaeaea;
+          border-radius: 12px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .gold-title {
           font-size: 16px;
           font-weight: 600;
+          color: #111;
         }
 
         .gold-dot {
@@ -93,29 +95,29 @@ const GoldPrice = () => {
 
         .label {
           font-size: 12px;
-          color: #777;
+          color: #888;
         }
 
         .price {
-          font-size: 18px; /* 🔥 BIG FONT */
+          font-size: 20px; /* 🔥 Bigger font */
           font-weight: 700;
-          color: #111;
+          color: #000;
         }
 
         .loading {
           font-size: 14px;
-          color: #999;
+          color: #aaa;
         }
 
         @media (max-width: 768px) {
           .gold-bar {
             flex-direction: column;
             align-items: flex-start;
-            gap: 5px;
+            gap: 6px;
           }
 
           .price {
-            font-size: 16px;
+            font-size: 18px;
           }
         }
       `}</style>
