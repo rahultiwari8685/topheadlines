@@ -160,7 +160,7 @@ const PublishedNews = () => {
               <CFormLabel htmlFor="toDate">To Date</CFormLabel>
               <CFormInput type="date" id="toDate" />
             </CCol> */}
-            <CCol md={12}>
+            {/* <CCol md={12}>
               <CFormInput
                 type="text"
                 id="searchText"
@@ -168,7 +168,7 @@ const PublishedNews = () => {
                 value={searchText} // bind state
                 onChange={(e) => setSearchText(e.target.value)}
               />
-            </CCol>
+            </CCol> */}
           </CRow>
         </CForm>
 
