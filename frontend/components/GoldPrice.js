@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import setting from "../setting.json";
 
 const GoldPrice = () => {
   const [gold, setGold] = useState(null);
@@ -18,7 +19,9 @@ const GoldPrice = () => {
 
   const fetchGold = async () => {
     try {
-      const res = await fetch(`/api/india-gold?city=${city}&carat=${carat}`);
+      const res = await fetch(
+        `${setting.api}/api/india-gold?city=${city}&carat=${carat}`,
+      );
       const data = await res.json();
       if (data.status) setGold(data.data);
     } catch (err) {
