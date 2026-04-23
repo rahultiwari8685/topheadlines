@@ -19,23 +19,28 @@ const GoldPrice = () => {
 
   const fetchGold = async () => {
     try {
-      const res = await fetch(
+      // 1️⃣ Fetch gold
+      const goldRes = await fetch(
         `https://api.metalpriceapi.com/v1/latest?api_key=274fdb8527f806d0adffc4721f4f46e5&base=USD&currencies=XAU`,
       );
+      const goldData = await goldRes.json();
 
-      const data = await res.json();
-
-      // ❗ MetalpriceAPI gives inverse sometimes
-      const xau = data?.rates?.XAU;
-
+      const xau = goldData?.rates?.XAU;
       if (!xau) return;
 
-      // USD per ounce
       const usdPerOunce = 1 / xau;
 
-      const usdToInr = 83;
+      // 2️⃣ Fetch USD → INR (LIVE)
+      const forexRes = await fetch(
+        "https://api.exchangerate-api.com/v4/latest/USD",
+      );
+      const forexData = await forexRes.json();
 
-      // convert to INR per gram
+      const usdToInr = forexData?.rates?.INR;
+
+      if (!usdToInr) return;
+
+      // 3️⃣ Convert
       const perGram24 = (usdPerOunce * usdToInr) / 31.1;
 
       const caratMap = {
