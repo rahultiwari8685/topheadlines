@@ -63,7 +63,7 @@ const WeatherWidget = () => {
 
         <div>
           <small>💧 {weather.main.humidity}%</small><br />
-          <small>🌡 {weather.main.feels_like}°C</small>
+          <small>🌡 {weather.main.feels_like}°C</small><br />
               <small>💨 {weather.wind.speed} m/s</small>
             </div>
 
