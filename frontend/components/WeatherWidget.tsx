@@ -57,7 +57,7 @@ const WeatherWidget = () => {
           <p className="mb-0 text-capitalize">
             {weather.weather[0].description}
           </p>
-          <small>{weather.name}</small>
+          <small>{weather.name}</small><br/>
           <small>Wind</small>
         </div>
 
