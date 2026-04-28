@@ -50,7 +50,7 @@ const PublishedNews = () => {
       const data = await res.json()
 
       // ✅ FILTER only type = 1
-      const filteredNews = (data.data || []).filter((item) => item.type === 1)
+      const filteredNews = (data.data || []).filter((item) => item.type === 2)
 
       setNewsList(filteredNews)
     } catch (error) {
@@ -209,17 +209,14 @@ const PublishedNews = () => {
                     >
                       <CIcon icon={cilPencil} /> Edit
                     </CButton>{' '}
-                    {userRole === 'admin' ||
-                      (userRole === 'editor' && (
-                        <CButton
-                          size="sm"
-                          color="danger"
-                          className="rounded-pill px-3 shadow-sm fw-semibold"
-                          onClick={() => handleDelete(news._id)}
-                        >
-                          <CIcon icon={cilTrash} /> Delete
-                        </CButton>
-                      ))}
+                    <CButton
+                      size="sm"
+                      color="danger"
+                      className="rounded-pill px-3 shadow-sm fw-semibold"
+                      onClick={() => handleDelete(news._id)}
+                    >
+                      <CIcon icon={cilTrash} /> Delete
+                    </CButton>
                   </CTableDataCell>
                 </CTableRow>
               )
