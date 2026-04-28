@@ -91,12 +91,21 @@ export default function Section1() {
           <div className="col-lg-6">
             {news.thumbnail ? (
               // ✅ Thumbnail Image
-              <img
-                src={`${setting.api}/uploads/images/${news.thumbnail}`}
-                className="img-fluid"
-                alt="news"
-                style={{ width: "100%", borderRadius: "10px" }}
-              />
+              // <img
+              //   src={`${setting.api}/uploads/images/${news.thumbnail}`}
+              //   className="img-fluid"
+              //   alt="news"
+              //   style={{ width: "100%", borderRadius: "10px" }}
+              // />
+            <img
+  src={news.thumbnail}
+  className="img-fluid"
+  alt="news"
+  style={{
+    width: "100%",
+    borderRadius: "10px",
+  }}
+/>
             ) : videoId ? (
               // ✅ Responsive YouTube Video
               <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
