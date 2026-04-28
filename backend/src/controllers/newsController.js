@@ -6,8 +6,9 @@ export const createNews = async (req, res) => {
     const { title, sub_title, video_type, type, youtube_url, content } =
       req.body;
 
-    // ✅ SAFE PARSE
+    // ✅ SAFE CATEGORY PARSE
     let categories = [];
+
     try {
       categories = JSON.parse(req.body.categories || "[]");
     } catch (err) {
@@ -19,12 +20,20 @@ export const createNews = async (req, res) => {
 
     const news = await News.create({
       title,
+
       subtitle: sub_title,
+
       categories,
+
       videoType: video_type,
+
       type,
+
       youtubeUrl: youtube_url || "",
-      content: content ? JSON.parse(content) : {},
+
+      // ✅ HTML STRING
+      content: content || "",
+
       thumbnail: req.file?.filename || "",
     });
 
@@ -35,6 +44,7 @@ export const createNews = async (req, res) => {
     });
   } catch (error) {
     console.error("Create News Error:", error);
+
     return res.status(500).json({
       status: false,
       message: error.message,
