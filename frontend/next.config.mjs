@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        domains: ["topheadlinesnews.com"],
         protocol: "http",
         hostname: "localhost",
         port: "5002",
