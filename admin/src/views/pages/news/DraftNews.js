@@ -209,17 +209,14 @@ const DraftNews = () => {
                     >
                       <CIcon icon={cilPencil} /> Edit
                     </CButton>{' '}
-                    {userRole === 1 ||
-                      (userRole === 2 && (
-                        <CButton
-                          size="sm"
-                          color="danger"
-                          className="rounded-pill px-3 shadow-sm fw-semibold"
-                          onClick={() => handleDelete(news._id)}
-                        >
-                          <CIcon icon={cilTrash} /> Delete
-                        </CButton>
-                      ))}
+                    <CButton
+                      size="sm"
+                      color="danger"
+                      className="rounded-pill px-3 shadow-sm fw-semibold"
+                      onClick={() => handleDelete(news._id)}
+                    >
+                      <CIcon icon={cilTrash} /> Delete
+                    </CButton>
                   </CTableDataCell>
                 </CTableRow>
               )
