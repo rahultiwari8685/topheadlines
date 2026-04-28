@@ -131,7 +131,18 @@ export default function Section1() {
       </div>
 
       {/* CONTENT SECTION */}
-      <div className="container mt-4">
+<div className="container mt-4">
+  <div className="col-lg-9 offset-lg-1">
+    <div
+      dangerouslySetInnerHTML={{
+        __html: news.content || "",
+      }}
+    />
+  </div>
+</div>
+
+      {/* CONTENT SECTION */}
+      {/* <div className="container mt-4">
         <div className="col-lg-9 offset-lg-1">
           {news.content?.blocks?.map((block: any, idx: number) => {
             if (block.type === "paragraph") {
@@ -145,7 +156,7 @@ export default function Section1() {
             return null;
           })}
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }
