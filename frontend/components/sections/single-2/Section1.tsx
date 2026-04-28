@@ -12,10 +12,8 @@ export default function Section1() {
   const [news, setNews] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Extract YouTube ID
   const getYouTubeId = (url: string) => {
-    const regExp =
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
+    const regExp = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
     const match = url?.match(regExp);
     return match ? match[1] : "";
   };
@@ -55,11 +53,7 @@ export default function Section1() {
     <section className="sec-1-single-2 pb-70 overflow-hidden">
       <div className="container">
         <div className="row">
-
-          {/* LEFT CONTENT */}
           <div className="col-lg-6 pe-lg-5">
-
-            {/* Breadcrumb */}
             <nav>
               <ul className="breadcrumb d-flex gap-2">
                 <li>
@@ -68,13 +62,10 @@ export default function Section1() {
               </ul>
             </nav>
 
-            {/* Title */}
             <h2>{news.title}</h2>
 
-            {/* Date */}
             <p>{new Date(news.createdAt).toDateString()}</p>
 
-            {/* Author */}
             <div className="d-flex align-items-center gap-2">
               <img
                 src="/assets/imgs/template/author/author-1.png"
@@ -87,7 +78,6 @@ export default function Section1() {
             </div>
           </div>
 
-          {/* RIGHT MEDIA */}
           <div className="col-lg-6">
             {news.thumbnail ? (
               // ✅ Thumbnail Image
@@ -97,22 +87,26 @@ export default function Section1() {
               //   alt="news"
               //   style={{ width: "100%", borderRadius: "10px" }}
               // />
-            <img
-  src={news.thumbnail}
-  className="img-fluid"
-  alt="news"
-  style={{
-    width: "100%",
-    borderRadius: "10px",
-  }}
-/>
+              <img
+                src={news.thumbnail}
+                className="img-fluid"
+                alt="news"
+                style={{
+                  width: "100%",
+                  borderRadius: "10px",
+                }}
+              />
             ) : videoId ? (
-              // ✅ Responsive YouTube Video
-              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+              <div
+                style={{
+                  position: "relative",
+                  paddingBottom: "56.25%",
+                  height: 0,
+                }}
+              >
                 <iframe
                   src={`https://www.youtube.com/embed/${videoId}`}
                   title="YouTube video"
-                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   style={{
@@ -126,7 +120,6 @@ export default function Section1() {
                 ></iframe>
               </div>
             ) : (
-              // ✅ Default Image
               <img
                 src="/assets/imgs/page/img-28.png"
                 className="img-fluid"
@@ -135,22 +128,19 @@ export default function Section1() {
               />
             )}
           </div>
-
         </div>
       </div>
 
-      {/* CONTENT SECTION */}
-<div className="container mt-4">
-  <div className="col-lg-9 offset-lg-1">
-    <div
-      dangerouslySetInnerHTML={{
-        __html: news.content || "",
-      }}
-    />
-  </div>
-</div>
+      <div className="container mt-4">
+        <div className="col-lg-9 offset-lg-1">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: news.content || "",
+            }}
+          />
+        </div>
+      </div>
 
-      {/* CONTENT SECTION */}
       {/* <div className="container mt-4">
         <div className="col-lg-9 offset-lg-1">
           {news.content?.blocks?.map((block: any, idx: number) => {

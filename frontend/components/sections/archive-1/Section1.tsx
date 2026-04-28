@@ -45,10 +45,9 @@ export default async function Section1({ searchParams }: Section1Props) {
   let totalPages = 1;
 
   try {
-    // ✅ Dynamic API (with/without category)
-const url = categoryId
-  ? `https://api.iotaclasses.in/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
-  : `https://api.iotaclasses.in/api/news?page=${currentPage}&limit=${itemsPerPage}`;
+    const url = categoryId
+      ? `https://api.iotaclasses.in/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
+      : `https://api.iotaclasses.in/api/news?page=${currentPage}&limit=${itemsPerPage}`;
 
     const res = await fetch(url, { cache: "no-store" });
     const data = await res.json();
@@ -86,20 +85,22 @@ const url = categoryId
       : "#",
   }));
 
-  
   const ServerPagination = () => {
     const pages = [];
 
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
-        <li key={i} className={`page-item ${i === currentPage ? "active" : ""}`}>
+        <li
+          key={i}
+          className={`page-item ${i === currentPage ? "active" : ""}`}
+        >
           <Link
             href={`/archive-1?page=${i}${categoryId ? `&category=${categoryId}` : ""}`}
             className="page-link icon-lg pagination_item rounded-circle icon-shape fs-18 fw-semi-bold"
           >
             {i}
           </Link>
-        </li>
+        </li>,
       );
     }
 
@@ -137,7 +138,6 @@ const url = categoryId
   return (
     <section className="sec-1-archive-1">
       <div className="container">
-
         {/* ✅ News List */}
         <div className="row mt-4 g-4">
           {cards.length > 0 ? (
@@ -157,7 +157,6 @@ const url = categoryId
             <ServerPagination />
           </div>
         </div>
-
       </div>
     </section>
   );

@@ -46,7 +46,7 @@ export default function ArticleCard12({ card, idx }: CardProps) {
                         <Link href={card.linkPost}>
                             <h4 className="card-title mb-0 mt-3 text-truncate-2">{card.title}</h4>
                         </Link>
-                        <p className="card-text text-600 fs-7 mb-0 mt-3 text-truncate-3">{card.description}</p>
+                        {/* <p className="card-text text-600 fs-7 mb-0 mt-3 text-truncate-3">{card.description}</p> */}
                         <div className="bottom mt-auto d-flex flex-wrap align-items-center gap-2 pt-5">
                             <Link href={card.linkAuthor} className="author d-flex align-items-center gap-2">
                                 <img className="avatar avatar-md rounded-circle" src={card.imgAuthor} alt="magzin" width={500} height={500} />
