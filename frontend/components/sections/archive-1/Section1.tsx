@@ -61,9 +61,10 @@ const url = categoryId
 
   const cards: CardType[] = news.map((item) => ({
     title: item.title,
-    img: item.thumbnail
-      ? `https://api.iotaclasses.in/uploads/images/${item.thumbnail}`
-      : "/assets/imgs/default.jpg",
+    img: item.thumbnail || "/assets/imgs/default.jpg",
+    // img: item.thumbnail
+    //   ? `https://api.iotaclasses.in/uploads/images/${item.thumbnail}`
+    //   : "/assets/imgs/default.jpg",
 
     description: item.subtitle || "",
     // linkPost: `/news/${item.slug}`,

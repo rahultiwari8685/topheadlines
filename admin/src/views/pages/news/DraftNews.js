@@ -227,17 +227,46 @@ const DraftNews = () => {
           </CTableBody>
         </CTable>
 
-        <div className="d-flex justify-content-end mt-3">
-          <CPagination align="end">
-            {[...Array(totalPages)].map((_, idx) => (
-              <CPaginationItem
-                key={idx + 1}
-                active={currentPage === idx + 1}
-                onClick={() => setCurrentPage(idx + 1)}
-              >
-                {idx + 1}
-              </CPaginationItem>
-            ))}
+        <div className="d-flex justify-content-center mt-4">
+          <CPagination align="center">
+            {/* Previous Button */}
+            <CPaginationItem
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </CPaginationItem>
+
+            {/* Dynamic Page Numbers */}
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(
+                (page) =>
+                  page === 1 ||
+                  page === totalPages ||
+                  (page >= currentPage - 2 && page <= currentPage + 2),
+              )
+              .map((page, idx, arr) => (
+                <React.Fragment key={page}>
+                  {idx > 0 && page - arr[idx - 1] > 1 && (
+                    <CPaginationItem disabled>...</CPaginationItem>
+                  )}
+
+                  <CPaginationItem
+                    active={currentPage === page}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </CPaginationItem>
+                </React.Fragment>
+              ))}
+
+            {/* Next Button */}
+            <CPaginationItem
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </CPaginationItem>
           </CPagination>
         </div>
       </CCardBody>
