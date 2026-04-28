@@ -209,8 +209,8 @@ const DraftNews = () => {
                     >
                       <CIcon icon={cilPencil} /> Edit
                     </CButton>{' '}
-                    {userRole === 'admin' ||
-                      (userRole === 'editor' && (
+                    {userRole === 1 ||
+                      (userRole === 2 && (
                         <CButton
                           size="sm"
                           color="danger"
