@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import setting from "@/setting.json";
 import Image from "next/image";
 import Link from "next/link";
 import ArticleCard10 from "@/components/cards/ArticleCard10";
@@ -7,6 +11,50 @@ import cardCollections from "@/public/data/cardHome-1.json";
 
 export default function SideBarServer() {
   const cardSideBarData = cardCollections.cardSideBar;
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+
+    fetch(setting.api + "/api/news/getAllNews")
+      .then((res) => res.json())
+      .then((u) => {
+        if (u.status !== false) {
+          // ✅ FILTER TEXT NEWS ONLY
+          const textNews = u.data.filter((item: any) => !item.youtubeUrl);
+
+          // ✅ DYNAMIC POPULAR POSTS
+          const dynamicPopularPosts = textNews.slice(0, 4).map((item: any) => ({
+            fontSize: "fs-7",
+
+            style: "style-2",
+
+            img: item.thumbnail || "/assets/imgs/default.jpg",
+
+            link: `/single-2?slug=${item.slug}`,
+
+            title: item.title || "No Title",
+
+            date: new Date(item.createdAt).toDateString(),
+
+            time: "6 mins read",
+          }));
+
+          // ✅ KEEP EXISTING STATE
+          setData((prev: any) => ({
+            ...prev,
+
+            cardSideBar: dynamicPopularPosts,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <>
@@ -56,7 +104,7 @@ export default function SideBarServer() {
         <div className="block-popular">
           <h5>Popular posts</h5>
           <div className="d-flex flex-column gap-2">
-            {cardSideBarData.map((card, idx) => (
+            {data.map((card, idx) => (
               <ArticleCard10 key={idx} card={card} idx={idx} />
             ))}
           </div>
