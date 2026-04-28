@@ -29,11 +29,13 @@ export default function Section5() {
             linkAuthor: "#",
             linkComment: "#",
 
-            img: item.thumbnail
-              ? `${setting.api}/uploads/images/${item.thumbnail}`
-              : "/assets/imgs/page/img-66.png",
+            img: item.thumbnail || "/assets/imgs/page/img-66.png",
 
-                       badge: item.categories?.[0]?.name || "News",
+            // img: item.thumbnail
+            //   ? `${setting.api}/uploads/images/${item.thumbnail}`
+            //   : "/assets/imgs/page/img-66.png",
+
+            badge: item.categories?.[0]?.name || "News",
 
             bgBadge: `bg-${(idx % 5) + 1}`,
 

@@ -32,9 +32,10 @@ export default function Section1({ classList }: any) {
               linkAuthor: "#",
               linkComment: "#",
 
-              img: item.thumbnail
-                ? `${setting.api}/uploads/images/${item.thumbnail}`
-                : "",
+              // img: item.thumbnail
+              //   ? `${setting.api}/uploads/images/${item.thumbnail}`
+              //   : "",
+              img: item.thumbnail || "",
 
               videoUrl: videoId
                 ? `https://www.youtube.com/embed/${videoId}`
