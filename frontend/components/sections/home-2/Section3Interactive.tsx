@@ -11,7 +11,7 @@ import setting from "@/setting.json";
 const tabList = [
   { id: "tab1", label: "Entertainment", slug: "Entertainment" },
   { id: "tab2", label: "Environment", slug: "Environment" },
-  { id: "tab3", label: "World News", slug: "World News" },
+  { id: "tab3", label: "World News", slug: "World" },
   { id: "tab4", label: "Education", slug: "Education" },
   { id: "tab5", label: "Lifestyle", slug: "Lifestyle" },
   { id: "tab6", label: "Beauty", slug: "Beauty" },
@@ -44,6 +44,7 @@ export default function Section3Interactive() {
 
   const boxSwiperPaddingRef = useRef<HTMLDivElement>(null);
 
+  // ✅ FETCH NEWS
   useEffect(() => {
     setLoading(true);
 
@@ -64,6 +65,7 @@ export default function Section3Interactive() {
       .finally(() => setLoading(false));
   }, []);
 
+  // ✅ SWIPER SETTINGS
   const swiperParams = {
     slidesPerView: 2,
     spaceBetween: 20,
@@ -91,19 +93,26 @@ export default function Section3Interactive() {
   };
 
   // ✅ ACTIVE CATEGORY
-  const activeCategory = tabList.find((tab) => tab.id === activeTab)?.slug;
+  const activeCategory =
+    tabList.find((tab) => tab.id === activeTab)?.slug || "";
 
+  // ✅ FILTER CATEGORY NEWS
   const currentTabData: CardType[] = allNews
+
     .filter((item: any) =>
-      item.categories?.some(
-        (cat: any) => cat.name.toLowerCase() === activeCategory?.toLowerCase(),
+      item.categories?.some((cat: any) =>
+        cat.name?.toLowerCase().includes(activeCategory.toLowerCase()),
       ),
     )
+
     .slice(0, 10)
+
     .map((item: any, idx: number) => ({
       linkPost: `/single-2?slug=${item.slug}`,
 
-      img: item.thumbnail || "/assets/imgs/page/img-1.png",
+      img: item.thumbnail
+        ? `${setting.api}/uploads/images/${item.thumbnail}`
+        : "/assets/imgs/page/img-1.png",
 
       title: item.title || "No Title",
 
@@ -128,8 +137,8 @@ export default function Section3Interactive() {
 
   return (
     <div className="row">
+      {/* ✅ LEFT TABS */}
       <div className="col-lg-3">
-        {/* ✅ TABS */}
         <ul className="nav nav-tabs d-flex flex-lg-column flex-row flex-wrap ps-0 ps-lg-5">
           {tabList.map((tab) => (
             <li className="nav-item" key={tab.id}>
@@ -151,16 +160,22 @@ export default function Section3Interactive() {
         </ul>
       </div>
 
+      {/* ✅ RIGHT CONTENT */}
       <div className="col-lg-9">
-        {/* ✅ SWIPER */}
         <div className="box-swiper-padding" ref={boxSwiperPaddingRef}>
-          <SwiperDynamic className="swiper slider-3" {...swiperParams}>
-            {currentTabData.map((card, idx) => (
-              <div key={idx}>
-                <ArticleCard7 card={card} idx={idx} />
-              </div>
-            ))}
-          </SwiperDynamic>
+          {loading ? (
+            <div className="text-center py-5">Loading...</div>
+          ) : currentTabData.length > 0 ? (
+            <SwiperDynamic className="swiper slider-3" {...swiperParams}>
+              {currentTabData.map((card, idx) => (
+                <div key={idx}>
+                  <ArticleCard7 card={card} idx={idx} />
+                </div>
+              ))}
+            </SwiperDynamic>
+          ) : (
+            <div className="text-center py-5">No Posts Found</div>
+          )}
         </div>
       </div>
     </div>
