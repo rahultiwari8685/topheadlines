@@ -139,9 +139,9 @@ export default function ArticleCard7({ card, idx }: CardProps) {
             </div>
 
             {/* ✅ DESCRIPTION */}
-            <p className="card-text text-600 fs-7 mb-0 mt-4 pe-5 text-truncate-3">
+            {/* <p className="card-text text-600 fs-7 mb-0 mt-4 pe-5 text-truncate-3">
               {card.description}
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
