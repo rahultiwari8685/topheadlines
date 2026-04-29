@@ -36,7 +36,7 @@ export default function ArticleCard11({ card, idx }: Props) {
                 src={card.videoUrl}
                 width="100%"
                 height="250"
-                allow="autoplay"
+                allow="autoplay; encrypted-media"
                 allowFullScreen
               />
             ) : (
@@ -51,6 +51,7 @@ export default function ArticleCard11({ card, idx }: Props) {
             {card.badge}
           </Link>
         </div>
+
         <div className="card-body">
           <div className="card-corner">
             <Link href={card.linkPost} className="arrow-box">
@@ -80,6 +81,7 @@ export default function ArticleCard11({ card, idx }: Props) {
             <div className="curve-one" />
             <div className="curve-two" />
           </div>
+
           <div className="left pe-5">
             <Link href={card.linkPost}>
               <h5 className="card-title mb-0 text-truncate-2">{card.title}</h5>
@@ -101,11 +103,13 @@ export default function ArticleCard11({ card, idx }: Props) {
                 />
                 <span className="fs-7 text-dark fw-regular">{card.author}</span>
               </Link>
+
               <ul className="d-flex align-items-center gap-4 text-600 m-0 ps-3">
                 <li>
                   <p className="fs-8 m-0">{card.date}</p>
                 </li>
               </ul>
+
               <div className="ms-md-auto ms-5 d-flex align-items-center gap-3 me-5">
                 <Link href={card.linkComment} className="comment fs-8">
                   <svg
