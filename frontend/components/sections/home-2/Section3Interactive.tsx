@@ -127,9 +127,11 @@ export default function Section3Interactive() {
     .map((item: any, idx: number) => ({
       linkPost: `/single-2?slug=${item.slug}`,
 
-      img: item.thumbnail
-        ? `${setting.api}/uploads/images/${item.thumbnail}`
-        : "/assets/imgs/page/img-1.png",
+      // img: item.thumbnail
+      //   ? `${setting.api}/uploads/images/${item.thumbnail}`
+      //   : "/assets/imgs/page/img-1.png",
+
+      img: item.thumbnail || "/assets/imgs/page/img-1.png",
 
       title: item.title || "No Title",
 
@@ -157,7 +159,7 @@ export default function Section3Interactive() {
       {/* ✅ LEFT CATEGORY TABS */}
       <div className="col-lg-3">
         <ul className="nav nav-tabs d-flex flex-lg-column flex-row flex-wrap ps-0 ps-lg-5">
-          {categories.map((tab) => (
+          {categories.slice(0, 10).map((tab) => (
             <li className="nav-item" key={tab.id}>
               <a
                 href="#"
