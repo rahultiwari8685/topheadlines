@@ -8,15 +8,11 @@ import { useTabs } from "@/util/useTabs";
 
 import setting from "@/setting.json";
 
-const tabList = [
-  { id: "tab1", label: "Entertainment", slug: "Entertainment" },
-  { id: "tab2", label: "Environment", slug: "Environment" },
-  { id: "tab3", label: "World News", slug: "World" },
-  { id: "tab4", label: "Education", slug: "Education" },
-  { id: "tab5", label: "Lifestyle", slug: "Lifestyle" },
-  { id: "tab6", label: "Beauty", slug: "Beauty" },
-  { id: "tab7", label: "Business", slug: "Business" },
-];
+type CategoryType = {
+  id: string;
+  label: string;
+  slug: string;
+};
 
 type CardType = {
   linkPost: string;
@@ -34,12 +30,9 @@ type CardType = {
 };
 
 export default function Section3Interactive() {
-  const { activeTab, switchTab } = useTabs(
-    "tab3",
-    tabList.map((t) => t.id),
-  );
-
   const [allNews, setAllNews] = useState<any[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [activeTab, setActiveTab] = useState("");
   const [loading, setLoading] = useState(false);
 
   const boxSwiperPaddingRef = useRef<HTMLDivElement>(null);
@@ -52,15 +45,43 @@ export default function Section3Interactive() {
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-          setAllNews(u.data || []);
+          const newsData = u.data || [];
+
+          setAllNews(newsData);
+
+          // ✅ GET UNIQUE CATEGORIES
+          const uniqueCategories: CategoryType[] = [];
+
+          newsData.forEach((item: any, index: number) => {
+            item.categories?.forEach((cat: any) => {
+              const exists = uniqueCategories.find((c) => c.slug === cat.name);
+
+              if (!exists) {
+                uniqueCategories.push({
+                  id: `tab${index}-${cat._id || cat.name}`,
+                  label: cat.name,
+                  slug: cat.name,
+                });
+              }
+            });
+          });
+
+          setCategories(uniqueCategories);
+
+          // ✅ DEFAULT ACTIVE TAB
+          if (uniqueCategories.length > 0) {
+            setActiveTab(uniqueCategories[0].slug);
+          }
         } else {
           setAllNews([]);
+          setCategories([]);
         }
       })
       .catch((err) => {
         console.log("API Error:", err);
 
         setAllNews([]);
+        setCategories([]);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -92,16 +113,12 @@ export default function Section3Interactive() {
     },
   };
 
-  // ✅ ACTIVE CATEGORY
-  const activeCategory =
-    tabList.find((tab) => tab.id === activeTab)?.slug || "";
-
-  // ✅ FILTER CATEGORY NEWS
+  // ✅ FILTER POSTS BY CATEGORY
   const currentTabData: CardType[] = allNews
 
     .filter((item: any) =>
-      item.categories?.some((cat: any) =>
-        cat.name?.toLowerCase().includes(activeCategory.toLowerCase()),
+      item.categories?.some(
+        (cat: any) => cat.name?.toLowerCase() === activeTab.toLowerCase(),
       ),
     )
 
@@ -137,21 +154,18 @@ export default function Section3Interactive() {
 
   return (
     <div className="row">
-      {/* ✅ LEFT TABS */}
+      {/* ✅ LEFT CATEGORY TABS */}
       <div className="col-lg-3">
         <ul className="nav nav-tabs d-flex flex-lg-column flex-row flex-wrap ps-0 ps-lg-5">
-          {tabList.map((tab) => (
+          {categories.map((tab) => (
             <li className="nav-item" key={tab.id}>
               <a
                 href="#"
-                className={`nav-link${activeTab === tab.id ? " active" : ""}`}
+                className={`nav-link${activeTab === tab.slug ? " active" : ""}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  switchTab(tab.id);
+                  setActiveTab(tab.slug);
                 }}
-                role="tab"
-                aria-selected={activeTab === tab.id}
-                tabIndex={activeTab === tab.id ? 0 : -1}
               >
                 {tab.label}
               </a>
@@ -160,7 +174,7 @@ export default function Section3Interactive() {
         </ul>
       </div>
 
-      {/* ✅ RIGHT CONTENT */}
+      {/* ✅ POSTS */}
       <div className="col-lg-9">
         <div className="box-swiper-padding" ref={boxSwiperPaddingRef}>
           {loading ? (
