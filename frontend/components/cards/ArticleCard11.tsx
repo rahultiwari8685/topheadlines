@@ -43,7 +43,7 @@ export default function ArticleCard11({ card, idx }: Props) {
               <iframe
                 className="rounded-4 w-100"
                 height="500"
-                src={`${card.videoUrl}?autoplay=1&mute=0&playsinline=1&rel=0&enablejsapi=1`}
+                src={`${card.videoUrl}?autoplay=1&mute=1&playsinline=1&rel=0&enablejsapi=1`}
                 title={card.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
