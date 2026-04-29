@@ -1,12 +1,64 @@
+"use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ArticleCard10 from "@/components/cards/ArticleCard10";
 import SideBarInteractive from "./SideBarInteractive";
 import SwiperDynamic from "@/components/shared/SwiperDynamic";
 import cardCollections from "@/public/data/cardHome-1.json";
+import setting from "@/setting.json";
 
 export default function SideBarServer() {
   const cardSideBarData = cardCollections.cardSideBar;
+
+  const [loading, setLoading] = useState(false);
+
+  const [cardSideBar, setCardSideBar] = useState<any[]>([]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    fetch(setting.api + "/api/news/getAllNews")
+      .then((res) => res.json())
+      .then((u) => {
+        if (u.status !== false) {
+          // ✅ FILTER TEXT NEWS
+          const textNews = u.data.filter((item: any) => !item.youtubeUrl);
+
+          // ✅ DYNAMIC POPULAR POSTS
+          const formattedSidebar = textNews.slice(0, 4).map((item: any) => ({
+            fontSize: "fs-7",
+
+            style: "style-2",
+
+            img: item.thumbnail || "/assets/imgs/other/img-other-4.png",
+
+            // If uploads folder image use this:
+            // img: item.thumbnail
+            // ? `${setting.api}/uploads/images/${item.thumbnail}`
+            // : "/assets/imgs/other/img-other-4.png",
+
+            link: `/single-2?slug=${item.slug}`,
+
+            title: item.title || "No Title",
+
+            date: new Date(item.createdAt).toDateString(),
+
+            time: "6 mins read",
+          }));
+
+          setCardSideBar(formattedSidebar);
+        } else {
+          setCardSideBar([]);
+        }
+      })
+      .catch((err) => {
+        console.log("API Error:", err);
+
+        setCardSideBar([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <>
@@ -55,8 +107,8 @@ export default function SideBarServer() {
 
         <div className="block-popular">
           <h5>Popular posts</h5>
-          <div className="d-flex flex-column gap-2">
-            {cardSideBarData.map((card, idx) => (
+          <div className="popular-posts">
+            {cardSideBar.map((card, idx) => (
               <ArticleCard10 key={idx} card={card} idx={idx} />
             ))}
           </div>
