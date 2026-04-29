@@ -32,13 +32,22 @@ export default function ArticleCard11({ card, idx }: Props) {
         <div className="card-img-top thumbnail">
           <Link href={`/single-2?slug=${card.slug || ""}`}>
             {card.hasVideo ? (
+              // <iframe
+              //   src={card.videoUrl}
+              //   width="100%"
+              //   height="250"
+              //   allow="autoplay; encrypted-media"
+              //   allowFullScreen
+              // />
+
               <iframe
-                src={card.videoUrl}
-                width="100%"
-                height="250"
-                allow="autoplay; encrypted-media"
+                className="rounded-4 w-100"
+                height="500"
+                src={`${card.videoUrl}?autoplay=1&mute=1&playsinline=1&rel=0&enablejsapi=1`}
+                title={card.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-              />
+              ></iframe>
             ) : (
               <img
                 src={card.img || "/assets/imgs/page/img-28.png"}
