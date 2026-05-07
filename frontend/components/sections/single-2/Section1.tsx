@@ -88,7 +88,11 @@ export default function Section1() {
               //   style={{ width: "100%", borderRadius: "10px" }}
               // />
               <img
-                src={news.thumbnail}
+                src={
+                  news.thumbnail?.startsWith("http")
+                    ? news.thumbnail
+                    : `${setting.api}/uploads/images/${news.thumbnail}`
+                }
                 className="img-fluid"
                 alt="news"
                 style={{
@@ -133,11 +137,74 @@ export default function Section1() {
 
       <div className="container mt-4">
         <div className="col-lg-9 offset-lg-1">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: news.content || "",
-            }}
-          />
+          <div>
+            {(() => {
+              try {
+                const parsedContent =
+                  typeof news.content === "string"
+                    ? JSON.parse(news.content)
+                    : news.content;
+
+                // ✅ EditorJS Content
+                if (parsedContent?.blocks) {
+                  return parsedContent.blocks.map((block: any, idx: number) => {
+                    switch (block.type) {
+                      case "paragraph":
+                        return (
+                          <p
+                            key={idx}
+                            dangerouslySetInnerHTML={{
+                              __html: block.data.text,
+                            }}
+                          />
+                        );
+
+                      case "header":
+                        return (
+                          <h2
+                            key={idx}
+                            dangerouslySetInnerHTML={{
+                              __html: block.data.text,
+                            }}
+                          />
+                        );
+
+                      case "image":
+                        return (
+                          <img
+                            key={idx}
+                            src={block.data.file.url}
+                            className="img-fluid rounded mb-3"
+                            alt=""
+                          />
+                        );
+
+                      default:
+                        return null;
+                    }
+                  });
+                }
+
+                // ✅ Old HTML Content
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: news.content || "",
+                    }}
+                  />
+                );
+              } catch (err) {
+                // ✅ fallback old html
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: news.content || "",
+                    }}
+                  />
+                );
+              }
+            })()}
+          </div>
         </div>
       </div>
 
