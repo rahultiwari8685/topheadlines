@@ -10,8 +10,7 @@ export default function Section1({ classList }: any) {
   const [loading, setLoading] = useState(true);
 
   const getYouTubeId = (url: string) => {
-    const regExp =
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
+    const regExp = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
     const match = url?.match(regExp);
     return match ? match[1] : "";
   };
@@ -35,7 +34,10 @@ export default function Section1({ classList }: any) {
               // img: item.thumbnail
               //   ? `${setting.api}/uploads/images/${item.thumbnail}`
               //   : "",
-              img: item.thumbnail || "",
+              // img: item.thumbnail || "",
+              img: item.thumbnail?.startsWith("http")
+                ? item.thumbnail
+                : `${setting.api}/uploads/images/${item.thumbnail}`,
 
               videoUrl: videoId
                 ? `https://www.youtube.com/embed/${videoId}`
@@ -45,7 +47,7 @@ export default function Section1({ classList }: any) {
 
               youtubeUrl: item.youtubeUrl || "",
 
-            badge: item.categories?.[0]?.name || "News",
+              badge: item.categories?.[0]?.name || "News",
               bgBadge: "bg-2",
 
               title: item.title || "No Title",
@@ -73,7 +75,6 @@ export default function Section1({ classList }: any) {
       .finally(() => setLoading(false));
   }, []);
 
-
   const textNews = blogs.filter((item) => !item.youtubeUrl);
   const videoNews = blogs.filter((item) => item.youtubeUrl);
 
@@ -88,7 +89,6 @@ export default function Section1({ classList }: any) {
     >
       <div className="container">
         <div className="row mt-2 g-4">
-
           {/* 🔥 1st Column (Featured News) */}
           {videoNews.slice(0, 1).map((card, idx) => (
             <div className="col-lg-6" key={idx}>
@@ -117,7 +117,6 @@ export default function Section1({ classList }: any) {
               ))}
             </div>
           </div>
-
         </div>
       </div>
     </section>

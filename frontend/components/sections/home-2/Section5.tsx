@@ -17,39 +17,44 @@ export default function Section5() {
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-
           // ✅ FILTER TEXT NEWS (youtubeUrl empty)
-          const textNews = u.data.filter(
-            (item: any) => !item.youtubeUrl
-          );
+          const textNews = u.data.filter((item: any) => !item.youtubeUrl);
 
-          const formattedData = textNews.slice(0, 5).map((item: any, idx: number) => ({
-            linkPost: `/single-2?slug=${item.slug}`,
-            linkBadge: "#",
-            linkAuthor: "#",
-            linkComment: "#",
+          const formattedData = textNews
+            .slice(0, 5)
+            .map((item: any, idx: number) => ({
+              linkPost: `/single-2?slug=${item.slug}`,
+              linkBadge: "#",
+              linkAuthor: "#",
+              linkComment: "#",
 
-            img: item.thumbnail || "/assets/imgs/page/img-66.png",
+              // img: item.thumbnail || "/assets/imgs/page/img-66.png",
 
-            // img: item.thumbnail
-            //   ? `${setting.api}/uploads/images/${item.thumbnail}`
-            //   : "/assets/imgs/page/img-66.png",
+              img: item.thumbnail
+                ? item.thumbnail.startsWith("http")
+                  ? item.thumbnail
+                  : `${setting.api}/uploads/images/${item.thumbnail}`
+                : "/assets/imgs/page/img-66.png",
 
-            badge: item.categories?.[0]?.name || "News",
+              // img: item.thumbnail
+              //   ? `${setting.api}/uploads/images/${item.thumbnail}`
+              //   : "/assets/imgs/page/img-66.png",
 
-            bgBadge: `bg-${(idx % 5) + 1}`,
+              badge: item.categories?.[0]?.name || "News",
 
-            title: item.title || "No Title",
-            description: item.subtitle || "No Description",
+              bgBadge: `bg-${(idx % 5) + 1}`,
 
-            imgAuthor: "/assets/imgs/template/author/author-1.png",
-            author: "Admin",
+              title: item.title || "No Title",
+              description: item.subtitle || "No Description",
 
-            date: new Date(item.createdAt).toDateString(),
+              imgAuthor: "/assets/imgs/template/author/author-1.png",
+              author: "Admin",
 
-            comment: "0",
-            readNum: "0",
-          }));
+              date: new Date(item.createdAt).toDateString(),
+
+              comment: "0",
+              readNum: "0",
+            }));
 
           setBlogs(formattedData);
         } else {
@@ -70,7 +75,6 @@ export default function Section5() {
   return (
     <section className="sec-5-home-2 sec-padding overflow-hidden">
       <div className="container">
-
         {/* Title */}
         <div className="row">
           <div className="col-12">
@@ -89,7 +93,6 @@ export default function Section5() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

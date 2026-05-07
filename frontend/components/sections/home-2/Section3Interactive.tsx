@@ -131,7 +131,12 @@ export default function Section3Interactive() {
       //   ? `${setting.api}/uploads/images/${item.thumbnail}`
       //   : "/assets/imgs/page/img-1.png",
 
-      img: item.thumbnail || "/assets/imgs/page/img-1.png",
+      // img: item.thumbnail || "/assets/imgs/page/img-1.png",
+      img: item.thumbnail
+        ? item.thumbnail.startsWith("http")
+          ? item.thumbnail
+          : `${setting.api}/uploads/images/${item.thumbnail}`
+        : "/assets/imgs/page/img-1.png",
 
       title: item.title || "No Title",
 
