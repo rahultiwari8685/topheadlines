@@ -41,7 +41,13 @@ export default function Single_2() {
             .map((item: any) => ({
               cornerBgColor: "white",
 
-              img: item.thumbnail || "/assets/imgs/other/img-other-9.png",
+              // img: item.thumbnail || "/assets/imgs/other/img-other-9.png",
+
+              img: item.thumbnail
+                ? item.thumbnail.startsWith("http")
+                  ? item.thumbnail
+                  : `${setting.api}/uploads/images/${item.thumbnail}`
+                : "/assets/imgs/other/img-other-9.png",
 
               // If using uploads folder:
               // img: item.thumbnail
