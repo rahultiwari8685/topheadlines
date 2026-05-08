@@ -161,6 +161,7 @@ const News = () => {
 
       if (result.status) {
         alert(editingNews ? 'News updated!' : 'News created!')
+        navigate('/news/PublishedNews')
 
         reset({
           title: '',
@@ -169,6 +170,7 @@ const News = () => {
           categories: [],
           videoType: '',
           type: '',
+          slug: '',
           youtubeUrl: '',
           thumbnail: null,
         })

@@ -5,8 +5,6 @@ export const createNews = async (req, res) => {
   try {
     const { title, sub_title, video_type, type, youtube_url, content } =
       req.body;
-
-    // ✅ SAFE CATEGORY PARSE
     let categories = [];
 
     try {
@@ -15,7 +13,6 @@ export const createNews = async (req, res) => {
       categories = [];
     }
 
-    // ✅ CONVERT TO OBJECTID
     categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
     const news = await News.create({
@@ -30,8 +27,6 @@ export const createNews = async (req, res) => {
       type,
 
       youtubeUrl: youtube_url || "",
-
-      // ✅ HTML STRING
       content: content || "",
 
       thumbnail: req.file?.filename || "",
