@@ -3,7 +3,7 @@ import News from "../models/News.js";
 
 export const createNews = async (req, res) => {
   try {
-    const { title, sub_title, video_type, type, youtube_url, content } =
+    const { title, sub_title, video_type, type, youtube_url, content, author } =
       req.body;
     let categories = [];
 
@@ -19,6 +19,7 @@ export const createNews = async (req, res) => {
       title,
 
       subtitle: sub_title,
+      author: req.author,
 
       categories,
 
