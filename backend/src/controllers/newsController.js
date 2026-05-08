@@ -20,7 +20,8 @@ export const createNews = async (req, res) => {
       title,
       subtitle: sub_title,
 
-      author: req.author,
+      // author: req.author,
+      author: req.body.author,
 
       categories,
 
