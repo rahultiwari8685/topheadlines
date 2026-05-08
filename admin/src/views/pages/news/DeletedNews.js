@@ -44,7 +44,11 @@ const DeletedNews = () => {
       })
 
       const data = await res.json()
-      setNewsList(data.data || [])
+
+      // Show only type = 0 news
+      const filteredNews = (data.data || []).filter((item) => Number(item.type) === 0)
+
+      setNewsList(filteredNews)
     } catch (error) {
       console.error('Error fetching news:', error)
     }
@@ -121,12 +125,16 @@ const DeletedNews = () => {
     }
   }
 
-  const filteredNews = newsList.filter((news) =>
-    news.title.toLowerCase().includes(searchText.toLowerCase()),
+  const filteredNews = newsList.filter(
+    (news) =>
+      Number(news.type) === 0 && news.title.toLowerCase().includes(searchText.toLowerCase()),
   )
 
-  const totalPages = Math.ceil(newsList.length / itemsPerPage)
-  const paginatedItems = newsList.slice(
+  // Total pages from filtered data
+  const totalPages = Math.ceil(filteredNews.length / itemsPerPage)
+
+  // Pagination from filtered data
+  const paginatedItems = filteredNews.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   )
