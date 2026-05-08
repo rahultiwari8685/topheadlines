@@ -53,7 +53,6 @@ const PublishedNews = () => {
       const oneMonthAgo = new Date()
       oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
 
-      // latest 1 month news
       const filteredNews = (data.data || []).filter((item) => {
         const newsDate = new Date(item.createdAt)
 
