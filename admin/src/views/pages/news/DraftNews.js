@@ -93,11 +93,17 @@ const DraftNews = () => {
 
       const data = await res.json()
 
-      // Date before 3 months
-      const threeMonthsAgo = new Date()
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+      // Current date
+      const currentDate = new Date()
 
-      // Show only type = 2 and latest 3 months news
+      // Date before 3 months
+      const threeMonthsAgo = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 3,
+        currentDate.getDate(),
+      )
+
+      // Filter type = 2 and latest 3 months
       const filteredNews = (data.data || []).filter((item) => {
         const newsDate = new Date(item.createdAt)
 
