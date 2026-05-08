@@ -3,8 +3,9 @@ import News from "../models/News.js";
 
 export const createNews = async (req, res) => {
   try {
-    const { title, sub_title, video_type, type, youtube_url, content, author } =
+    const { title, sub_title, video_type, type, youtube_url, content } =
       req.body;
+
     let categories = [];
 
     try {
@@ -15,10 +16,10 @@ export const createNews = async (req, res) => {
 
     categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
-    const news = await News.create({
+    const createdNews = await News.create({
       title,
-
       subtitle: sub_title,
+
       author: req.author,
 
       categories,
@@ -28,10 +29,16 @@ export const createNews = async (req, res) => {
       type,
 
       youtubeUrl: youtube_url || "",
+
       content: content || "",
 
       thumbnail: req.file?.filename || "",
     });
+
+    // populate author after create
+    const news = await News.findById(createdNews._id)
+      .populate("author", "name email")
+      .populate("categories", "name");
 
     return res.status(201).json({
       status: true,
