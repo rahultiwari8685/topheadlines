@@ -8,13 +8,13 @@ export default function Ads_sm() {
           className="banner-ads"
           data-background="/assets/imgs/page/bg-archive1.png"
         >
-          <Image
+          {/* <Image
             src="/assets/imgs/template/logo/logo-gradient-sm.svg"
             width={70}
             height={10}
             alt="magzin"
             priority={true}
-          />
+          /> */}
           <h4 className="mt-3 fs-5">
             Top Headlines &amp; News <br className="d-none d-lg-block" />
             theme with <span>Outstanding</span> performance
