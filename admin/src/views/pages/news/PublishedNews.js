@@ -203,7 +203,7 @@ const PublishedNews = () => {
                       : '-'}
                   </CTableDataCell>
 
-                  <CTableDataCell>{getUserName(news.user_id)}</CTableDataCell>
+                  <CTableDataCell>{getUserName(news.author)}</CTableDataCell>
                   {/* <CTableDataCell>{new Date(news.created_at).toLocaleDateString()}</CTableDataCell> */}
 
                   <CTableDataCell>
