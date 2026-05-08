@@ -49,10 +49,7 @@ export default function Single_2() {
                   : `${setting.api}/uploads/images/${item.thumbnail}`
                 : "/assets/imgs/other/img-other-9.png",
 
-              // If using uploads folder:
-              // img: item.thumbnail
-              // ? `${setting.api}/uploads/images/${item.thumbnail}`
-              // : "/assets/imgs/other/img-other-9.png",
+             
 
               linkBadge: "#",
 
