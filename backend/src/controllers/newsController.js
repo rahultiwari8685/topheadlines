@@ -59,6 +59,7 @@ export const createNews = async (req, res) => {
 export const getNews = async (req, res) => {
   try {
     const news = await News.find()
+      .populate("author", "name email")
       .populate("categories", "name")
       .sort({ createdAt: -1 });
 
@@ -73,6 +74,24 @@ export const getNews = async (req, res) => {
     });
   }
 };
+
+// export const getNews = async (req, res) => {
+//   try {
+//     const news = await News.find()
+//       .populate("categories", "name")
+//       .sort({ createdAt: -1 });
+
+//     return res.status(200).json({
+//       status: true,
+//       data: news,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       status: false,
+//       message: error.message,
+//     });
+//   }
+// };
 
 export const getAllNewsByCategory = async (req, res) => {
   try {
