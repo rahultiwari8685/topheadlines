@@ -22,7 +22,7 @@ import {
 } from '@coreui/react'
 import secureLocalStorage from 'react-secure-storage'
 import EditorJSComponent from '../../../../../../igistrategy/admin/src/components/EditorJSComponent'
-
+import { useNavigate } from 'react-router-dom'
 const schema = yup.object().shape({
   title: yup.string().required('Title is required'),
   subtitle: yup.string().required('Subtitle is required'),
@@ -38,6 +38,7 @@ const News = () => {
 
   const [content, setContent] = useState({})
 
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -161,7 +162,6 @@ const News = () => {
 
       if (result.status) {
         alert(editingNews ? 'News updated!' : 'News created!')
-        navigate('/news/PublishedNews')
 
         reset({
           title: '',
@@ -175,6 +175,7 @@ const News = () => {
           thumbnail: null,
         })
         setEditingNews(null)
+        navigate('/news/PublishedNews')
       } else {
         alert(result.message || 'Failed to save news')
       }
