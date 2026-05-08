@@ -36,50 +36,6 @@ const DraftNews = () => {
 
   console.log('User role from storage:', userRole)
 
-  // const fetchNews = async () => {
-  //   try {
-  //     const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
-
-  //     const res = await fetch(setting.api + '/api/news/getAllNews', {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: 'Bearer ' + token,
-  //       },
-  //     })
-
-  //     const data = await res.json()
-
-  //     // ✅ FILTER only type = 1
-  //     const filteredNews = (data.data || []).filter((item) => item.type === 2)
-
-  //     setNewsList(filteredNews)
-  //   } catch (error) {
-  //     console.error('Error fetching news:', error)
-  //   }
-  // }
-
-  // const fetchNews = async () => {
-  //   try {
-  //     const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
-
-  //     const res = await fetch(setting.api + '/api/news/getAllNews', {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: 'Bearer ' + token,
-  //       },
-  //     })
-
-  //     const data = await res.json()
-
-  //     // Show only type = 2 news
-  //     const filteredNews = (data.data || []).filter((item) => Number(item.type) === 2)
-
-  //     setNewsList(filteredNews)
-  //   } catch (error) {
-  //     console.error('Error fetching news:', error)
-  //   }
-  // }
-
   const fetchNews = async () => {
     try {
       const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
@@ -96,19 +52,22 @@ const DraftNews = () => {
       // Current date
       const currentDate = new Date()
 
-      // Date before 3 months
+      // Last 3 months date
       const threeMonthsAgo = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() - 3,
         currentDate.getDate(),
       )
 
-      // Filter type = 2 and latest 3 months
-      const filteredNews = (data.data || []).filter((item) => {
-        const newsDate = new Date(item.createdAt)
+      // Filter only type = 2 and latest 3 months news
+      const filteredNews = (data.data || [])
+        .filter((item) => {
+          const newsDate = new Date(item.createdAt)
 
-        return Number(item.type) === 2 && newsDate >= threeMonthsAgo
-      })
+          return Number(item.type) === 2 && newsDate >= threeMonthsAgo
+        })
+        // Latest news first
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
       setNewsList(filteredNews)
     } catch (error) {
@@ -191,8 +150,9 @@ const DraftNews = () => {
     news.title.toLowerCase().includes(searchText.toLowerCase()),
   )
 
-  const totalPages = Math.ceil(newsList.length / itemsPerPage)
-  const paginatedItems = newsList.slice(
+  const totalPages = Math.ceil(filteredNews.length / itemsPerPage)
+
+  const paginatedItems = filteredNews.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   )
