@@ -58,6 +58,28 @@ const DraftNews = () => {
   //   }
   // }
 
+  // const fetchNews = async () => {
+  //   try {
+  //     const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
+
+  //     const res = await fetch(setting.api + '/api/news/getAllNews', {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: 'Bearer ' + token,
+  //       },
+  //     })
+
+  //     const data = await res.json()
+
+  //     // Show only type = 2 news
+  //     const filteredNews = (data.data || []).filter((item) => Number(item.type) === 2)
+
+  //     setNewsList(filteredNews)
+  //   } catch (error) {
+  //     console.error('Error fetching news:', error)
+  //   }
+  // }
+
   const fetchNews = async () => {
     try {
       const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
@@ -71,8 +93,16 @@ const DraftNews = () => {
 
       const data = await res.json()
 
-      // Show only type = 2 news
-      const filteredNews = (data.data || []).filter((item) => Number(item.type) === 2)
+      // Date before 3 months
+      const threeMonthsAgo = new Date()
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+
+      // Show only type = 2 and latest 3 months news
+      const filteredNews = (data.data || []).filter((item) => {
+        const newsDate = new Date(item.createdAt)
+
+        return Number(item.type) === 2 && newsDate >= threeMonthsAgo
+      })
 
       setNewsList(filteredNews)
     } catch (error) {
