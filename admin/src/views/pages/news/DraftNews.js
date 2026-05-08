@@ -49,25 +49,22 @@ const DraftNews = () => {
 
       const data = await res.json()
 
-      // Current date
-      const currentDate = new Date()
+      // Current time
+      const now = new Date().getTime()
 
-      // Last 3 months date
-      const threeMonthsAgo = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - 3,
-        currentDate.getDate(),
-      )
+      // 3 months in milliseconds
+      const threeMonths = 90 * 24 * 60 * 60 * 1000
 
-      // Filter only type = 2 and latest 3 months news
+      // Filter latest 3 months and type = 2
       const filteredNews = (data.data || [])
         .filter((item) => {
-          const newsDate = new Date(item.createdAt)
+          const newsTime = new Date(item.createdAt).getTime()
 
-          return Number(item.type) === 2 && newsDate >= threeMonthsAgo
+          return Number(item.type) === 2 && now - newsTime <= threeMonths
         })
-        // Latest news first
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
+      console.log('Filtered News:', filteredNews.length)
 
       setNewsList(filteredNews)
     } catch (error) {
