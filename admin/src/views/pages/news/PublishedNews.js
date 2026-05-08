@@ -49,23 +49,18 @@ const PublishedNews = () => {
 
       const data = await res.json()
 
-      // Get date of 1 month ago
+      // 1 month ago date
       const oneMonthAgo = new Date()
       oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
 
-      // Filter only type = 2 AND latest 1 month news
+      // latest 1 month news
       const filteredNews = (data.data || []).filter((item) => {
-        const newsDate = new Date(item.created_at)
+        const newsDate = new Date(item.createdAt)
 
-        return item.type === 2 && newsDate >= oneMonthAgo
+        return item.type === 1 && newsDate >= oneMonthAgo
       })
 
       setNewsList(filteredNews)
-
-      // ✅ FILTER only type = 1
-      // const filteredNews = (data.data || []).filter((item) => item.type === 2)
-
-      // setNewsList(filteredNews)
     } catch (error) {
       console.error('Error fetching news:', error)
     }
