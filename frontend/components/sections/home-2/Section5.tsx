@@ -48,7 +48,7 @@ export default function Section5() {
               description: item.subtitle || "No Description",
 
               imgAuthor: "/assets/imgs/template/author/author-1.png",
-              author: "Admin",
+              author: item.author?.name || "Admin",
 
               date: new Date(item.createdAt).toDateString(),
 
