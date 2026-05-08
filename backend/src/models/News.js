@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import slugify from "slugify";
 const newsSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
@@ -33,14 +33,12 @@ const newsSchema = new mongoose.Schema(
 
 newsSchema.pre("save", function (next) {
   if (this.title && !this.slug) {
-    this.slug = this.title
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^\w\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-");
+    this.slug = slugify(this.title, {
+      lower: true,
+      strict: false,
+      trim: true,
+      locale: "hi",
+    });
   }
 
   next();
