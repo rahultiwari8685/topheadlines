@@ -74,7 +74,7 @@ export default function Section1() {
                 style={{ borderRadius: "50%" }}
                 alt="author"
               />
-              <span>{news.author?.name || "Admin"}</span>
+              <span>{news.author || "Admin"}</span>
             </div>
           </div>
 
