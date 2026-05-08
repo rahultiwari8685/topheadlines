@@ -137,10 +137,9 @@ export const getAllNewsByCategory = async (req, res) => {
 
 export const getNewsBySlug = async (req, res) => {
   try {
-    const news = await News.findOne({ slug: req.params.slug }).populate(
-      "categories",
-      "name slug",
-    );
+    const news = await News.findOne({ slug: req.params.slug })
+      .populate("author", "name email")
+      .populate("categories", "name slug");
 
     if (!news) {
       return res.status(404).json({
@@ -151,7 +150,10 @@ export const getNewsBySlug = async (req, res) => {
 
     return res.status(200).json({
       status: true,
-      data: news,
+      data: {
+        ...news._doc,
+        author: news.author?.name || "Admin",
+      },
     });
   } catch (error) {
     return res.status(500).json({
