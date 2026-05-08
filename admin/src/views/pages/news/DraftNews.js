@@ -53,7 +53,7 @@ const DraftNews = () => {
       const now = new Date().getTime()
 
       // 3 months in milliseconds
-      const threeMonths = 30 * 24 * 60 * 60 * 1000
+      const threeMonths = 10 * 24 * 60 * 60 * 1000
 
       // Filter latest 3 months and type = 2
       const filteredNews = (data.data || [])

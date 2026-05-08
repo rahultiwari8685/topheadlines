@@ -71,11 +71,11 @@ export default function ArticleCard7({ card, idx }: CardProps) {
                 {card.badge2}
               </Link>
 
-              <ul className="d-flex align-items-center text-600 m-0 ps-3">
+              {/* <ul className="d-flex align-items-center text-600 m-0 ps-3">
                 <li>
                   <p className="fs-8 m-0">{card.readTime}</p>
                 </li>
-              </ul>
+              </ul> */}
 
               <Link href="#" className="book-mark ms-auto">
                 <svg
