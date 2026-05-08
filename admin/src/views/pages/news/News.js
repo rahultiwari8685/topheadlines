@@ -175,7 +175,7 @@ const News = () => {
           thumbnail: null,
         })
         setEditingNews(null)
-        navigate('/news/PublishedNews')
+        navigate('/PublishedNews')
       } else {
         alert(result.message || 'Failed to save news')
       }
