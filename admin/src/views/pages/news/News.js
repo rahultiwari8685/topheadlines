@@ -124,12 +124,17 @@ const News = () => {
     return null
   }
 
+  const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo'))
+
+  const author = loginInfo?.user?.id
+
   const saveNews = async (data) => {
     const formData = new FormData()
     formData.append('title', data.title)
     formData.append('sub_title', data.subtitle)
     formData.append('video_type', data.videoType)
     formData.append('type', data.type)
+    formData.append('author', author)
 
     formData.append('categories', JSON.stringify(data.categories))
 

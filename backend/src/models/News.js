@@ -7,6 +7,11 @@ const newsSchema = new mongoose.Schema(
 
     slug: { type: String, unique: true, sparse: true },
 
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
 
     content: { type: Object, default: {} },
@@ -30,10 +35,14 @@ newsSchema.pre("save", function (next) {
   if (this.title && !this.slug) {
     this.slug = this.title
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^\w\s-]/g, "")
       .trim()
-      .replace(/\s+/g, "-");
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
   }
+
   next();
 });
 
