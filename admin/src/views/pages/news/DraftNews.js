@@ -36,6 +36,28 @@ const DraftNews = () => {
 
   console.log('User role from storage:', userRole)
 
+  // const fetchNews = async () => {
+  //   try {
+  //     const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
+
+  //     const res = await fetch(setting.api + '/api/news/getAllNews', {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: 'Bearer ' + token,
+  //       },
+  //     })
+
+  //     const data = await res.json()
+
+  //     // ✅ FILTER only type = 1
+  //     const filteredNews = (data.data || []).filter((item) => item.type === 2)
+
+  //     setNewsList(filteredNews)
+  //   } catch (error) {
+  //     console.error('Error fetching news:', error)
+  //   }
+  // }
+
   const fetchNews = async () => {
     try {
       const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
@@ -49,8 +71,8 @@ const DraftNews = () => {
 
       const data = await res.json()
 
-      // ✅ FILTER only type = 1
-      const filteredNews = (data.data || []).filter((item) => item.type === 2)
+      // Show only type = 2 news
+      const filteredNews = (data.data || []).filter((item) => Number(item.type) === 2)
 
       setNewsList(filteredNews)
     } catch (error) {
