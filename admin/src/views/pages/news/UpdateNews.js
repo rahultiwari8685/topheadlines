@@ -157,7 +157,15 @@ const UpdateNews = () => {
       })
 
       if (selected.content) {
-        setContent(selected.content)
+        try {
+          const parsedContent =
+            typeof selected.content === 'string' ? JSON.parse(selected.content) : selected.content
+
+          setContent(parsedContent)
+        } catch (err) {
+          console.log('Content parse error:', err)
+          setContent({})
+        }
       }
 
       // ✅ OPTIONAL: Editor.js content set
