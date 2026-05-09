@@ -408,7 +408,7 @@ const UpdateNews = () => {
                                 alt="Preview"
                                 className="img-fluid rounded shadow"
                                 style={{
-                                  maxHeight: '200px',
+                                  maxHeight: '50px',
                                   objectFit: 'cover',
                                 }}
                               />
@@ -420,7 +420,7 @@ const UpdateNews = () => {
                                 alt="Current Thumbnail"
                                 className="img-fluid rounded shadow"
                                 style={{
-                                  maxHeight: '200px',
+                                  maxHeight: '50px',
                                   objectFit: 'cover',
                                 }}
                               />
