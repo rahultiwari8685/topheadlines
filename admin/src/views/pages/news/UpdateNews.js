@@ -383,6 +383,15 @@ const UpdateNews = () => {
                           <EditorJSComponent data={content} onChange={setContent} />
                         </div>
 
+                        {/* <CCol md={12} className="mb-3">
+                          <CFormInput
+                            type="file"
+                            label="Thumbnail"
+                            accept="image/*"
+                            {...register('thumbnail')}
+                          />
+                        </CCol> */}
+
                         <CCol md={12} className="mb-3">
                           <CFormInput
                             type="file"
@@ -390,6 +399,33 @@ const UpdateNews = () => {
                             accept="image/*"
                             {...register('thumbnail')}
                           />
+
+                          {/* Image Preview */}
+                          {formDataValues.thumbnail?.[0] ? (
+                            <div className="mt-3">
+                              <img
+                                src={URL.createObjectURL(formDataValues.thumbnail[0])}
+                                alt="Preview"
+                                className="img-fluid rounded shadow"
+                                style={{
+                                  maxHeight: '200px',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </div>
+                          ) : editingNews?.thumbnail ? (
+                            <div className="mt-3">
+                              <img
+                                src={`${setting.api}/uploads/images/${editingNews.thumbnail}`}
+                                alt="Current Thumbnail"
+                                className="img-fluid rounded shadow"
+                                style={{
+                                  maxHeight: '200px',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </div>
+                          ) : null}
                         </CCol>
                       </>
                     )}
