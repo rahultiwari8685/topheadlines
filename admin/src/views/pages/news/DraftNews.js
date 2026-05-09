@@ -49,13 +49,10 @@ const DraftNews = () => {
 
       const data = await res.json()
 
-      // Current time
       const now = new Date().getTime()
 
-      // 3 months in milliseconds
       const threeMonths = 10 * 24 * 60 * 60 * 1000
 
-      // Filter latest 3 months and type = 2
       const filteredNews = (data.data || [])
         .filter((item) => {
           const newsTime = new Date(item.createdAt).getTime()
