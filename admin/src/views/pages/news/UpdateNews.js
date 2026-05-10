@@ -137,7 +137,6 @@ const UpdateNews = () => {
 
       setEditingNews(selected)
 
-      // ✅ Prefill form (JS version)
       reset({
         title: selected.title || '',
         slug: selected.slug || '',
@@ -146,10 +145,8 @@ const UpdateNews = () => {
         type: selected.type ? String(selected.type) : '',
         videoType: selected.videoType ? String(selected.videoType) : '',
 
-        // ✅ FIXED (correct field name)
         youtubeUrl: selected.youtubeUrl || '',
 
-        // ✅ SAFE categories mapping
         categories: Array.isArray(selected.categories) ? selected.categories.map((c) => c._id) : [],
 
         videoFile: null,
@@ -167,11 +164,6 @@ const UpdateNews = () => {
           setContent({})
         }
       }
-
-      // ✅ OPTIONAL: Editor.js content set
-      // if (selected.content && window.editorInstance) {
-      //   window.editorInstance.render(selected.content)
-      // }
     } catch (error) {
       console.error('Error fetching news:', error)
     }

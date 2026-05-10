@@ -191,7 +191,6 @@ const DraftNews = () => {
               <CTableHeaderCell scope="col">Title</CTableHeaderCell>
               <CTableHeaderCell scope="col">Category</CTableHeaderCell>
               <CTableHeaderCell scope="col">Author</CTableHeaderCell>
-              {/* <CTableHeaderCell scope="col">Date</CTableHeaderCell> */}
               <CTableHeaderCell scope="col">Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
@@ -210,8 +209,6 @@ const DraftNews = () => {
                   </CTableDataCell>
 
                   <CTableDataCell>{getUserName(news.user_id)}</CTableDataCell>
-                  {/* <CTableDataCell>{new Date(news.created_at).toLocaleDateString()}</CTableDataCell> */}
-
                   <CTableDataCell>
                     <CButton
                       size="sm"
@@ -238,7 +235,6 @@ const DraftNews = () => {
 
         <div className="d-flex justify-content-center mt-4">
           <CPagination align="center">
-            {/* Previous Button */}
             <CPaginationItem
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(currentPage - 1)}
@@ -246,7 +242,6 @@ const DraftNews = () => {
               Previous
             </CPaginationItem>
 
-            {/* Dynamic Page Numbers */}
             {Array.from({ length: totalPages }, (_, i) => i + 1)
               .filter(
                 (page) =>
@@ -269,7 +264,6 @@ const DraftNews = () => {
                 </React.Fragment>
               ))}
 
-            {/* Next Button */}
             <CPaginationItem
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage(currentPage + 1)}

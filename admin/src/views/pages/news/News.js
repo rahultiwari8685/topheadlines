@@ -241,6 +241,7 @@ const News = () => {
                   )}
                 </CCol>
               </CRow>
+
               <CRow>
                 <CCol md={12}>
                   <p className="mb-2 ">Select Categories</p>
@@ -362,6 +363,7 @@ const News = () => {
           <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
             <h5 className="mb-0">Live Preview</h5>
           </CCardHeader>
+
           <CCardBody>
             {formDataValues.title && (
               <p>
