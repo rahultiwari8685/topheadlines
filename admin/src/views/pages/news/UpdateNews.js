@@ -66,6 +66,24 @@ const UpdateNews = () => {
     },
   })
 
+  const getYouTubeId = (url) => {
+    try {
+      const parsedUrl = new URL(url)
+      if (parsedUrl.hostname === 'youtu.be') {
+        return parsedUrl.pathname.slice(1)
+      }
+      if (parsedUrl.searchParams.has('v')) {
+        return parsedUrl.searchParams.get('v')
+      }
+      if (parsedUrl.pathname.includes('/embed/')) {
+        return parsedUrl.pathname.split('/embed/')[1]
+      }
+    } catch (e) {
+      return null
+    }
+    return null
+  }
+
   const formDataValues = watch()
 
   useEffect(() => {
@@ -111,24 +129,6 @@ const UpdateNews = () => {
   useEffect(() => {
     getAllCategory()
   }, [])
-
-  const getYouTubeId = (url) => {
-    try {
-      const parsedUrl = new URL(url)
-      if (parsedUrl.hostname === 'youtu.be') {
-        return parsedUrl.pathname.slice(1)
-      }
-      if (parsedUrl.searchParams.has('v')) {
-        return parsedUrl.searchParams.get('v')
-      }
-      if (parsedUrl.pathname.includes('/embed/')) {
-        return parsedUrl.pathname.split('/embed/')[1]
-      }
-    } catch (e) {
-      return null
-    }
-    return null
-  }
 
   const fetchNewsById = async () => {
     try {
