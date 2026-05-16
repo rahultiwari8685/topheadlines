@@ -32,14 +32,6 @@ export default function ArticleCard11({ card, idx }: Props) {
         <div className="card-img-top thumbnail">
           <Link href={`/single-2?slug=${card.slug || ""}`}>
             {card.hasVideo ? (
-              // <iframe
-              //   src={card.videoUrl}
-              //   width="100%"
-              //   height="250"
-              //   allow="autoplay; encrypted-media"
-              //   allowFullScreen
-              // />
-
               <iframe
                 className="rounded-4 w-100"
                 height="500"

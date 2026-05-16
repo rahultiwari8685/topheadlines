@@ -40,8 +40,8 @@ app.use(
 app.use("/api", limiter);
 
 const allowedOrigins = [
-  "https://iotaclasses.in",
-  "https://admin.iotaclasses.in",
+  "https://topheadlinesnews.com",
+  "https://admin.topheadlinesnews.com",
 ];
 
 app.use((req, res, next) => {

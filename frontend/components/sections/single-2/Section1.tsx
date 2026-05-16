@@ -80,13 +80,6 @@ export default function Section1() {
 
           <div className="col-lg-6">
             {news.thumbnail ? (
-              // ✅ Thumbnail Image
-              // <img
-              //   src={`${setting.api}/uploads/images/${news.thumbnail}`}
-              //   className="img-fluid"
-              //   alt="news"
-              //   style={{ width: "100%", borderRadius: "10px" }}
-              // />
               <img
                 src={
                   news.thumbnail?.startsWith("http")
@@ -207,22 +200,6 @@ export default function Section1() {
           </div>
         </div>
       </div>
-
-      {/* <div className="container mt-4">
-        <div className="col-lg-9 offset-lg-1">
-          {news.content?.blocks?.map((block: any, idx: number) => {
-            if (block.type === "paragraph") {
-              return (
-                <p
-                  key={idx}
-                  dangerouslySetInnerHTML={{ __html: block.data.text }}
-                />
-              );
-            }
-            return null;
-          })}
-        </div>
-      </div> */}
     </section>
   );
 }
