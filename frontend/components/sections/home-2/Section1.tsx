@@ -29,7 +29,7 @@ export default function Section1({ classList }: any) {
               linkPost: `/single-2?slug=${item.slug}`,
               linkBadge: "#",
               // linkAuthor: "#",
-              linkAuthor: `/author/${item.author?._id}`,
+              linkAuthor: `/page-author/${item.author?._id}`,
               linkComment: "#",
 
               // img: item.thumbnail
