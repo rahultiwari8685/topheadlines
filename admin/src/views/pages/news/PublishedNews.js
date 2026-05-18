@@ -197,7 +197,7 @@ const PublishedNews = () => {
                   <CTableDataCell>{actualIndex + 1}</CTableDataCell>
                   <CTableDataCell>
                     <a
-                      href={`https://topheadlinesnews.com/news/${news.slug}`}
+                      href={`https://topheadlinesnews.com/single-2?slug=${news.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
