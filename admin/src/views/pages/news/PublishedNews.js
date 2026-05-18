@@ -195,7 +195,22 @@ const PublishedNews = () => {
               return (
                 <CTableRow key={news.id}>
                   <CTableDataCell>{actualIndex + 1}</CTableDataCell>
-                  <CTableDataCell>{news.title}</CTableDataCell>
+                  <CTableDataCell>
+                    <a
+                      href={`https://topheadlinesnews.com/news/${news.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        textDecoration: 'none',
+                        color: '#0d6efd',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {news.title}
+                    </a>
+                  </CTableDataCell>
+                  {/* <CTableDataCell>{news.title}</CTableDataCell> */}
 
                   <CTableDataCell>
                     {news.categories && news.categories.length > 0
