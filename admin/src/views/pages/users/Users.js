@@ -110,15 +110,13 @@ const Users = () => {
       formData.append('profileImage', data.image[0])
     }
 
-    // ✅ Decide endpoint and headers
     let endpoint = '/api/users/saveUser'
-    let headers = {} // default no headers
+    let headers = {}
 
     if (editingUser) {
       endpoint = '/api/users/updateUser'
       formData.append('id', editingUser._id)
 
-      // ✅ only set token when updating
       headers = {
         Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
       }
@@ -129,7 +127,7 @@ const Users = () => {
         method: 'POST',
         body: formData,
         mode: 'cors',
-        headers, // ✅ use headers conditionally
+        headers,
       })
 
       const result = await res.json()

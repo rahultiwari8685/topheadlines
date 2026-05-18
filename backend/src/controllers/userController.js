@@ -144,6 +144,42 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const getUserDetailsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Check valid ObjectId
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid user ID is required",
+      });
+    }
+
+    // Find user
+    const user = await User.findById(id).select("-password");
+
+    // Check user exists
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Success response
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 export const deleteUser = async (req, res) => {
   try {
     const { _id } = req.params;

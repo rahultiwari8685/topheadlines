@@ -5,6 +5,7 @@ import {
   updateUser,
   deleteUser,
   changePassword,
+  getUserDetailsById,
 } from "../controllers/userController.js";
 import upload from "../middlewares/upload.js";
 
@@ -17,5 +18,6 @@ router.post("/change-password", changePassword);
 router.get("/getAllUser", getAllUsers);
 
 router.post("/deleteUser/:_id", deleteUser);
+router.get("/getUserDetailsById/:id", getUserDetailsById);
 
 export default router;

@@ -28,7 +28,8 @@ export default function Section1({ classList }: any) {
             return {
               linkPost: `/single-2?slug=${item.slug}`,
               linkBadge: "#",
-              linkAuthor: "#",
+              // linkAuthor: "#",
+              linkAuthor: `/author/${item.author?._id}`,
               linkComment: "#",
 
               // img: item.thumbnail
