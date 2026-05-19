@@ -96,11 +96,11 @@ export default function Page_Author() {
                       </p>
                     )}
 
-                    {author?.role && (
+                    {/* {author?.role && (
                       <p>
                         <strong>Role:</strong> {author.role}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Social Links */}
@@ -151,7 +151,7 @@ export default function Page_Author() {
         </div>
 
         {/* Ads */}
-        <Ads />
+        {/* <Ads /> */}
 
         {/* Sections */}
         {/* <Section1 /> */}
