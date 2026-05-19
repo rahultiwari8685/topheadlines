@@ -3,7 +3,6 @@
 import Layout from "@/components/layout/Layout";
 import Section1 from "@/components/sections/author/Section1";
 import Section2 from "@/components/sections/home-4/Section6";
-
 import Ads from "@/components/elements/ads";
 
 import Image from "next/image";
@@ -27,8 +26,11 @@ export default function Page_Author() {
 
   const [loading, setLoading] = useState(true);
 
+  // Fetch Author
   useEffect(() => {
     if (!id) return;
+
+    setLoading(true);
 
     fetch(`${setting.api}/api/users/getUserDetailsById/${id}`)
       .then((res) => res.json())
@@ -47,6 +49,7 @@ export default function Page_Author() {
       });
   }, [id]);
 
+  // Loading
   if (loading) {
     return (
       <Layout headerStyle={2} footerStyle={2}>
@@ -105,11 +108,11 @@ export default function Page_Author() {
                     </p>
                   )}
 
-                  {/* {author?.role && (
+                  {author?.role && (
                     <p>
                       <strong>Role:</strong> {author.role}
                     </p>
-                  )} */}
+                  )}
                 </div>
 
                 {/* Social Links */}
@@ -165,7 +168,7 @@ export default function Page_Author() {
       {/* Author News */}
       {id && (
         <Section1
-          authorId={id}
+          authorId={id.toString()}
           searchParams={{
             page,
           }}
