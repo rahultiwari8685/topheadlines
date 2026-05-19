@@ -163,7 +163,7 @@ export default function Page_Author() {
       </div>
 
       {/* Ads */}
-      <Ads />
+      {/* <Ads /> */}
 
       {/* Author News */}
       {id && (
