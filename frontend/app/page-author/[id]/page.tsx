@@ -1,5 +1,6 @@
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/author/Section1";
+import Section1 from "@/components/sections/page-author/Section1";
+
 import Section2 from "@/components/sections/home-4/Section6";
 import Ads from "@/components/elements/ads";
 import Image from "next/image";
