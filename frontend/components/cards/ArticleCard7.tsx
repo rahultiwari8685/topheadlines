@@ -64,12 +64,12 @@ export default function ArticleCard7({ card, idx }: CardProps) {
                 {card.badge1}
               </Link>
 
-              <Link
+              {/* <Link
                 href={card.linkBadge}
                 className={`badge ${card.classBadge2} fs-8`}
               >
                 {card.badge2}
-              </Link>
+              </Link> */}
 
               {/* <ul className="d-flex align-items-center text-600 m-0 ps-3">
                 <li>
