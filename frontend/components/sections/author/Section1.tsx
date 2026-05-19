@@ -1,14 +1,13 @@
 import ArticleCard12 from "@/components/cards/ArticleCard12";
-import Link from "next/link";
 import setting from "@/setting.json";
 
-interface Props {
+type Props = {
   authorId: string;
 
   searchParams?: {
     page?: string;
   };
-}
+};
 
 // Fetch Author News
 async function getAuthorNews(authorId: string, page: number) {
@@ -32,50 +31,61 @@ async function getAuthorNews(authorId: string, page: number) {
   }
 }
 
-export default async function Section1({ authorId, searchParams }: Props) {
+export default async function Section1(props: Props) {
+  const { authorId, searchParams } = props;
+
   const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
 
-  // Fetch News By Author
+  // Fetch News
   const response = await getAuthorNews(authorId, currentPage);
 
   const newsList = response?.data || [];
 
-  const totalPages = response?.totalPages || 1;
-
-  // Format Data
   const formattedArticles = newsList.map((item: any, idx: number) => ({
+    // Article Link
     linkPost: `/single-2?slug=${item.slug}`,
 
-    linkBadge: "#",
-
+    // Author Link
     linkAuthor: `/page-author/${item.author?._id}`,
 
+    // Badge Link
+    linkBadge: "#",
+
+    // Comment Link
     linkComment: "#",
 
+    // Thumbnail
     img: item.thumbnail
       ? item.thumbnail.startsWith("http")
         ? item.thumbnail
         : `${setting.api}/uploads/images/${item.thumbnail}`
       : "/assets/imgs/page/img-66.png",
 
+    // Category
     badge: item.categories?.[0]?.name || "News",
 
     bgBadge: `bg-${(idx % 5) + 1}`,
 
+    // Title
     title: item.title || "No Title",
 
+    // Subtitle
     description: item.subtitle || "No Description",
 
+    // Author Image
     imgAuthor: item.author?.profileImage
       ? item.author.profileImage.startsWith("http")
         ? item.author.profileImage
         : `${setting.api}/uploads/images/${item.author.profileImage}`
       : "/assets/imgs/template/author/author-1.png",
 
+    // Author Name
     author: item.author?.name || "Admin",
 
+    // Date
     date: new Date(item.createdAt).toDateString(),
 
+    // Extra
     comment: "0",
 
     readNum: "0",
