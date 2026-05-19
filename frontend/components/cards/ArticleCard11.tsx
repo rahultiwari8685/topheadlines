@@ -83,7 +83,7 @@ export default function ArticleCard11({ card, idx }: Props) {
             <div className="curve-two" />
           </div>
 
-          <div className="left pe-5">
+          <div className="left">
             <Link href={card.linkPost}>
               <h5 className="card-title mb-0 text-truncate-2">{card.title}</h5>
             </Link>
@@ -149,7 +149,7 @@ export default function ArticleCard11({ card, idx }: Props) {
               </div> */}
             </div>
           </div>
-          <div className="right">
+          {/* <div className="right">
             <Link href="#" className="book-mark">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +167,7 @@ export default function ArticleCard11({ card, idx }: Props) {
                 />
               </svg>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
