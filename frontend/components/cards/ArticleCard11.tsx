@@ -111,7 +111,7 @@ export default function ArticleCard11({ card, idx }: Props) {
                 </li>
               </ul>
 
-              <div className="ms-md-auto ms-5 d-flex align-items-center gap-3 me-5">
+              {/* <div className="ms-md-auto ms-5 d-flex align-items-center gap-3 me-5">
                 <Link href={card.linkComment} className="comment fs-8">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +146,7 @@ export default function ArticleCard11({ card, idx }: Props) {
                   </svg>
                   <span>{card.readNum}</span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="right">

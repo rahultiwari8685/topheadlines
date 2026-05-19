@@ -37,7 +37,6 @@ export default function Section3Interactive() {
 
   const boxSwiperPaddingRef = useRef<HTMLDivElement>(null);
 
-  // ✅ FETCH NEWS
   useEffect(() => {
     setLoading(true);
 
@@ -86,7 +85,6 @@ export default function Section3Interactive() {
       .finally(() => setLoading(false));
   }, []);
 
-  // ✅ SWIPER SETTINGS
   const swiperParams = {
     slidesPerView: 2,
     spaceBetween: 20,
@@ -113,7 +111,6 @@ export default function Section3Interactive() {
     },
   };
 
-  // ✅ FILTER POSTS BY CATEGORY
   const currentTabData: CardType[] = allNews
 
     .filter((item: any) =>

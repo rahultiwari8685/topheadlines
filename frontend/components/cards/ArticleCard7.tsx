@@ -77,7 +77,7 @@ export default function ArticleCard7({ card, idx }: CardProps) {
                 </li>
               </ul> */}
 
-              <Link href="#" className="book-mark ms-auto">
+              {/* <Link href="#" className="book-mark ms-auto">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
@@ -93,7 +93,7 @@ export default function ArticleCard7({ card, idx }: CardProps) {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </Link>
+              </Link> */}
             </div>
 
             {/* ✅ TITLE */}
