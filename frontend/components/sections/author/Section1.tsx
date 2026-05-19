@@ -1,8 +1,8 @@
 import ArticleCard12 from "@/components/cards/ArticleCard12";
 import Link from "next/link";
-import setting from "../../../setting.json";
+import setting from "@/setting.json";
 
-interface Section1Props {
+interface Props {
   authorId: string;
 
   searchParams?: {
@@ -10,6 +10,7 @@ interface Section1Props {
   };
 }
 
+// Fetch Author News
 async function getAuthorNews(authorId: string, page: number) {
   try {
     const res = await fetch(
@@ -21,7 +22,7 @@ async function getAuthorNews(authorId: string, page: number) {
 
     return res.json();
   } catch (error) {
-    console.error("Author News Fetch Error:", error);
+    console.error(error);
 
     return {
       status: false,
@@ -31,14 +32,10 @@ async function getAuthorNews(authorId: string, page: number) {
   }
 }
 
-export default async function Section1({
-  authorId,
-  searchParams,
-}: Section1Props) {
-  // FIXED
+export default async function Section1({ authorId, searchParams }: Props) {
   const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
 
-  // Fetch Dynamic News
+  // Fetch News By Author
   const response = await getAuthorNews(authorId, currentPage);
 
   const newsList = response?.data || [];
@@ -84,87 +81,23 @@ export default async function Section1({
     readNum: "0",
   }));
 
-  // Pagination
-  const ServerPagination = () => {
-    const pages = [];
-
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
-        <li
-          key={i}
-          className={`page-item ${i === currentPage ? "active" : ""}`}
-        >
-          <Link
-            href={`/page-author/${authorId}?page=${i}`}
-            className="page-link icon-lg pagination_item rounded-circle icon-shape fs-18 fw-semi-bold"
-          >
-            {i}
-          </Link>
-        </li>,
-      );
-    }
-
-    return (
-      <nav aria-label="Page navigation">
-        <ul className="pagination">
-          {/* Previous */}
-          {currentPage > 1 && (
-            <li className="page-item">
-              <Link
-                href={`/page-author/${authorId}?page=${currentPage - 1}`}
-                className="page-link icon-lg pagination_item rounded-circle icon-shape"
-              >
-                Prev
-              </Link>
-            </li>
-          )}
-
-          {pages}
-
-          {/* Next */}
-          {currentPage < totalPages && (
-            <li className="page-item">
-              <Link
-                href={`/page-author/${authorId}?page=${currentPage + 1}`}
-                className="page-link icon-lg pagination_item rounded-circle icon-shape"
-              >
-                Next
-              </Link>
-            </li>
-          )}
-        </ul>
-      </nav>
-    );
-  };
-
   return (
-    <>
-      {/* Author Section */}
-      <section className="sec-1-author overflow-hidden">
-        <div className="container">
-          {/* News List */}
-          <div className="row mt-4 g-4">
-            {formattedArticles.length > 0 ? (
-              formattedArticles.map((card: any, idx: number) => (
-                <div className="col-12" key={idx}>
-                  <ArticleCard12 card={card} idx={idx} />
-                </div>
-              ))
-            ) : (
-              <div className="col-12 text-center">
-                <h4>No News Found</h4>
+    <section className="sec-1-author overflow-hidden">
+      <div className="container">
+        <div className="row mt-4 g-4">
+          {formattedArticles.length > 0 ? (
+            formattedArticles.map((card: any, idx: number) => (
+              <div className="col-12" key={idx}>
+                <ArticleCard12 card={card} idx={idx} />
               </div>
-            )}
-          </div>
-
-          {/* Pagination */}
-          <div className="row sec-padding">
-            <div className="col-12 d-flex justify-content-center align-items-center">
-              <ServerPagination />
+            ))
+          ) : (
+            <div className="col-12 text-center">
+              <h4>No News Found</h4>
             </div>
-          </div>
+          )}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
