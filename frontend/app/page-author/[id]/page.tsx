@@ -27,7 +27,6 @@ export default function Page_Author() {
 
   const [loading, setLoading] = useState(true);
 
-  // Fetch Author
   useEffect(() => {
     if (!id) return;
 
@@ -48,7 +47,6 @@ export default function Page_Author() {
       });
   }, [id]);
 
-  // Loading
   if (loading) {
     return (
       <Layout headerStyle={2} footerStyle={2}>
@@ -107,11 +105,11 @@ export default function Page_Author() {
                     </p>
                   )}
 
-                  {author?.role && (
+                  {/* {author?.role && (
                     <p>
                       <strong>Role:</strong> {author.role}
                     </p>
-                  )}
+                  )} */}
                 </div>
 
                 {/* Social Links */}
