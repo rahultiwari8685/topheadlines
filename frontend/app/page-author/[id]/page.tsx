@@ -1,5 +1,5 @@
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/page-author/Section1";
+// import Section1 from "@/components/sections/page-author/Section1";
 
 import Section2 from "@/components/sections/home-4/Section6";
 import Ads from "@/components/elements/ads";
@@ -153,7 +153,7 @@ export default async function Page_Author({ params, searchParams }: Props) {
         <Ads />
 
         {/* Author News Section */}
-        <Section1 authorId={authorId} searchParams={searchParams} />
+        {/* <Section1 authorId={authorId} searchParams={searchParams} /> */}
 
         {/* More Section */}
         <Section2 />
