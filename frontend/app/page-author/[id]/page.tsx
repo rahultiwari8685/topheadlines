@@ -107,12 +107,12 @@ export default function Page_Author() {
                       <strong>Phone:</strong> {author.phone}
                     </p>
                   )}
-
+                  {/* 
                   {author?.role && (
                     <p>
                       <strong>Role:</strong> {author.role}
                     </p>
-                  )}
+                  )} */}
                 </div>
 
                 {/* Social Links */}
