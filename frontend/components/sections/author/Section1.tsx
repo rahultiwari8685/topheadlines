@@ -1,4 +1,9 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import ArticleCard12 from "@/components/cards/ArticleCard12";
+
 import setting from "@/setting.json";
 
 type Props = {
@@ -9,38 +14,37 @@ type Props = {
   };
 };
 
-// Fetch Author News
-async function getAuthorNews(authorId: string, page: number) {
-  try {
-    const res = await fetch(
-      `${setting.api}/api/news/getAllNewsByAuthorId/${authorId}?page=${page}&limit=6`,
-      {
-        cache: "no-store",
-      },
-    );
+export default function Section1({ authorId, searchParams }: Props) {
+  const [newsList, setNewsList] = useState<any[]>([]);
 
-    return res.json();
-  } catch (error) {
-    console.error(error);
-
-    return {
-      status: false,
-      data: [],
-      totalPages: 1,
-    };
-  }
-}
-
-export default async function Section1(props: Props) {
-  const { authorId, searchParams } = props;
+  const [loading, setLoading] = useState(true);
 
   const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
 
-  // Fetch News
-  const response = await getAuthorNews(authorId, currentPage);
+  // Fetch Author News
+  useEffect(() => {
+    if (!authorId) return;
 
-  const newsList = response?.data || [];
+    setLoading(true);
 
+    fetch(
+      `${setting.api}/api/news/getAllNewsByAuthorId/${authorId}?page=${currentPage}&limit=6`,
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("AUTHOR NEWS:", data);
+
+        setNewsList(data.data || []);
+      })
+      .catch((err) => {
+        console.error("Author News Error:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [authorId, currentPage]);
+
+  // Format Data
   const formattedArticles = newsList.map((item: any, idx: number) => ({
     // Article Link
     linkPost: `/single-2?slug=${item.slug}`,
@@ -90,6 +94,14 @@ export default async function Section1(props: Props) {
 
     readNum: "0",
   }));
+
+  if (loading) {
+    return (
+      <div className="text-center mt-5">
+        <h4>Loading News...</h4>
+      </div>
+    );
+  }
 
   return (
     <section className="sec-1-author overflow-hidden">
