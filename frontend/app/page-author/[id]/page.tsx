@@ -1,56 +1,54 @@
-"use client";
-
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/author/Section1";
+import Section1 from "@/app/page-author/[id]/page";
 import Section2 from "@/components/sections/home-4/Section6";
 import Ads from "@/components/elements/ads";
 import Image from "next/image";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-
 import setting from "@/setting.json";
 
-export default function Page_Author() {
-  const params = useParams();
+interface Props {
+  params: {
+    id: string;
+  };
 
-  const id = params?.id;
+  searchParams: {
+    page?: string;
+  };
+}
 
-  const [author, setAuthor] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+// Fetch Author
+async function getAuthor(id: string) {
+  try {
+    const res = await fetch(
+      `${setting.api}/api/users/getUserDetailsById/${id}`,
+      {
+        cache: "no-store",
+      },
+    );
+
+    return res.json();
+  } catch (error) {
+    console.error("Author Fetch Error:", error);
+
+    return {
+      success: false,
+      data: null,
+    };
+  }
+}
+
+export default async function Page_Author({ params, searchParams }: Props) {
+  const authorId = params.id;
 
   // Fetch Author
-  useEffect(() => {
-    if (!id) return;
+  const response = await getAuthor(authorId);
 
-    fetch(`${setting.api}/api/users/getUserDetailsById/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setAuthor(data.data);
-        }
-      })
-      .catch((err) => {
-        console.error("Author Fetch Error:", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
-
-  if (loading) {
-    return (
-      <Layout headerStyle={2} footerStyle={2}>
-        <div className="container pt-100 text-center">
-          <h4>Loading...</h4>
-        </div>
-      </Layout>
-    );
-  }
+  const author = response?.data;
 
   return (
     <>
       <Layout headerStyle={2} footerStyle={2}>
+        {/* Author Profile */}
         <div className="container pt-100">
           <div className="row">
             <div className="col-lg-6 col-md-8 mx-auto">
@@ -153,8 +151,10 @@ export default function Page_Author() {
         {/* Ads */}
         <Ads />
 
-        {/* Sections */}
-        <Section1 />
+        {/* Author News Section */}
+        <Section1 authorId={authorId} searchParams={searchParams} />
+
+        {/* More Section */}
         <Section2 />
       </Layout>
     </>

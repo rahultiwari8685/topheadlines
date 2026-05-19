@@ -8,6 +8,7 @@ import {
   updateNews,
   getNewsById,
   getAllNewsByCategory,
+  getAllNewsByAuthorId,
   deleteNews,
 } from "../controllers/newsController.js";
 
@@ -26,5 +27,7 @@ router.get("/slug/:slug", getNewsBySlug);
 router.get("/id/:id", getNewsById);
 
 router.delete("/deleteNews/:id", deleteNews);
+
+router.get("/getAllNewsByAuthorId/:authorId", getAllNewsByAuthorId);
 
 export default router;

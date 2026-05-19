@@ -75,24 +75,6 @@ export const getNews = async (req, res) => {
   }
 };
 
-// export const getNews = async (req, res) => {
-//   try {
-//     const news = await News.find()
-//       .populate("categories", "name")
-//       .sort({ createdAt: -1 });
-
-//     return res.status(200).json({
-//       status: true,
-//       data: news,
-//     });
-//   } catch (error) {
-//     return res.status(500).json({
-//       status: false,
-//       message: error.message,
-//     });
-//   }
-// };
-
 export const getAllNewsByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
@@ -242,6 +224,53 @@ export const deleteNews = async (req, res) => {
       message: "News deleted successfully",
     });
   } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllNewsByAuthorId = async (req, res) => {
+  try {
+    const { authorId } = req.params;
+
+    const { page = 1, limit = 10 } = req.query;
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(authorId)) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid author ID",
+      });
+    }
+
+    const skip = (page - 1) * limit;
+
+    // Get News
+    const news = await News.find({
+      author: authorId,
+    })
+      .populate("author", "name email profileImage")
+      .populate("categories", "name slug")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    // Total Count
+    const total = await News.countDocuments({
+      author: authorId,
+    });
+
+    return res.status(200).json({
+      status: true,
+      totalPages: Math.ceil(total / limit),
+      total,
+      data: news,
+    });
+  } catch (error) {
+    console.error("Get News By Author Error:", error);
+
     return res.status(500).json({
       status: false,
       message: error.message,

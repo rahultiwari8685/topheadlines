@@ -1,55 +1,134 @@
 import ArticleCard12 from "@/components/cards/ArticleCard12";
-import DataCard from "@/public/data/cardPages.json";
 import Link from "next/link";
+import setting from "../../../setting.json";
 
 interface Section1Props {
-  searchParams?: Promise<{ page?: string }>;
+  authorId: string;
+
+  searchParams?: {
+    page?: string;
+  };
 }
 
-export default async function Section1({ searchParams }: Section1Props) {
-  const resolvedSearchParams = await searchParams;
-  const currentPage = resolvedSearchParams?.page ? parseInt(resolvedSearchParams.page) : 1;
-  const itemsPerCard12Top = 6;
+async function getAuthorNews(authorId: string, page: number) {
+  try {
+    const res = await fetch(
+      `${setting.api}/api/news/getAllNewsByAuthorId/${authorId}?page=${page}&limit=6`,
+      {
+        cache: "no-store",
+      },
+    );
 
-  const totalCard12Top = Math.ceil(DataCard.pageAuthorCard12.length / itemsPerCard12Top);
-  const totalPages = Math.max(totalCard12Top);
+    return res.json();
+  } catch (error) {
+    console.error("Author News Fetch Error:", error);
 
-  const paginatedArticles12Top = DataCard.pageAuthorCard12.slice((currentPage - 1) * itemsPerCard12Top, currentPage * itemsPerCard12Top);
+    return {
+      status: false,
+      data: [],
+      totalPages: 1,
+    };
+  }
+}
 
-  // Server-side pagination component
+export default async function Section1({
+  authorId,
+  searchParams,
+}: Section1Props) {
+  // FIXED
+  const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
+
+  // Fetch Dynamic News
+  const response = await getAuthorNews(authorId, currentPage);
+
+  const newsList = response?.data || [];
+
+  const totalPages = response?.totalPages || 1;
+
+  // Format Data
+  const formattedArticles = newsList.map((item: any, idx: number) => ({
+    linkPost: `/single-2?slug=${item.slug}`,
+
+    linkBadge: "#",
+
+    linkAuthor: `/page-author/${item.author?._id}`,
+
+    linkComment: "#",
+
+    img: item.thumbnail
+      ? item.thumbnail.startsWith("http")
+        ? item.thumbnail
+        : `${setting.api}/uploads/images/${item.thumbnail}`
+      : "/assets/imgs/page/img-66.png",
+
+    badge: item.categories?.[0]?.name || "News",
+
+    bgBadge: `bg-${(idx % 5) + 1}`,
+
+    title: item.title || "No Title",
+
+    description: item.subtitle || "No Description",
+
+    imgAuthor: item.author?.profileImage
+      ? item.author.profileImage.startsWith("http")
+        ? item.author.profileImage
+        : `${setting.api}/uploads/images/${item.author.profileImage}`
+      : "/assets/imgs/template/author/author-1.png",
+
+    author: item.author?.name || "Admin",
+
+    date: new Date(item.createdAt).toDateString(),
+
+    comment: "0",
+
+    readNum: "0",
+  }));
+
+  // Pagination
   const ServerPagination = () => {
     const pages = [];
+
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
-        <li key={i} className={`page-item ${i === currentPage ? 'active' : ''}`}>
-          <Link href={`/archive-1?page=${i}`} className="page-link icon-lg pagination_item rounded-circle icon-shape fs-18 fw-semi-bold">
+        <li
+          key={i}
+          className={`page-item ${i === currentPage ? "active" : ""}`}
+        >
+          <Link
+            href={`/page-author/${authorId}?page=${i}`}
+            className="page-link icon-lg pagination_item rounded-circle icon-shape fs-18 fw-semi-bold"
+          >
             {i}
           </Link>
-        </li>
+        </li>,
       );
     }
 
     return (
       <nav aria-label="Page navigation">
         <ul className="pagination">
+          {/* Previous */}
           {currentPage > 1 && (
             <li className="page-item">
-              <Link href={`/archive-1?page=${currentPage - 1}`} className="page-link icon-lg pagination_item rounded-circle icon-shape">
-                <svg className="" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                  <path d="M9.49993 6.5L4.78564 11L9.49993 15.5" stroke="#0E0E0F" strokeWidth="1.28571" strokeLinecap="round" strokeLinejoin="round"></path>
-                  <path d="M17.2143 11H5" stroke="#0E0E0F" strokeWidth="1.28571" strokeLinecap="round" strokeLinejoin="round"></path>
-                </svg>
+              <Link
+                href={`/page-author/${authorId}?page=${currentPage - 1}`}
+                className="page-link icon-lg pagination_item rounded-circle icon-shape"
+              >
+                Prev
               </Link>
             </li>
           )}
+
           {pages}
+
+          {/* Next */}
           {currentPage < totalPages && (
             <li className="page-item">
-              <Link href={`/archive-1?page=${currentPage + 1}`} className="page-link icon-lg pagination_item rounded-circle icon-shape">
-                <svg className="" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                  <path d="M12.5 6.5L17.2143 11L12.5 15.5" stroke="#0E0E0F" strokeWidth="1.28571" strokeLinecap="round" strokeLinejoin="round"></path>
-                  <path d="M16.9999 11H4.78564" stroke="#0E0E0F" strokeWidth="1.28571" strokeLinecap="round" strokeLinejoin="round"></path>
-                </svg>
+              <Link
+                href={`/page-author/${authorId}?page=${currentPage + 1}`}
+                className="page-link icon-lg pagination_item rounded-circle icon-shape"
+              >
+                Next
               </Link>
             </li>
           )}
@@ -60,16 +139,25 @@ export default async function Section1({ searchParams }: Section1Props) {
 
   return (
     <>
-      {/*Author Section 1*/}
+      {/* Author Section */}
       <section className="sec-1-author overflow-hidden">
         <div className="container">
+          {/* News List */}
           <div className="row mt-4 g-4">
-            {paginatedArticles12Top.map((card, idx) => (
-              <div className="col-12" key={idx}>
-                <ArticleCard12 key={idx} card={card} idx={idx} />
+            {formattedArticles.length > 0 ? (
+              formattedArticles.map((card: any, idx: number) => (
+                <div className="col-12" key={idx}>
+                  <ArticleCard12 card={card} idx={idx} />
+                </div>
+              ))
+            ) : (
+              <div className="col-12 text-center">
+                <h4>No News Found</h4>
               </div>
-            ))}
+            )}
           </div>
+
+          {/* Pagination */}
           <div className="row sec-padding">
             <div className="col-12 d-flex justify-content-center align-items-center">
               <ServerPagination />
