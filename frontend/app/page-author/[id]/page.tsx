@@ -43,7 +43,9 @@ export default async function Page_Author({ params, searchParams }: Props) {
   // Fetch Author
   const response = await getAuthor(authorId);
 
-  const author = response?.data;
+  // const author = response?.data;
+
+  const author = response?.data || response?.user;
 
   return (
     <>
