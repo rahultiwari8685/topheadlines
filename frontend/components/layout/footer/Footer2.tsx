@@ -212,22 +212,22 @@ export default function Footer() {
                   </p>
                   <div className="d-flex flex-wrap justify-content-center align-items-center gap-lg-5 gap-4">
                     <a
-                      href="#"
+                      href="/page-privacy"
                       className="text-500 hover-dark d-block px-2 fs-7"
                     >
                       Private policy
                     </a>
                     <a
-                      href="#"
+                      href="/page-terms"
                       className="text-500 hover-dark d-block px-2 fs-7"
                     >
                       Term &amp; Condition
                     </a>
                     <a
-                      href="#"
+                      href="/page-disclaimer"
                       className="text-500 hover-dark d-block px-2 fs-7"
                     >
-                      Advertise
+                      Disclaimer
                     </a>
                   </div>
                 </div>
