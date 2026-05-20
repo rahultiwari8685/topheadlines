@@ -53,7 +53,7 @@ export default function Section1() {
     <section className="sec-1-single-2 pb-70 overflow-hidden mt-10">
       <div className="container">
         <div className="row">
-          <div className="col-lg-6 pe-lg-5 mt-2 mt-lg-0">
+          <div className="col-lg-6 pe-lg-5 overflow-visible">
             {/* <nav>
               <ul className="breadcrumb d-flex gap-2">
                 <li>
@@ -62,7 +62,9 @@ export default function Section1() {
               </ul>
             </nav> */}
 
-            <h2>{news.title}</h2>
+            <h2 className="text-3xl md:text-5xl font-bold leading-tight text-black">
+              {news.title}
+            </h2>
 
             <p>{new Date(news.createdAt).toDateString()}</p>
 
