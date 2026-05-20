@@ -162,17 +162,20 @@ export default function Footer() {
                         </a>
                       </li>
                       <li className="mb-3">
-                        <a className="text-500 hover-dark" href="#">
+                        <a className="text-500 hover-dark" href="/page-privacy">
                           Privacy Policy
                         </a>
                       </li>
                       <li className="mb-3">
-                        <a className="text-500 hover-dark" href="#">
+                        <a className="text-500 hover-dark" href="/page-terms">
                           Terms &amp; Conditions
                         </a>
                       </li>
                       <li className="mb-3">
-                        <a className="text-500 hover-dark" href="#">
+                        <a
+                          className="text-500 hover-dark"
+                          href="/page-disclaimer"
+                        >
                           Disclaimer
                         </a>
                       </li>

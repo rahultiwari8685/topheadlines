@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/Layout";
 
-import Section1 from "@/components/sections/about/Section1";
+import Section1 from "@/components/sections/disclaimer/Section1";
 import Section2 from "@/components/sections/about/Section2";
 import Section3 from "@/components/sections/about/Section3";
 import Link from "next/link";
