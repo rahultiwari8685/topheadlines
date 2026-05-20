@@ -39,6 +39,8 @@ const News = () => {
 
   const [content, setContent] = useState({})
 
+  const [draftSaved, setDraftSaved] = useState(false)
+
   const navigate = useNavigate()
   const {
     register,
@@ -62,6 +64,33 @@ const News = () => {
   })
 
   const formDataValues = watch()
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const draftData = {
+        ...formDataValues,
+        content,
+      }
+
+      localStorage.setItem('newsDraft', JSON.stringify(draftData))
+
+      setDraftSaved(true)
+
+      console.log('Draft auto-saved')
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [formDataValues, content])
+
+  useEffect(() => {
+    if (draftSaved) {
+      const timer = setTimeout(() => {
+        setDraftSaved(false)
+      }, 2000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [draftSaved])
 
   useEffect(() => {
     if (formDataValues.title && !slugEdited) {
@@ -105,6 +134,24 @@ const News = () => {
 
   useEffect(() => {
     getAllCategory()
+  }, [])
+
+  useEffect(() => {
+    const savedDraft = localStorage.getItem('newsDraft')
+
+    if (savedDraft) {
+      const parsedDraft = JSON.parse(savedDraft)
+
+      Object.keys(parsedDraft).forEach((key) => {
+        setValue(key, parsedDraft[key])
+      })
+
+      if (parsedDraft.content) {
+        setContent(parsedDraft.content)
+      }
+
+      console.log('Draft restored')
+    }
   }, [])
 
   const getYouTubeId = (url) => {
@@ -167,6 +214,7 @@ const News = () => {
       console.log('News API response:', result)
 
       if (result.status) {
+        localStorage.removeItem('newsDraft')
         alert(editingNews ? 'News updated!' : 'News created!')
 
         reset({
@@ -349,6 +397,8 @@ const News = () => {
                 </>
               )}
 
+              {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>}
+
               <div className="d-flex justify-content-end mt-4">
                 <CButton color="primary" type="submit">
                   {editingNews ? 'Update' : 'Publish'}
@@ -375,7 +425,7 @@ const News = () => {
               <p>
                 <strong>Categories:</strong>{' '}
                 {categoriesList
-                  .filter((cat) => formDataValues.categories.includes(cat.id))
+                  .filter((cat) => formDataValues.categories.includes(cat._id))
                   .map((cat) => cat.name)
                   .join(', ')}
               </p>
@@ -405,7 +455,7 @@ const News = () => {
               </video>
             )}
 
-            {formDataValues.videoType === 'self' && formDataValues.thumbnail?.[0] && (
+            {formDataValues.videoType === '2' && formDataValues.thumbnail?.[0] && (
               <div className="mt-3">
                 <strong>Thumbnail:</strong>
                 <img
