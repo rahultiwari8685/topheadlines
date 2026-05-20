@@ -32,16 +32,12 @@ export default function Single_2() {
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-          // ✅ FILTER TEXT NEWS
           const textNews = u.data.filter((item: any) => !item.youtubeUrl);
 
-          // ✅ RELATED ARTICLES
           const formattedData: RelatedArticleType[] = textNews
             .slice(0, 4)
             .map((item: any) => ({
               cornerBgColor: "white",
-
-              // img: item.thumbnail || "/assets/imgs/other/img-other-9.png",
 
               img: item.thumbnail
                 ? item.thumbnail.startsWith("http")
