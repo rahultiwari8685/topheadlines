@@ -21,7 +21,8 @@ import {
   CDropdownItem,
 } from '@coreui/react'
 import secureLocalStorage from 'react-secure-storage'
-import EditorJSComponent from '../../../../../../igistrategy/admin/src/components/EditorJSComponent'
+// import EditorJSComponent from '../../../../../../igistrategy/admin/src/components/EditorJSComponent'
+import EditorJSComponent from '../../../components/EditorJSComponent'
 import { useNavigate } from 'react-router-dom'
 const schema = yup.object().shape({
   title: yup.string().required('Title is required'),
