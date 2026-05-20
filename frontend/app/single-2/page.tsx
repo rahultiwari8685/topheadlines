@@ -49,11 +49,10 @@ export default function Single_2() {
                   : `${setting.api}/uploads/images/${item.thumbnail}`
                 : "/assets/imgs/other/img-other-9.png",
 
-             
-
               linkBadge: "#",
 
               linkPost: `/single-2?slug=${item.slug}`,
+              linkAuthor: `/page-author/${item.author?._id}`,
 
               badge: item.categories?.[0]?.name || "News",
 

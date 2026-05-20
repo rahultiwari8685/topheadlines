@@ -54,13 +54,13 @@ export default function Section1() {
       <div className="container">
         <div className="row">
           <div className="col-lg-6 pe-lg-5">
-            <nav>
+            {/* <nav>
               <ul className="breadcrumb d-flex gap-2">
                 <li>
                   <Link href="/">Home</Link>
                 </li>
               </ul>
-            </nav>
+            </nav> */}
 
             <h2>{news.title}</h2>
 

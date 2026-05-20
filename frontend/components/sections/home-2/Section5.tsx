@@ -25,7 +25,7 @@ export default function Section5() {
             .map((item: any, idx: number) => ({
               linkPost: `/single-2?slug=${item.slug}`,
               linkBadge: "#",
-              linkAuthor: "#",
+              linkAuthor: `/page-author/${item.author?._id}`,
               linkComment: "#",
 
               // img: item.thumbnail || "/assets/imgs/page/img-66.png",
