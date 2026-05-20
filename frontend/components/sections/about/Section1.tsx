@@ -38,10 +38,10 @@ export default function Section1() {
               />
             </div>
           </div> */}
-          <div className="row g-4">
+          <div className="row g-4 py-4">
             <div className="col-lg-6 pe-lg-5">
               <h5 className="mb-4">हमारा उद्देश्य – Top Headlines News</h5>
-              <ul className="list-unstyled m-0 p-0">
+              <ul className="list-disc ps-4 space-y-3 text-gray-700">
                 <li className="d-flex gap-3">
                   {/* <p className="fw-semi-bold mt-0 text-dark w-25">
                     Curated Content
@@ -75,7 +75,7 @@ export default function Section1() {
 
             <div className="col-lg-6">
               <h5 className="mb-4">हमारी विशेषताएँ</h5>
-              <ul className="list-unstyled m-0 p-0">
+              <ul className="list-disc ps-4 space-y-3 text-gray-700">
                 <li className="d-flex gap-3">
                   {/* <p className="fw-semi-bold mt-0 text-dark w-25">
                     Inspiration

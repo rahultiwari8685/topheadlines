@@ -39,7 +39,7 @@ export default function Footer() {
                     <Image
                       src="/assets/imgs/template/logo/TH_Logo.png"
                       width={143}
-                      height={100}
+                      height={150}
                       alt="logo"
                     />
                   </Link>
