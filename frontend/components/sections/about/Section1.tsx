@@ -40,65 +40,39 @@ export default function Section1() {
           </div> */}
           <div className="row g-4 py-4">
             <div className="col-lg-6 pe-lg-5">
-              <h5 className="mb-4">हमारा उद्देश्य – Top Headlines News</h5>
+              <h5 className="mb-4 font-bold text-2xl">
+                हमारा उद्देश्य – Top Headlines News
+              </h5>
+
               <ul className="list-disc ps-4 space-y-3 text-gray-700">
-                <li className="d-flex gap-3">
-                  {/* <p className="fw-semi-bold mt-0 text-dark w-25">
-                    Curated Content
-                  </p> */}
-                  <p className="w-75 mt-0">
-                    ताज़ा और विश्वसनीय समाचार प्रदान करना
-                  </p>
-                </li>
-                <li className="d-flex gap-3">
-                  {/* <p className="fw-semi-bold mt-0 text-dark w-25">
-                    Expert Insights
-                  </p> */}
-                  <p className="w-75 mt-0">
-                    निष्पक्ष और जिम्मेदार पत्रकारिता को बढ़ावा देना
-                  </p>
-                </li>
-                <li className="d-flex gap-3">
-                  {/* <p className="fw-semi-bold mt-0 text-dark w-25">Community</p> */}
-                  <p className="w-75 mt-0">
-                    समाज से जुड़े महत्वपूर्ण मुद्दों को सामने लाना
-                  </p>
-                </li>
-                <li className="d-flex gap-3">
-                  {/* <p className="fw-semi-bold mt-0 text-dark w-25">Community</p> */}
-                  <p className="w-75 mt-0">
-                    पाठकों को सही और प्रमाणित जानकारी देना
-                  </p>
-                </li>
+                <li>ताज़ा और विश्वसनीय समाचार प्रदान करना</li>
+
+                <li>निष्पक्ष और जिम्मेदार पत्रकारिता को बढ़ावा देना</li>
+
+                <li>समाज से जुड़े महत्वपूर्ण मुद्दों को सामने लाना</li>
+
+                <li>पाठकों को सही और प्रमाणित जानकारी देना</li>
               </ul>
             </div>
 
             <div className="col-lg-6">
-              <h5 className="mb-4">हमारी विशेषताएँ</h5>
-              <ul className="list-disc ps-4 space-y-3 text-gray-700">
-                <li className="d-flex gap-3">
-                  {/* <p className="fw-semi-bold mt-0 text-dark w-25">
-                    Inspiration
-                  </p> */}
-                  <p className="w-75 mt-0">ब्रेकिंग न्यूज़ और लेटेस्ट अपडेट</p>
+              <h5 className="mb-4 text-2xl font-bold">हमारी विशेषताएँ</h5>
+
+              <ul className="list-disc ps-5 space-y-4 marker:text-red-600 text-gray-700">
+                <li className="leading-relaxed">
+                  ब्रेकिंग न्यूज़ और लेटेस्ट अपडेट
                 </li>
-                <li className="d-flex gap-3">
-                  {/* <p className="fw-semi-bold mt-0 text-dark w-25">
-                    Authenticity
-                  </p> */}
-                  <p className="w-75 mt-0">
-                    राजनीति, व्यापार, टेक्नोलॉजी, खेल और मनोरंजन की खबरें
-                  </p>
+
+                <li className="leading-relaxed">
+                  राजनीति, व्यापार, टेक्नोलॉजी, खेल और मनोरंजन की खबरें
                 </li>
-                <li className="d-flex gap-3">
-                  {/* <p className="fw-semi-bold mt-0 text-dark w-25">Creativity</p> */}
-                  <p className="w-75 mt-0">सरल और स्पष्ट भाषा में समाचार</p>
+
+                <li className="leading-relaxed">
+                  सरल और स्पष्ट भाषा में समाचार
                 </li>
-                <li className="d-flex gap-3">
-                  {/* <p className="fw-semi-bold mt-0 text-dark w-25">Creativity</p> */}
-                  <p className="w-75 mt-0">
-                    डिजिटल प्लेटफॉर्म पर तेज़ और भरोसेमंद जानकारी
-                  </p>
+
+                <li className="leading-relaxed">
+                  डिजिटल प्लेटफॉर्म पर तेज़ और भरोसेमंद जानकारी
                 </li>
               </ul>
             </div>
