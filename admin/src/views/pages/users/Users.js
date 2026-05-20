@@ -404,18 +404,7 @@ const Users = () => {
               </CCol>
             </CRow>
 
-            {/* <CRow className="mb-3">
-              <CCol md={6}>
-                <CFormSelect
-                  label="Status"
-                  {...register('status', { required: 'Status is required' })}
-                >
-                  <option value="">Select Status</option>
-                  <option value="1">Active</option>
-                  <option value="0">In-Active</option>
-                </CFormSelect>
-                {errors.status && <small className="text-danger">{errors.status.message}</small>}
-              </CCol>
+            <CRow className="mb-3">
               <CCol md={6}>
                 <CFormInput
                   type="file"
@@ -424,7 +413,7 @@ const Users = () => {
                   {...register('image')}
                 />
               </CCol>
-            </CRow> */}
+            </CRow>
 
             <div className="d-flex justify-content-end">
               <CButton
