@@ -208,7 +208,9 @@ const DraftNews = () => {
                       : '-'}
                   </CTableDataCell>
 
-                  <CTableDataCell>{getUserName(news.user_id)}</CTableDataCell>
+                  <CTableDataCell> {news.author?.name || 'N/A'}</CTableDataCell>
+
+                  {/* <CTableDataCell>{getUserName(news.user_id)}</CTableDataCell> */}
                   <CTableDataCell>
                     <CButton
                       size="sm"
