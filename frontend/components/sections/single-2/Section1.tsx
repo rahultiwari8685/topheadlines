@@ -91,87 +91,92 @@ export default function Section1() {
                     </span>
                   </div>
 
-                  {/* Social Share */}
-                  <div className="flex items-center gap-3">
-                    {/* WhatsApp */}
-                    <a
-                      href={`https://wa.me/?text=${encodeURIComponent(
-                        `${news.title} ${
+                  <div className="mt-6 flex flex-wrap items-center gap-4">
+                    {/* Author */}
+                    <div className="flex items-center gap-2">
+                      <img
+                        src="/assets/imgs/template/author/author-1.png"
+                        alt="author"
+                        className="h-10 w-10 rounded-full object-cover"
+                      />
+
+                      <span className="text-sm font-medium text-gray-700">
+                        {news.author || "Admin"}
+                      </span>
+                    </div>
+
+                    {/* Social Buttons */}
+                    <div className="flex items-center gap-2">
+                      {/* WhatsApp */}
+                      <a
+                        href={`https://wa.me/?text=${encodeURIComponent(
+                          `${news.title} ${
+                            typeof window !== "undefined"
+                              ? window.location.href
+                              : ""
+                          }`,
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-green-500 hover:bg-green-500 hover:text-white transition"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.768.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.787-1.48-1.76-1.653-2.057-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.52-.075-.149-.669-1.612-.916-2.206-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.075-.792.372-.272.298-1.04 1.016-1.04 2.479s1.065 2.875 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z" />
+                        </svg>
+                      </a>
+
+                      {/* Facebook */}
+                      <a
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${
                           typeof window !== "undefined"
                             ? window.location.href
                             : ""
-                        }`,
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-green-500 transition hover:bg-green-500 hover:text-white"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 32 32"
-                        className="h-5 w-5 fill-current"
+                        }`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-blue-600 hover:bg-blue-600 hover:text-white transition"
                       >
-                        <path d="M16 .4C7.2.4 0 7.6 0 16.4c0 2.8.7 5.5 2.1 7.9L0 32l7.8-2a16 16 0 0 0 8.2 2.2c8.8 0 16-7.2 16-16S24.8.4 16 .4z" />
-                      </svg>
-                    </a>
+                        <span className="text-sm font-bold">f</span>
+                      </a>
 
-                    {/* Facebook */}
-                    <a
-                      href={`https://www.facebook.com/sharer/sharer.php?u=${
-                        typeof window !== "undefined"
-                          ? window.location.href
-                          : ""
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-blue-600 transition hover:bg-blue-600 hover:text-white"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        className="h-5 w-5 fill-current"
+                      {/* Twitter/X */}
+                      <a
+                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                          news.title,
+                        )}&url=${
+                          typeof window !== "undefined"
+                            ? window.location.href
+                            : ""
+                        }`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-black hover:bg-black hover:text-white transition"
                       >
-                        <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9v-2.9h2.5V9.4c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v1.9h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z" />
-                      </svg>
-                    </a>
+                        <span className="text-xs font-bold">X</span>
+                      </a>
 
-                    {/* Twitter/X */}
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                        news.title,
-                      )}&url=${
-                        typeof window !== "undefined"
-                          ? window.location.href
-                          : ""
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-black transition hover:bg-black hover:text-white"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        className="h-5 w-5 fill-current"
+                      {/* Instagram */}
+                      <a
+                        href="https://instagram.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-pink-500 hover:bg-pink-500 hover:text-white transition"
                       >
-                        <path d="M18.9 2H22l-6.8 7.8L23 22h-6.9l-5.4-7-6.1 7H1.5l7.3-8.4L1 2h7l4.9 6.4L18.9 2z" />
-                      </svg>
-                    </a>
-
-                    {/* Instagram */}
-                    <a
-                      href="https://instagram.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-pink-500 transition hover:bg-pink-500 hover:text-white"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        className="h-5 w-5 fill-current"
-                      >
-                        <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 17.5 13 5.5 5.5 0 0 0 12 7.5zm0 2A3.5 3.5 0 1 1 8.5 13 3.5 3.5 0 0 1 12 9.5zm5.8-3.3a1.3 1.3 0 1 0 1.3 1.3 1.3 1.3 0 0 0-1.3-1.3z" />
-                      </svg>
-                    </a>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5zm0 2h8.5C18.322 4 20 5.678 20 7.75v8.5c0 2.072-1.678 3.75-3.75 3.75h-8.5C5.678 20 4 18.322 4 16.25v-8.5C4 5.678 5.678 4 7.75 4zm8.75 1a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z" />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
