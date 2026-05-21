@@ -23,11 +23,9 @@ export const createNews = async (req, res) => {
 
     categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
-    // CHECK EXISTING AUTO DRAFT
     const existingDraft = await News.findOne({
       author: req.body.author,
       type: 2,
-      is_auto_draft: true,
     });
 
     let news;

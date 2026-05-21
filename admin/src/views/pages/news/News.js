@@ -184,7 +184,7 @@ const News = () => {
 
       // formData.append('is_auto_draft', false)
 
-      formData.append('is_auto_draft', true)
+      formData.append('is_auto_draft', 'true')
 
       formData.append('categories', JSON.stringify(formDataValues.categories || []))
 
@@ -223,6 +223,7 @@ const News = () => {
     formData.append('video_type', data.videoType)
     formData.append('type', data.type)
     formData.append('author', author)
+    formData.append('is_auto_draft', 'false')
 
     formData.append('categories', JSON.stringify(data.categories))
 
