@@ -41,6 +41,8 @@ const News = () => {
 
   const [draftSaved, setDraftSaved] = useState(false)
 
+  const [isPublished, setIsPublished] = useState(false)
+
   const navigate = useNavigate()
   const {
     register,
@@ -67,20 +69,11 @@ const News = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const draftData = {
-        ...formDataValues,
-        content,
-      }
-
-      localStorage.setItem('newsDraft', JSON.stringify(draftData))
-
-      setDraftSaved(true)
-
-      console.log('Draft auto-saved')
-    }, 5000)
+      autoSaveDraft()
+    }, 15000)
 
     return () => clearInterval(interval)
-  }, [formDataValues, content])
+  }, [])
 
   useEffect(() => {
     if (draftSaved) {
@@ -176,6 +169,55 @@ const News = () => {
 
   const author = loginInfo?.user?.id
 
+  const autoSaveDraft = async () => {
+    try {
+      if (!formDataValues.title || isPublished) return
+
+      const formData = new FormData()
+
+      formData.append('title', formDataValues.title || '')
+      formData.append('sub_title', formDataValues.subtitle || '')
+
+      formData.append('video_type', formDataValues.videoType || '')
+
+      formData.append('type', '2')
+
+      formData.append('author', author)
+
+      formData.append('is_auto_draft', false)
+
+      formData.append('is_auto_draft', true)
+
+      formData.append('categories', JSON.stringify(formDataValues.categories || []))
+
+      if (formDataValues.videoType === '1') {
+        formData.append('youtube_url', formDataValues.youtubeUrl || '')
+      }
+
+      if (formDataValues.videoType === '2') {
+        formData.append('content', JSON.stringify(content))
+
+        if (formDataValues.thumbnail?.[0]) {
+          formData.append('thumbnail', formDataValues.thumbnail[0])
+        }
+      }
+
+      await fetch(setting.api + '/api/news/saveNews', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
+        },
+      })
+
+      setDraftSaved(true)
+
+      console.log('Draft saved to DB')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const saveNews = async (data) => {
     const formData = new FormData()
     formData.append('title', data.title)
@@ -214,6 +256,7 @@ const News = () => {
       console.log('News API response:', result)
 
       if (result.status) {
+        setIsPublished(true)
         localStorage.removeItem('newsDraft')
         alert(editingNews ? 'News updated!' : 'News created!')
 

@@ -22,6 +22,11 @@ const newsSchema = new mongoose.Schema(
       default: 2,
     },
 
+    is_auto_draft: {
+      type: Boolean,
+      default: false,
+    },
+
     youtubeUrl: { type: String, default: "" },
 
     videoType: { type: Number, default: 0 },

@@ -3,8 +3,15 @@ import News from "../models/News.js";
 
 export const createNews = async (req, res) => {
   try {
-    const { title, sub_title, video_type, type, youtube_url, content } =
-      req.body;
+    const {
+      title,
+      sub_title,
+      video_type,
+      type,
+      youtube_url,
+      content,
+      is_auto_draft,
+    } = req.body;
 
     let categories = [];
 
@@ -16,11 +23,20 @@ export const createNews = async (req, res) => {
 
     categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
-    const createdNews = await News.create({
+    // CHECK EXISTING AUTO DRAFT
+    const existingDraft = await News.findOne({
+      author: req.body.author,
+      type: 2,
+      is_auto_draft: true,
+    });
+
+    let news;
+
+    const newsData = {
       title,
+
       subtitle: sub_title,
 
-      // author: req.author,
       author: req.body.author,
 
       categories,
@@ -33,18 +49,30 @@ export const createNews = async (req, res) => {
 
       content: content || "",
 
-      thumbnail: req.file?.filename || "",
-    });
+      is_auto_draft: is_auto_draft === "true",
 
-    // populate author after create
-    const news = await News.findById(createdNews._id)
+      thumbnail: req.file?.filename || "",
+    };
+
+    // UPDATE EXISTING DRAFT
+    if (existingDraft && is_auto_draft === "true") {
+      news = await News.findByIdAndUpdate(existingDraft._id, newsData, {
+        new: true,
+      });
+    } else {
+      // CREATE NEW NEWS
+      news = await News.create(newsData);
+    }
+
+    // POPULATE
+    const populatedNews = await News.findById(news._id)
       .populate("author", "name email")
       .populate("categories", "name");
 
     return res.status(201).json({
       status: true,
-      message: "News created successfully",
-      data: news,
+      message: "News saved successfully",
+      data: populatedNews,
     });
   } catch (error) {
     console.error("Create News Error:", error);
@@ -237,7 +265,6 @@ export const getAllNewsByAuthorId = async (req, res) => {
 
     const { page = 1, limit = 10 } = req.query;
 
-    // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(authorId)) {
       return res.status(400).json({
         status: false,
@@ -247,7 +274,6 @@ export const getAllNewsByAuthorId = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
-    // Get News
     const news = await News.find({
       author: authorId,
     })
@@ -257,7 +283,6 @@ export const getAllNewsByAuthorId = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit));
 
-    // Total Count
     const total = await News.countDocuments({
       author: authorId,
     });
