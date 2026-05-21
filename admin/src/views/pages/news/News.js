@@ -73,7 +73,7 @@ const News = () => {
     }, 15000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [formDataValues.title, formDataValues.videoType, content])
 
   useEffect(() => {
     if (draftSaved) {
