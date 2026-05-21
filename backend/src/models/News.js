@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import { slugify } from "transliteration";
+import translate from "@vitalets/google-translate-api";
+
 const newsSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
@@ -33,13 +35,20 @@ const newsSchema = new mongoose.Schema(
 
 newsSchema.pre("save", async function (next) {
   if (this.title) {
-    let baseSlug = slugify(this.title, {
-      lowercase: true,
-      separator: "-",
+    // Translate Hindi title to English
+    const result = await translate(this.title, {
+      from: "hi",
+      to: "en",
+    });
+
+    const englishTitle = result.text;
+
+    let baseSlug = slugify(englishTitle, {
+      lower: true,
+      strict: true,
     });
 
     let slug = baseSlug;
-
     let counter = 1;
 
     // UNIQUE SLUG
