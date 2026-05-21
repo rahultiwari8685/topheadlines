@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import slugify from "slugify";
+import { slugify } from "transliteration";
 const newsSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
@@ -33,17 +33,16 @@ const newsSchema = new mongoose.Schema(
 
 newsSchema.pre("save", async function (next) {
   if (this.title) {
-    let baseSlug = this.title
-      .toLowerCase()
-      .trim()
-      .replace(/[^\u0900-\u097Fa-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-");
+    let baseSlug = slugify(this.title, {
+      lowercase: true,
+      separator: "-",
+    });
 
     let slug = baseSlug;
 
     let counter = 1;
 
+    // UNIQUE SLUG
     while (
       await mongoose.models.News.findOne({
         slug,

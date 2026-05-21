@@ -32,7 +32,7 @@ const schema = yup.object().shape({
 })
 
 const News = () => {
-  const [slugEdited, setSlugEdited] = useState(false)
+  // const [slugEdited, setSlugEdited] = useState(false)
   const [editingNews, setEditingNews] = useState(null)
   const [newsList, setNewsList] = useState([])
   const [categoriesList, setCategoryList] = useState([])
@@ -65,43 +65,35 @@ const News = () => {
 
   const formDataValues = watch()
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const draftData = {
-  //       ...formDataValues,
-  //       content,
-  //     }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const draftData = {
+        ...formDataValues,
+        content,
+      }
 
-  //     localStorage.setItem('newsDraft', JSON.stringify(draftData))
+      localStorage.setItem('newsDraft', JSON.stringify(draftData))
 
-  //     setDraftSaved(true)
+      setDraftSaved(true)
 
-  //     console.log('Draft auto-saved')
-  //   }, 5000)
+      setTimeout(() => {
+        setDraftSaved(false)
+      }, 2000)
 
-  //   return () => clearInterval(interval)
-  // }, [formDataValues, content])
+      console.log('Draft auto-saved')
+    }, 5000)
 
-  // useEffect(() => {
-  //   if (draftSaved) {
-  //     const timer = setTimeout(() => {
-  //       setDraftSaved(false)
-  //     }, 2000)
-
-  //     return () => clearTimeout(timer)
-  //   }
-  // }, [draftSaved])
+    return () => clearInterval(interval)
+  }, [formDataValues, content])
 
   useEffect(() => {
-    if (formDataValues.title && !slugEdited) {
-      const generatedSlug = formDataValues.title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .trim()
-        .replace(/\s+/g, '-')
-      setValue('slug', generatedSlug)
+    const draftData = {
+      ...formDataValues,
+      content,
     }
-  }, [formDataValues.title, slugEdited, setValue])
+
+    localStorage.setItem('newsDraft', JSON.stringify(draftData))
+  }, [formDataValues, content])
 
   const toggleCategory = (id) => {
     const alreadySelected = formDataValues.categories.includes(id)
@@ -214,7 +206,7 @@ const News = () => {
       console.log('News API response:', result)
 
       if (result.status) {
-        // localStorage.removeItem('newsDraft')
+        localStorage.removeItem('newsDraft')
         alert(editingNews ? 'News updated!' : 'News created!')
 
         reset({
@@ -224,7 +216,7 @@ const News = () => {
           categories: [],
           videoType: '',
           type: '',
-          slug: '',
+
           youtubeUrl: '',
           thumbnail: null,
         })
@@ -257,7 +249,7 @@ const News = () => {
                     {...register('title')}
                     onChange={(e) => {
                       setValue('title', e.target.value)
-                      setSlugEdited(false)
+                      // setSlugEdited(false)
                     }}
                   />
                   {errors.title && <small className="text-danger">{errors.title.message}</small>}
@@ -397,7 +389,7 @@ const News = () => {
                 </>
               )}
 
-              {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>}
+              {/* {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>} */}
 
               <div className="d-flex justify-content-end mt-4">
                 <CButton color="primary" type="submit">
