@@ -73,7 +73,7 @@ const News = () => {
     }, 15000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [formDataValues, content])
 
   useEffect(() => {
     if (draftSaved) {
@@ -200,13 +200,17 @@ const News = () => {
         }
       }
 
-      await fetch(setting.api + '/api/news/saveNews', {
+      const response = await fetch(setting.api + '/api/news/saveNews', {
         method: 'POST',
         body: formData,
         headers: {
           Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
         },
       })
+
+      const result = await response.json()
+
+      console.log('AUTO SAVE RESULT:', result)
 
       setDraftSaved(true)
 
