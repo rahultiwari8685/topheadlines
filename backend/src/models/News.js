@@ -31,20 +31,30 @@ const newsSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-newsSchema.pre("save", function (next) {
-  if (this.title && !this.slug) {
-    this.slug = this.title
+newsSchema.pre("save", async function (next) {
+  if (this.title) {
+    let baseSlug = this.title
       .toLowerCase()
       .trim()
-
-      // remove special chars except Hindi/English/numbers/spaces
       .replace(/[^\u0900-\u097Fa-z0-9\s-]/g, "")
-
-      // replace spaces with -
       .replace(/\s+/g, "-")
-
-      // remove duplicate -
       .replace(/-+/g, "-");
+
+    let slug = baseSlug;
+
+    let counter = 1;
+
+    while (
+      await mongoose.models.News.findOne({
+        slug,
+        _id: { $ne: this._id },
+      })
+    ) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    this.slug = slug;
   }
 
   next();

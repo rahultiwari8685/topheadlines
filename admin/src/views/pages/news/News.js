@@ -65,32 +65,32 @@ const News = () => {
 
   const formDataValues = watch()
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const draftData = {
-        ...formDataValues,
-        content,
-      }
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const draftData = {
+  //       ...formDataValues,
+  //       content,
+  //     }
 
-      localStorage.setItem('newsDraft', JSON.stringify(draftData))
+  //     localStorage.setItem('newsDraft', JSON.stringify(draftData))
 
-      setDraftSaved(true)
+  //     setDraftSaved(true)
 
-      console.log('Draft auto-saved')
-    }, 5000)
+  //     console.log('Draft auto-saved')
+  //   }, 5000)
 
-    return () => clearInterval(interval)
-  }, [formDataValues, content])
+  //   return () => clearInterval(interval)
+  // }, [formDataValues, content])
 
-  useEffect(() => {
-    if (draftSaved) {
-      const timer = setTimeout(() => {
-        setDraftSaved(false)
-      }, 2000)
+  // useEffect(() => {
+  //   if (draftSaved) {
+  //     const timer = setTimeout(() => {
+  //       setDraftSaved(false)
+  //     }, 2000)
 
-      return () => clearTimeout(timer)
-    }
-  }, [draftSaved])
+  //     return () => clearTimeout(timer)
+  //   }
+  // }, [draftSaved])
 
   useEffect(() => {
     if (formDataValues.title && !slugEdited) {
@@ -214,7 +214,7 @@ const News = () => {
       console.log('News API response:', result)
 
       if (result.status) {
-        localStorage.removeItem('newsDraft')
+        // localStorage.removeItem('newsDraft')
         alert(editingNews ? 'News updated!' : 'News created!')
 
         reset({
