@@ -58,9 +58,26 @@ export const createNews = async (req, res) => {
 
     // UPDATE EXISTING DRAFT
     if (existingDraft && (is_auto_draft === true || is_auto_draft === "true")) {
-      await News.findByIdAndUpdate(existingDraft._id, newsData);
-
       news = await News.findById(existingDraft._id);
+
+      news.title = title;
+      news.subtitle = sub_title;
+      news.author = req.body.author;
+      news.categories = categories;
+      news.videoType = Number(video_type);
+      news.type = Number(type);
+      news.youtubeUrl = youtube_url || "";
+
+      news.content =
+        typeof content === "string" ? JSON.parse(content || "{}") : content;
+
+      news.is_auto_draft = is_auto_draft === true || is_auto_draft === "true";
+
+      if (req.file?.filename) {
+        news.thumbnail = req.file.filename;
+      }
+
+      await news.save();
     } else {
       // CREATE NEW NEWS
       news = await News.create(newsData);
