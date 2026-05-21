@@ -3,15 +3,8 @@ import News from "../models/News.js";
 
 export const createNews = async (req, res) => {
   try {
-    const {
-      title,
-      sub_title,
-      video_type,
-      type,
-      youtube_url,
-      content,
-      is_auto_draft,
-    } = req.body;
+    const { title, sub_title, video_type, type, youtube_url, content } =
+      req.body;
 
     let categories = [];
 
@@ -23,75 +16,35 @@ export const createNews = async (req, res) => {
 
     categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
-    const existingDraft = await News.findOne({
-      author: req.body.author,
-      type: 2,
-      is_auto_draft: true,
-    });
-
-    let news;
-
-    const newsData = {
+    const createdNews = await News.create({
       title,
-
       subtitle: sub_title,
 
+      // author: req.author,
       author: req.body.author,
 
       categories,
 
-      videoType: Number(video_type),
+      videoType: video_type,
 
-      type: Number(type),
+      type,
 
       youtubeUrl: youtube_url || "",
 
-      content:
-        typeof content === "string" ? JSON.parse(content || "{}") : content,
+      content: content || "",
 
-      is_auto_draft: is_auto_draft === true || is_auto_draft === "true",
-    };
+      thumbnail: req.file?.filename || "",
+    });
 
-    if (req.file?.filename) {
-      newsData.thumbnail = req.file.filename;
-    }
-
-    // UPDATE EXISTING DRAFT
-    if (existingDraft && (is_auto_draft === true || is_auto_draft === "true")) {
-      news = await News.findById(existingDraft._id);
-
-      news.title = title;
-      news.subtitle = sub_title;
-      news.author = req.body.author;
-      news.categories = categories;
-      news.videoType = Number(video_type);
-      news.type = Number(type);
-      news.youtubeUrl = youtube_url || "";
-
-      news.content =
-        typeof content === "string" ? JSON.parse(content || "{}") : content;
-
-      news.is_auto_draft = is_auto_draft === true || is_auto_draft === "true";
-
-      if (req.file?.filename) {
-        news.thumbnail = req.file.filename;
-      }
-
-      await news.save();
-    } else {
-      // CREATE NEW NEWS
-      news = await News.create(newsData);
-    }
-
-    // POPULATE
-    const populatedNews = await News.findById(news._id)
+    // populate author after create
+    const news = await News.findById(createdNews._id)
       .populate("author", "name email")
       .populate("categories", "name");
 
     return res.status(201).json({
       status: true,
-      message: "News saved successfully",
-      data: populatedNews,
+      message: "News created successfully",
+      data: news,
     });
   } catch (error) {
     console.error("Create News Error:", error);
@@ -245,20 +198,9 @@ export const updateNews = async (req, res) => {
       updateData.thumbnail = req.file.filename;
     }
 
-    const updated = await News.findById(id);
-
-    updated.title = title;
-    updated.subtitle = sub_title;
-    updated.categories = categories;
-    updated.videoType = video_type;
-    updated.type = type;
-    updated.youtubeUrl = youtube_url || "";
-
-    if (req.file) {
-      updated.thumbnail = req.file.filename;
-    }
-
-    await updated.save();
+    const updated = await News.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
     return res.status(200).json({
       status: true,
@@ -295,6 +237,7 @@ export const getAllNewsByAuthorId = async (req, res) => {
 
     const { page = 1, limit = 10 } = req.query;
 
+    // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(authorId)) {
       return res.status(400).json({
         status: false,
@@ -304,6 +247,7 @@ export const getAllNewsByAuthorId = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
+    // Get News
     const news = await News.find({
       author: authorId,
     })
@@ -313,6 +257,7 @@ export const getAllNewsByAuthorId = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit));
 
+    // Total Count
     const total = await News.countDocuments({
       author: authorId,
     });

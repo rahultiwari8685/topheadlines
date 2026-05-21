@@ -22,11 +22,6 @@ const newsSchema = new mongoose.Schema(
       default: 2,
     },
 
-    is_auto_draft: {
-      type: Boolean,
-      default: false,
-    },
-
     youtubeUrl: { type: String, default: "" },
 
     videoType: { type: Number, default: 0 },
@@ -37,12 +32,18 @@ const newsSchema = new mongoose.Schema(
 );
 
 newsSchema.pre("save", function (next) {
-  if (this.title) {
+  if (this.title && !this.slug) {
     this.slug = this.title
       .toLowerCase()
       .trim()
+
+      // remove special chars except Hindi/English/numbers/spaces
       .replace(/[^\u0900-\u097Fa-z0-9\s-]/g, "")
+
+      // replace spaces with -
       .replace(/\s+/g, "-")
+
+      // remove duplicate -
       .replace(/-+/g, "-");
   }
 
