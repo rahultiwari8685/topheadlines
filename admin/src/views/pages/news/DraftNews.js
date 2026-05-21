@@ -59,7 +59,11 @@ const DraftNews = () => {
         .filter((item) => {
           const newsTime = new Date(item.createdAt).getTime()
 
-          return Number(item.type) === 2 && now - newsTime <= threeMonths
+          return (
+            Number(item.type) === 2 &&
+            (item.is_auto_draft === true || item.is_auto_draft === 'true') &&
+            now - newsTime <= threeMonths
+          )
         })
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 

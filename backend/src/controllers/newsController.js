@@ -26,6 +26,7 @@ export const createNews = async (req, res) => {
     const existingDraft = await News.findOne({
       author: req.body.author,
       type: 2,
+      is_auto_draft: true,
     });
 
     let news;
@@ -56,7 +57,7 @@ export const createNews = async (req, res) => {
     }
 
     // UPDATE EXISTING DRAFT
-    if (existingDraft && is_auto_draft === "true") {
+    if (existingDraft && (is_auto_draft === true || is_auto_draft === "true")) {
       await News.findByIdAndUpdate(existingDraft._id, newsData);
 
       news = await News.findById(existingDraft._id);
