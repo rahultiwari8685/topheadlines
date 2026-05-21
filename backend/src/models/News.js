@@ -37,18 +37,12 @@ const newsSchema = new mongoose.Schema(
 );
 
 newsSchema.pre("save", function (next) {
-  if (this.title && !this.slug) {
+  if (this.title) {
     this.slug = this.title
       .toLowerCase()
       .trim()
-
-      // remove special chars except Hindi/English/numbers/spaces
       .replace(/[^\u0900-\u097Fa-z0-9\s-]/g, "")
-
-      // replace spaces with -
       .replace(/\s+/g, "-")
-
-      // remove duplicate -
       .replace(/-+/g, "-");
   }
 

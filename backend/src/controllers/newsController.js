@@ -245,9 +245,20 @@ export const updateNews = async (req, res) => {
       updateData.thumbnail = req.file.filename;
     }
 
-    const updated = await News.findByIdAndUpdate(id, updateData, {
-      new: true,
-    });
+    const updated = await News.findById(id);
+
+    updated.title = title;
+    updated.subtitle = sub_title;
+    updated.categories = categories;
+    updated.videoType = video_type;
+    updated.type = type;
+    updated.youtubeUrl = youtube_url || "";
+
+    if (req.file) {
+      updated.thumbnail = req.file.filename;
+    }
+
+    await updated.save();
 
     return res.status(200).json({
       status: true,
