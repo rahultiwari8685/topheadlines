@@ -89,9 +89,10 @@ const News = () => {
     if (formDataValues.title && !slugEdited) {
       const generatedSlug = formDataValues.title
         .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
         .trim()
+        .replace(/[^\u0900-\u097Fa-z0-9\s-]/g, '')
         .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
       setValue('slug', generatedSlug)
     }
   }, [formDataValues.title, slugEdited, setValue])
