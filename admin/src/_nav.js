@@ -53,12 +53,12 @@ export const adminNav = [
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
       },
-      {
-        component: CNavItem,
-        name: 'Deleted News',
-        to: '/DeletedNews',
-        icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Deleted News',
+      //   to: '/DeletedNews',
+      //   icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
+      // },
     ],
   },
 
@@ -107,12 +107,12 @@ export const editorNav = [
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
       },
-      {
-        component: CNavItem,
-        name: 'Deleted News',
-        to: '/DeletedNews',
-        icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Deleted News',
+      //   to: '/DeletedNews',
+      //   icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
+      // },
     ],
   },
 
@@ -161,12 +161,12 @@ export const correspondenceNav = [
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
       },
-      {
-        component: CNavItem,
-        name: 'Deleted News',
-        to: '/DeletedNews',
-        icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Deleted News',
+      //   to: '/DeletedNews',
+      //   icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
+      // },
     ],
   },
 
