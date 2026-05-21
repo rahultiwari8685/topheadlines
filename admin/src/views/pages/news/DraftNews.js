@@ -57,7 +57,9 @@ const DraftNews = () => {
         .filter((item) => {
           const newsTime = new Date(item.createdAt).getTime()
 
-          return Number(item.type) === 2 && now - newsTime <= threeMonths
+          return (
+            Number(item.type) === 2 && item.is_auto_draft === true && now - newsTime <= threeMonths
+          )
         })
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
@@ -131,8 +133,7 @@ const DraftNews = () => {
       if (data.status === true) {
         console.log('Deleted successfully')
 
-        // optional: remove from UI
-        setBlogs((prev) => prev.filter((item) => item._id !== id))
+        setNewsList((prev) => prev.filter((item) => item._id !== id))
         fetchNews()
       }
     } catch (error) {
@@ -198,7 +199,7 @@ const DraftNews = () => {
             {paginatedItems.map((news, index) => {
               const actualIndex = (currentPage - 1) * itemsPerPage + index
               return (
-                <CTableRow key={news.id}>
+                <CTableRow key={news._id}>
                   <CTableDataCell>{actualIndex + 1}</CTableDataCell>
                   <CTableDataCell>{news.title}</CTableDataCell>
 

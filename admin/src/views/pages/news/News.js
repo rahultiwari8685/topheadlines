@@ -171,8 +171,7 @@ const News = () => {
 
   const autoSaveDraft = async () => {
     try {
-      if (!formDataValues.title || !formDataValues.videoType || isPublished) return
-
+      if (!formDataValues.title || !formDataValues.videoType) return
       const formData = new FormData()
 
       formData.append('title', formDataValues.title || '')
@@ -255,7 +254,7 @@ const News = () => {
       console.log('News API response:', result)
 
       if (result.status) {
-        setIsPublished(true)
+        // setIsPublished(true)
         localStorage.removeItem('newsDraft')
         alert(editingNews ? 'News updated!' : 'News created!')
 

@@ -53,6 +53,10 @@ export const createNews = async (req, res) => {
       is_auto_draft: is_auto_draft === "true",
     };
 
+    if (req.file?.filename) {
+      newsData.thumbnail = req.file.filename;
+    }
+
     // UPDATE EXISTING DRAFT
     if (existingDraft && is_auto_draft === "true") {
       await News.findByIdAndUpdate(existingDraft._id, newsData);
