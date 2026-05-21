@@ -48,7 +48,7 @@ export const createNews = async (req, res) => {
       content:
         typeof content === "string" ? JSON.parse(content || "{}") : content,
 
-      is_auto_draft: is_auto_draft === "true",
+      is_auto_draft: is_auto_draft === true || is_auto_draft === "true",
     };
 
     if (req.file?.filename) {

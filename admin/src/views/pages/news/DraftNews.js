@@ -49,6 +49,8 @@ const DraftNews = () => {
 
       const data = await res.json()
 
+      console.log(data.data)
+
       const now = new Date().getTime()
 
       const threeMonths = 10 * 24 * 60 * 60 * 1000
@@ -57,9 +59,7 @@ const DraftNews = () => {
         .filter((item) => {
           const newsTime = new Date(item.createdAt).getTime()
 
-          return (
-            Number(item.type) === 2 && item.is_auto_draft === true && now - newsTime <= threeMonths
-          )
+          return Number(item.type) === 2 && now - newsTime <= threeMonths
         })
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
