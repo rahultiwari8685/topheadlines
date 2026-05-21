@@ -41,24 +41,23 @@ export const createNews = async (req, res) => {
 
       categories,
 
-      videoType: video_type,
+      videoType: Number(video_type),
 
-      type,
+      type: Number(type),
 
       youtubeUrl: youtube_url || "",
 
-      content: content || "",
+      content:
+        typeof content === "string" ? JSON.parse(content || "{}") : content,
 
       is_auto_draft: is_auto_draft === "true",
-
-      thumbnail: req.file?.filename || "",
     };
 
     // UPDATE EXISTING DRAFT
     if (existingDraft && is_auto_draft === "true") {
-      news = await News.findByIdAndUpdate(existingDraft._id, newsData, {
-        new: true,
-      });
+      await News.findByIdAndUpdate(existingDraft._id, newsData);
+
+      news = await News.findById(existingDraft._id);
     } else {
       // CREATE NEW NEWS
       news = await News.create(newsData);

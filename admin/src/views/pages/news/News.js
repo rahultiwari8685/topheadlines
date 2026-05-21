@@ -178,9 +178,8 @@ const News = () => {
       formData.append('title', formDataValues.title || '')
       formData.append('sub_title', formDataValues.subtitle || '')
 
-      formData.append('video_type', formDataValues.videoType || '')
-
-      formData.append('type', '2')
+      formData.append('video_type', Number(formDataValues.videoType || 2))
+      formData.append('type', 2)
 
       formData.append('author', author)
 
