@@ -171,7 +171,7 @@ const News = () => {
 
   const autoSaveDraft = async () => {
     try {
-      if (!formDataValues.title || isPublished) return
+      if (!formDataValues.title || !formDataValues.videoType || isPublished) return
 
       const formData = new FormData()
 
@@ -184,7 +184,7 @@ const News = () => {
 
       formData.append('author', author)
 
-      formData.append('is_auto_draft', false)
+      // formData.append('is_auto_draft', false)
 
       formData.append('is_auto_draft', true)
 
