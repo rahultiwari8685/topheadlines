@@ -132,10 +132,7 @@ export const getNewsBySlug = async (req, res) => {
 
     return res.status(200).json({
       status: true,
-      data: {
-        ...news._doc,
-        author: news.author?.name || "Admin",
-      },
+      data: news,
     });
   } catch (error) {
     return res.status(500).json({
