@@ -72,7 +72,7 @@ const News = () => {
         content,
       }
 
-      localStorage.setItem('newsDraft', JSON.stringify(draftData))
+      secureLocalStorage.setItem('newsDraft', JSON.stringify(draftData))
 
       setDraftSaved(true)
 
@@ -81,7 +81,7 @@ const News = () => {
       }, 2000)
 
       console.log('Draft auto-saved')
-    }, 5000)
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [formDataValues, content])
@@ -129,7 +129,7 @@ const News = () => {
   }, [])
 
   useEffect(() => {
-    const savedDraft = localStorage.getItem('newsDraft')
+    const savedDraft = secureLocalStorage.getItem('newsDraft')
 
     if (savedDraft) {
       const parsedDraft = JSON.parse(savedDraft)
@@ -206,7 +206,7 @@ const News = () => {
       console.log('News API response:', result)
 
       if (result.status) {
-        localStorage.removeItem('newsDraft')
+        secureLocalStorage.removeItem('newsDraft')
         alert(editingNews ? 'News updated!' : 'News created!')
 
         reset({
