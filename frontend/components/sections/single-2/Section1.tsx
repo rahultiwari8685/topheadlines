@@ -74,7 +74,13 @@ export default function Section1() {
                 style={{ borderRadius: "50%" }}
                 alt="author"
               />
-              <span>{news.author || "Admin"}</span>
+              {/* <span>{news.author || "Admin"}</span> */}
+
+              <Link href={`/page-author/${news.author?._id}`}>
+                <span className="cursor-pointer hover:text-red-500">
+                  {news.author?.name || "Admin"}
+                </span>
+              </Link>
 
               <div className="flex items-center gap-3">
                 {/* WhatsApp */}
