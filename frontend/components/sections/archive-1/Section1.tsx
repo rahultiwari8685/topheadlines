@@ -1,5 +1,6 @@
 import ArticleCard7 from "@/components/cards/ArticleCard7";
 import Link from "next/link";
+import setting from "@/setting.json";
 
 interface Section1Props {
   searchParams?: Promise<{ page?: string; category?: string }>;
@@ -46,8 +47,8 @@ export default async function Section1({ searchParams }: Section1Props) {
 
   try {
     const url = categoryId
-      ? `https://api.iotaclasses.in/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
-      : `https://api.iotaclasses.in/api/news?page=${currentPage}&limit=${itemsPerPage}`;
+      ? `https://api.topheadlinesnews.com/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
+      : `https://api.topheadlinesnews.com/api/news?page=${currentPage}&limit=${itemsPerPage}`;
 
     const res = await fetch(url, { cache: "no-store" });
     const data = await res.json();
@@ -60,10 +61,10 @@ export default async function Section1({ searchParams }: Section1Props) {
 
   const cards: CardType[] = news.map((item) => ({
     title: item.title,
-    img: item.thumbnail || "/assets/imgs/default.jpg",
-    // img: item.thumbnail
-    //   ? `https://api.iotaclasses.in/uploads/images/${item.thumbnail}`
-    //   : "/assets/imgs/default.jpg",
+    // img: item.thumbnail || "/assets/imgs/default.jpg",
+    img: item.thumbnail
+      ? `${setting.api}/uploads/images/${item.thumbnail}`
+      : "/assets/imgs/other/img-other-4.png",
 
     description: item.subtitle || "",
     // linkPost: `/news/${item.slug}`,

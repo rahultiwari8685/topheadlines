@@ -31,7 +31,10 @@ export default function SideBarServer() {
 
             style: "style-2",
 
-            img: item.thumbnail || "/assets/imgs/other/img-other-4.png",
+            // img: item.thumbnail || "/assets/imgs/other/img-other-4.png",
+            img: item.thumbnail
+              ? `${setting.api}/uploads/images/${item.thumbnail}`
+              : "/assets/imgs/other/img-other-4.png",
 
             // If uploads folder image use this:
             // img: item.thumbnail
@@ -112,7 +115,7 @@ export default function SideBarServer() {
               <ArticleCard10 key={idx} card={card} idx={idx} />
             ))}
           </div>
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <SwiperDynamic
               className="swiper rounded-16"
               slidesPerView={1}
@@ -144,7 +147,7 @@ export default function SideBarServer() {
               />
             </SwiperDynamic>
             <div className="swiper-pagination mb-3" />
-          </div>
+          </div> */}
         </div>
 
         <div className="sidebar-footer">

@@ -40,6 +40,7 @@ const News = () => {
   const [content, setContent] = useState({})
 
   const [draftSaved, setDraftSaved] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
   const {
@@ -65,30 +66,77 @@ const News = () => {
 
   const formDataValues = watch()
 
+  const [thumbnailPreview, setThumbnailPreview] = useState(null)
+  const [videoPreview, setVideoPreview] = useState(null)
+
   useEffect(() => {
+    if (!formDataValues.thumbnail?.[0]) {
+      setThumbnailPreview(null)
+      return
+    }
+
+    const objectUrl = URL.createObjectURL(formDataValues.thumbnail[0])
+
+    setThumbnailPreview(objectUrl)
+
+    return () => {
+      URL.revokeObjectURL(objectUrl)
+    }
+  }, [formDataValues.thumbnail])
+
+  useEffect(() => {
+    if (!formDataValues.videoFile?.[0]) {
+      setVideoPreview(null)
+      return
+    }
+
+    const objectUrl = URL.createObjectURL(formDataValues.videoFile[0])
+
+    setVideoPreview(objectUrl)
+
+    return () => {
+      URL.revokeObjectURL(objectUrl)
+    }
+  }, [formDataValues.videoFile])
+
+  useEffect(() => {
+    let timeoutId
+
     const interval = setInterval(() => {
-      const draftData = {
-        ...formDataValues,
-        content,
+      try {
+        const draftData = {
+          ...formDataValues,
+          thumbnail: null,
+          videoFile: null,
+          content,
+        }
+
+        secureLocalStorage.setItem('newsDraft', JSON.stringify(draftData))
+
+        setDraftSaved(true)
+
+        timeoutId = setTimeout(() => {
+          setDraftSaved(false)
+        }, 1000)
+      } catch (error) {
+        console.error('Auto save failed', error)
       }
-
-      secureLocalStorage.setItem('newsDraft', JSON.stringify(draftData))
-
-      setDraftSaved(true)
-
-      setTimeout(() => {
-        setDraftSaved(false)
-      }, 2000)
-
-      console.log('Draft auto-saved')
     }, 10000)
 
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
   }, [formDataValues, content])
 
   useEffect(() => {
     const draftData = {
       ...formDataValues,
+      thumbnail: null,
+      videoFile: null,
       content,
     }
 
@@ -104,24 +152,27 @@ const News = () => {
   }
 
   const getAllCategory = async () => {
-    await fetch(setting.api + '/api/categories/getAllCategory', {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
-      },
-    })
-      .then((response) => response.json())
-      .then((u) => {
-        if (u.status == false) {
-          secureLocalStorage.clear()
-          navigate('/login')
-        } else {
-          setCategoryList(u.data)
-          console.log(u.data)
-        }
+    try {
+      const response = await fetch(setting.api + '/api/categories/getAllCategory', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + loginInfo?.token,
+        },
       })
+
+      const u = await response.json()
+
+      if (u.status === false) {
+        secureLocalStorage.clear()
+        navigate('/login')
+      } else {
+        setCategoryList(u.data || [])
+      }
+    } catch (error) {
+      console.error('Category fetch failed', error)
+    }
   }
 
   useEffect(() => {
@@ -129,10 +180,12 @@ const News = () => {
   }, [])
 
   useEffect(() => {
-    const savedDraft = secureLocalStorage.getItem('newsDraft')
+    try {
+      const savedDraft = secureLocalStorage.getItem('newsDraft')
 
-    if (savedDraft) {
-      const parsedDraft = JSON.parse(savedDraft)
+      if (!savedDraft) return
+
+      const parsedDraft = typeof savedDraft === 'string' ? JSON.parse(savedDraft) : savedDraft
 
       Object.keys(parsedDraft).forEach((key) => {
         setValue(key, parsedDraft[key])
@@ -143,6 +196,8 @@ const News = () => {
       }
 
       console.log('Draft restored')
+    } catch (error) {
+      console.error('Draft restore failed', error)
     }
   }, [])
 
@@ -164,11 +219,27 @@ const News = () => {
     return null
   }
 
-  const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo'))
+  // const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo'))
+
+  let loginInfo = null
+
+  try {
+    const storedLogin = secureLocalStorage.getItem('logininfo')
+
+    if (storedLogin) {
+      loginInfo = typeof storedLogin === 'string' ? JSON.parse(storedLogin) : storedLogin
+    }
+  } catch (error) {
+    console.error('Invalid logininfo in storage', error)
+  }
 
   const author = loginInfo?.user?.id
 
   const saveNews = async (data) => {
+    if (loading) return
+
+    setLoading(true)
+
     const formData = new FormData()
     formData.append('title', data.title)
     formData.append('sub_title', data.subtitle)
@@ -198,7 +269,8 @@ const News = () => {
         method: 'POST',
         body: formData,
         headers: {
-          Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
+          Authorization: 'Bearer ' + loginInfo?.token,
+          // Authorization: 'Bearer ' + JSON.parse(secureLocalStorage.getItem('logininfo')).token,
         },
       })
 
@@ -227,6 +299,8 @@ const News = () => {
       }
     } catch (error) {
       console.error('Error saving news:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -392,8 +466,8 @@ const News = () => {
               {/* {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>} */}
 
               <div className="d-flex justify-content-end mt-4">
-                <CButton color="primary" type="submit">
-                  {editingNews ? 'Update' : 'Publish'}
+                <CButton color="primary" type="submit" disabled={loading}>
+                  {loading ? 'Saving...' : editingNews ? 'Update' : 'Publish'}
                 </CButton>
               </div>
             </CForm>
@@ -443,7 +517,8 @@ const News = () => {
 
             {formDataValues.videoType === '2' && formDataValues.videoFile?.[0] && (
               <video width="100%" height="auto" className="rounded" controls>
-                <source src={URL.createObjectURL(formDataValues.videoFile[0])} />
+                <source src={videoPreview} />
+                {/* <source src={URL.createObjectURL(formDataValues.videoFile[0])} /> */}
               </video>
             )}
 
@@ -451,7 +526,7 @@ const News = () => {
               <div className="mt-3">
                 <strong>Thumbnail:</strong>
                 <img
-                  src={URL.createObjectURL(formDataValues.thumbnail[0])}
+                  src={thumbnailPreview}
                   alt="Thumbnail"
                   className="img-fluid rounded mt-2"
                   style={{ maxHeight: '150px', objectFit: 'cover' }}

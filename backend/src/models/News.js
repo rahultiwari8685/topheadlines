@@ -33,6 +33,8 @@ const newsSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+newsSchema.index({ title: 1, author: 1 }, { unique: true });
+
 newsSchema.pre("save", async function (next) {
   if (this.title) {
     // Translate Hindi title to English

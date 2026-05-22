@@ -185,7 +185,7 @@ const PublishedNews = () => {
               <CTableHeaderCell scope="col">Title</CTableHeaderCell>
               <CTableHeaderCell scope="col">Category</CTableHeaderCell>
               <CTableHeaderCell scope="col">Author</CTableHeaderCell>
-              {/* <CTableHeaderCell scope="col">Date</CTableHeaderCell> */}
+              <CTableHeaderCell scope="col">Date</CTableHeaderCell>
               <CTableHeaderCell scope="col">Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
@@ -220,7 +220,7 @@ const PublishedNews = () => {
 
                   <CTableDataCell> {news.author?.name || 'N/A'}</CTableDataCell>
 
-                  {/* <CTableDataCell>{new Date(news.created_at).toLocaleDateString()}</CTableDataCell> */}
+                  <CTableDataCell>{new Date(news.created_at).toLocaleDateString()}</CTableDataCell>
 
                   <CTableDataCell>
                     <CButton

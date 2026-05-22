@@ -16,6 +16,18 @@ export const createNews = async (req, res) => {
 
     categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
+    const existingNews = await News.findOne({
+      title: title.trim(),
+      author: req.body.author,
+    });
+
+    if (existingNews) {
+      return res.status(400).json({
+        status: false,
+        message: "News already exists",
+      });
+    }
+
     const createdNews = await News.create({
       title,
       subtitle: sub_title,
@@ -48,6 +60,13 @@ export const createNews = async (req, res) => {
     });
   } catch (error) {
     console.error("Create News Error:", error);
+
+    if (error.code === 11000) {
+      return res.status(400).json({
+        status: false,
+        message: "News already exists",
+      });
+    }
 
     return res.status(500).json({
       status: false,
