@@ -220,7 +220,9 @@ const PublishedNews = () => {
 
                   <CTableDataCell> {news.author?.name || 'N/A'}</CTableDataCell>
 
-                  <CTableDataCell>{new Date(news.created_at).toLocaleDateString()}</CTableDataCell>
+                  <CTableDataCell>
+                    {news.createdAt ? new Date(news.createdAt).toLocaleDateString() : 'N/A'}
+                  </CTableDataCell>
 
                   <CTableDataCell>
                     <CButton
