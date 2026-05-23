@@ -124,7 +124,7 @@ const News = () => {
       } catch (error) {
         console.error('Auto save failed', error)
       }
-    }, 10000)
+    }, 60000)
 
     return () => {
       clearInterval(interval)
