@@ -22,7 +22,11 @@ export default function Section1({ classList }: any) {
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-          const formattedData = u.data.map((item: any) => {
+          // const formattedData = u.data.map((item: any) => {
+
+          const publishedNews = u.data.filter((item: any) => item.type === 1);
+
+          const formattedData = publishedNews.map((item: any) => {
             const videoId = getYouTubeId(item.youtubeUrl);
 
             return {
@@ -89,37 +93,35 @@ export default function Section1({ classList }: any) {
       className={`sec-1-home-2 sec-padding ${classList}`}
       data-background="/assets/imgs/page/bg-home1-sec1.png"
     >
-      <div className="container">
-        <div className="row mt-2 g-4">
-          {/* 🔥 1st Column (Featured News) */}
-          {videoNews.slice(0, 1).map((card, idx) => (
-            <div className="col-lg-6" key={idx}>
-              <ArticleCard11 card={card} idx={idx} />
-            </div>
-          ))}
-
-          {/* 🔥 2nd Column (TEXT NEWS ONLY) */}
-          <div className="col-lg-3">
-            <div className="row g-4">
-              {textNews.slice(0, 2).map((card, idx) => (
-                <div className="col-lg-12 col-md-6" key={idx}>
-                  <ArticleCard5 card={card} idx={idx} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* 🔥 3rd Column (TEXT NEWS ONLY) */}
-          <div className="col-lg-3">
-            <div className="row g-4">
-              {textNews.slice(2, 4).map((card, idx) => (
-                <div className="col-lg-12 col-md-6" key={idx}>
-                  <ArticleCard5 card={card} idx={idx} />
-                </div>
-              ))}
-            </div>
+      <div className="row mt-2 g-4">
+        {/* TEXT COLUMN 1 */}
+        <div className="col-lg-3">
+          <div className="row g-4">
+            {textNews.slice(0, 2).map((card, idx) => (
+              <div className="col-lg-12 col-md-6" key={idx}>
+                <ArticleCard5 card={card} idx={idx} />
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* TEXT COLUMN 2 */}
+        <div className="col-lg-3">
+          <div className="row g-4">
+            {textNews.slice(2, 4).map((card, idx) => (
+              <div className="col-lg-12 col-md-6" key={idx}>
+                <ArticleCard5 card={card} idx={idx} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* VIDEO COLUMN RIGHT SIDE */}
+        {videoNews.slice(0, 1).map((card, idx) => (
+          <div className="col-lg-6" key={idx}>
+            <ArticleCard11 card={card} idx={idx} />
+          </div>
+        ))}
       </div>
     </section>
   );

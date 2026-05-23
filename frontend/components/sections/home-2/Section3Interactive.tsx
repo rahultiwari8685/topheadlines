@@ -48,7 +48,6 @@ export default function Section3Interactive() {
 
           setAllNews(newsData);
 
-          // ✅ GET UNIQUE CATEGORIES
           const uniqueCategories: CategoryType[] = [];
 
           newsData.forEach((item: any, index: number) => {
@@ -67,7 +66,6 @@ export default function Section3Interactive() {
 
           setCategories(uniqueCategories);
 
-          // ✅ DEFAULT ACTIVE TAB
           if (uniqueCategories.length > 0) {
             setActiveTab(uniqueCategories[0].slug);
           }

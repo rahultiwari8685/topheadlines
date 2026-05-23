@@ -18,8 +18,9 @@ export default function Section5() {
       .then((u) => {
         if (u.status !== false) {
           // ✅ FILTER TEXT NEWS (youtubeUrl empty)
-          const textNews = u.data.filter((item: any) => !item.youtubeUrl);
-
+          const textNews = u.data.filter(
+            (item: any) => !item.youtubeUrl && item.type === 1,
+          );
           const formattedData = textNews
             .slice(0, 5)
             .map((item: any, idx: number) => ({
