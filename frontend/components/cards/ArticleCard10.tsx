@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import setting from "@/setting.json";
 
 type CardSideBarType = {
   img: string;
@@ -22,17 +21,12 @@ export default function ArticleCard10({ card, idx }: CardProps) {
     <>
       <div className={`article card-10 ${card.style}`} key={idx}>
         <Link href={card.link} className="card-img">
-          <Image
+          <img
             className="w-100"
-            src={
-              card.img?.startsWith("http")
-                ? card.img
-                : `${setting.api}/uploads/images/${card.img}`
-            }
+            src={card.img}
             alt={card.title}
             width={500}
             height={500}
-            unoptimized
           />
         </Link>
 
