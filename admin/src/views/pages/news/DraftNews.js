@@ -191,9 +191,11 @@ const DraftNews = () => {
               <CTableHeaderCell scope="col">Title</CTableHeaderCell>
               <CTableHeaderCell scope="col">Category</CTableHeaderCell>
               <CTableHeaderCell scope="col">Author</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Date</CTableHeaderCell>
               <CTableHeaderCell scope="col">Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
+
           <CTableBody>
             {paginatedItems.map((news, index) => {
               const actualIndex = (currentPage - 1) * itemsPerPage + index
@@ -209,6 +211,10 @@ const DraftNews = () => {
                   </CTableDataCell>
 
                   <CTableDataCell> {news.author?.name || 'N/A'}</CTableDataCell>
+
+                  <CTableDataCell>
+                    {news.createdAt ? new Date(news.createdAt).toLocaleDateString() : 'N/A'}
+                  </CTableDataCell>
 
                   <CTableDataCell>
                     <CButton

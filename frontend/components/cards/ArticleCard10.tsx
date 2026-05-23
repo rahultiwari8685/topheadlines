@@ -21,7 +21,7 @@ export default function ArticleCard10({ card, idx }: CardProps) {
     <>
       <div className={`article card-10 ${card.style}`} key={idx}>
         <Link href={card.link} className="card-img">
-          <Image
+          <img
             className="w-100"
             src={card.img}
             alt={card.title}
