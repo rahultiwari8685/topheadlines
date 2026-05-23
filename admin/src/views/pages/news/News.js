@@ -100,6 +100,9 @@ const News = () => {
   }, [formDataValues.videoFile])
 
   useEffect(() => {
+    // Save only Draft news
+    if (formDataValues.type !== '2') return
+
     let timeoutId
 
     const interval = setInterval(() => {
@@ -133,6 +136,9 @@ const News = () => {
   }, [formDataValues, content])
 
   useEffect(() => {
+    // Save only Draft news
+    if (formDataValues.type !== '2') return
+
     const draftData = {
       ...formDataValues,
       thumbnail: null,
@@ -279,6 +285,7 @@ const News = () => {
 
       if (result.status) {
         secureLocalStorage.removeItem('newsDraft')
+        localStorage.removeItem('newsDraft')
         alert(editingNews ? 'News updated!' : 'News created!')
 
         reset({
