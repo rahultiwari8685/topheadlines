@@ -30,7 +30,7 @@ export default function Header2Server() {
           <div className="navbar-collapse d-none d-lg-block" id="navbarNav">
             <MainMenu2 />
           </div>
-          <Link className="navbar-brand fw-bold fs-3" href="/index-2">
+          <Link className="navbar-brand fw-bold fs-3" href="/">
             <Image
               className="dark-mode-invert"
               src="/assets/imgs/template/logo/TH_Logo.png"
