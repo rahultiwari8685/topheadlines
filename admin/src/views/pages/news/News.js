@@ -120,7 +120,10 @@ const News = () => {
             subtitle: formDataValues.subtitle,
             categories: formDataValues.categories,
             videoType: formDataValues.videoType,
-            content,
+
+            // ❌ prevent translate spam
+            content: {},
+
             type: 2,
             author,
           }),
