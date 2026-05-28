@@ -141,7 +141,7 @@ const News = () => {
         console.log(error)
         alert('Auto save failed')
       }
-    }, 15000) // save after stop typing 15 sec
+    }, 20000) // save after stop typing 15 sec
 
     return () => clearTimeout(timeout)
   }, [formDataValues, content])

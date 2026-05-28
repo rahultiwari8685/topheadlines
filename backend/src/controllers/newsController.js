@@ -309,7 +309,7 @@ export const autoSaveNews = async (req, res) => {
 
     let draft = await News.findOne({
       author: req.body.author,
-      type: "2",
+      type: 2,
     }).sort({ updatedAt: -1 });
 
     if (draft) {
@@ -332,7 +332,7 @@ export const autoSaveNews = async (req, res) => {
         videoType: videoType,
         content:
           typeof content === "string" ? content : JSON.stringify(content),
-        type: "2",
+        type: 2,
         author: req.body.author,
         thumbnail: "",
         youtubeUrl: "",
