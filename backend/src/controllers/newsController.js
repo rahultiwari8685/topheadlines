@@ -291,17 +291,9 @@ export const getAllNewsByAuthorId = async (req, res) => {
   }
 };
 
-```js
 export const autoSaveNews = async (req, res) => {
   try {
-    const {
-      title,
-      subtitle,
-      categories,
-      videoType,
-      content,
-      type,
-    } = req.body;
+    const { title, subtitle, categories, videoType, content, type } = req.body;
 
     // ❌ Skip translate for auto draft
     if (Number(type) === 2) {
@@ -332,9 +324,7 @@ export const autoSaveNews = async (req, res) => {
       draft.videoType = videoType;
 
       draft.content =
-        typeof content === "string"
-          ? content
-          : JSON.stringify(content);
+        typeof content === "string" ? content : JSON.stringify(content);
 
       // Clear old media
       draft.thumbnail = "";
@@ -349,9 +339,7 @@ export const autoSaveNews = async (req, res) => {
         videoType: videoType,
 
         content:
-          typeof content === "string"
-            ? content
-            : JSON.stringify(content),
+          typeof content === "string" ? content : JSON.stringify(content),
 
         type: 2,
         author: req.body.author,
@@ -377,4 +365,3 @@ export const autoSaveNews = async (req, res) => {
     });
   }
 };
-```;
