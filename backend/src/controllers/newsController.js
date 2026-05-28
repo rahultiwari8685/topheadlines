@@ -320,6 +320,9 @@ export const autoSaveNews = async (req, res) => {
       draft.content =
         typeof content === "string" ? content : JSON.stringify(content);
 
+      draft.thumbnail = "";
+      draft.youtubeUrl = "";
+
       await draft.save();
     } else {
       draft = await News.create({
@@ -331,6 +334,8 @@ export const autoSaveNews = async (req, res) => {
           typeof content === "string" ? content : JSON.stringify(content),
         type: "2",
         author: req.body.author,
+        thumbnail: "",
+        youtubeUrl: "",
       });
     }
 

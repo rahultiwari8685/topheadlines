@@ -57,7 +57,7 @@ const DraftNews = () => {
         .filter((item) => {
           const newsTime = new Date(item.createdAt).getTime()
 
-          return Number(item.type) === 2 && now - newsTime <= threeMonths
+          return Number(item.type) === 2
         })
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
@@ -132,7 +132,8 @@ const DraftNews = () => {
         console.log('Deleted successfully')
 
         // optional: remove from UI
-        setBlogs((prev) => prev.filter((item) => item._id !== id))
+        setNewsList((prev) => prev.filter((item) => item._id !== id))
+
         fetchNews()
       }
     } catch (error) {
