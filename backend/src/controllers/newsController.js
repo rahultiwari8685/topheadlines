@@ -3,7 +3,8 @@ import News from "../models/News.js";
 
 export const createNews = async (req, res) => {
   try {
-    const { title, sub_title, video_type, youtube_url, content } = req.body;
+    const { title, sub_title, video_type, youtube_url, content, type } =
+      req.body;
 
     let categories = [];
 
@@ -20,12 +21,11 @@ export const createNews = async (req, res) => {
       author: req.body.author,
     });
 
-    if (existingNews) {
-      return res.status(400).json({
-        status: false,
-        message: "News already exists",
-      });
-    }
+    const existingNews = await News.findOne({
+      title: title.trim(),
+      author: req.body.author,
+      type: 1, // ✅ only published news
+    });
 
     const createdNews = await News.create({
       title,
@@ -41,6 +41,7 @@ export const createNews = async (req, res) => {
       youtubeUrl: youtube_url || "",
 
       content: content || "",
+      type: Number(type),
 
       thumbnail: req.file?.filename || "",
     });
@@ -185,7 +186,8 @@ export const getNewsById = async (req, res) => {
 
 export const updateNews = async (req, res) => {
   try {
-    const { id, title, sub_title, video_type, youtube_url } = req.body;
+    const { id, title, sub_title, video_type, youtube_url, content, type } =
+      req.body;
 
     // ✅ SAFE PARSE
     let categories = [];
@@ -198,6 +200,20 @@ export const updateNews = async (req, res) => {
     // ✅ CONVERT TO OBJECTID
     categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
+    const existingNews = await News.findOne({
+      title: title.trim(),
+      author: req.body.author,
+      _id: { $ne: id },
+      type: 1,
+    });
+
+    if (existingNews) {
+      return res.status(400).json({
+        status: false,
+        message: "News already exists",
+      });
+    }
+
     const updateData = {
       title,
       subtitle: sub_title,
@@ -205,6 +221,12 @@ export const updateNews = async (req, res) => {
       videoType: video_type,
 
       youtubeUrl: youtube_url || "",
+
+      // ✅ update content
+      content: content || "",
+
+      // ✅ publish draft
+      type: Number(type),
     };
 
     if (req.file) {

@@ -232,7 +232,7 @@ const News = () => {
     formData.append('title', data.title)
     formData.append('sub_title', data.subtitle)
     formData.append('video_type', data.videoType)
-    // formData.append('type', data.type)
+    formData.append('type', data.type)
     formData.append('author', author)
 
     formData.append('categories', JSON.stringify(data.categories))
@@ -286,7 +286,7 @@ const News = () => {
           slug: '',
           subtitle: '',
           categories: [],
-          videoType: '',
+          videoType: '2',
           type: '2',
 
           youtubeUrl: '',
