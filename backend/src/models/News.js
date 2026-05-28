@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { slugify } from "transliteration";
-import { translate } from "@vitalets/google-translate-api";
 
 const newsSchema = new mongoose.Schema(
   {
