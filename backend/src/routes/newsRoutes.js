@@ -12,7 +12,6 @@ import {
   deleteNews,
   autoSaveNews,
 } from "../controllers/newsController.js";
-import { verifyCustomer } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -32,6 +31,5 @@ router.delete("/deleteNews/:id", deleteNews);
 
 router.get("/getAllNewsByAuthorId/:authorId", getAllNewsByAuthorId);
 
-router.post("/auto-save", verifyCustomer, autoSaveNews);
-
+router.post("/auto-save", autoSaveNews);
 export default router;
