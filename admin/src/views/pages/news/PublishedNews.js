@@ -127,7 +127,7 @@ const PublishedNews = () => {
       if (data.status === true) {
         console.log('Deleted successfully')
 
-        setBlogs((prev) => prev.filter((item) => item._id !== id))
+        setNewsList((prev) => prev.filter((item) => item._id !== id))
         fetchNews()
       }
     } catch (error) {
@@ -139,8 +139,9 @@ const PublishedNews = () => {
     news.title.toLowerCase().includes(searchText.toLowerCase()),
   )
 
-  const totalPages = Math.ceil(newsList.length / itemsPerPage)
-  const paginatedItems = newsList.slice(
+  const totalPages = Math.ceil(filteredNews.length / itemsPerPage)
+
+  const paginatedItems = filteredNews.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   )

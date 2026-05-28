@@ -276,7 +276,7 @@ const UpdateNews = () => {
               </CRow>
 
               <CRow className="mb-3">
-                <CCol md={6}>
+                {/* <CCol md={6}>
                   <CFormInput
                     type="text"
                     label="Slug"
@@ -288,8 +288,8 @@ const UpdateNews = () => {
                     }}
                   />
                   {errors.slug && <small className="text-danger">{errors.slug.message}</small>}
-                </CCol>
-                <CCol md={6}>
+                </CCol> */}
+                <CCol md={12}>
                   <CFormInput
                     type="text"
                     label="Subtitle"
