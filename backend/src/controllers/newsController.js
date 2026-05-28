@@ -19,11 +19,6 @@ export const createNews = async (req, res) => {
     const existingNews = await News.findOne({
       title: title.trim(),
       author: req.body.author,
-    });
-
-    const existingNews = await News.findOne({
-      title: title.trim(),
-      author: req.body.author,
       type: 1, // ✅ only published news
     });
 
