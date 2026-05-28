@@ -132,6 +132,11 @@ const News = () => {
         const result = await res.json()
 
         if (result.status) {
+          // ✅ store auto draft
+          if (result.data?._id) {
+            setEditingNews(result.data)
+          }
+
           setDraftSaved(true)
 
           setTimeout(() => {
@@ -248,10 +253,10 @@ const News = () => {
       formData.append('id', editingNews._id)
     }
 
-    if (editingNews) {
-      endpoint = '/api/news/updateNews'
-      formData.append('id', editingNews.id)
-    }
+    // if (editingNews) {
+    //   endpoint = '/api/news/updateNews'
+    //   formData.append('id', editingNews.id)
+    // }
 
     try {
       const res = await fetch(setting.api + endpoint, {
@@ -282,7 +287,7 @@ const News = () => {
           subtitle: '',
           categories: [],
           videoType: '',
-          type: '',
+          type: '2',
 
           youtubeUrl: '',
           thumbnail: null,
