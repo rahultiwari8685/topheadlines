@@ -31,6 +31,7 @@ import CIcon from '@coreui/icons-react'
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
+  bio: yup.string().required('Bio is required'),
   email: yup.string().required('Phone is required'),
   password: yup.string().required('Enter HSN Code'),
   role: yup.string().required('Status is required'),
@@ -99,6 +100,7 @@ const Users = () => {
   const saveUser = async (data) => {
     const formData = new FormData()
     formData.append('name', data.name)
+    formData.append('bio', data.bio)
     formData.append('email', data.email)
     formData.append('phone', data.phone)
     formData.append('password', data.password)
@@ -326,6 +328,18 @@ const Users = () => {
             <CRow className="mb-3">
               <CCol md={12}>
                 <CFormInput
+                  type="text"
+                  placeholder="Enter Bio"
+                  label="Bio"
+                  {...register('bio', { required: 'Bio is required' })}
+                />
+                {errors.bio && <small className="text-danger">{errors.bio.message}</small>}
+              </CCol>
+            </CRow>
+
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormInput
                   type="email"
                   label="Email"
                   placeholder="Enter Email"
@@ -333,10 +347,7 @@ const Users = () => {
                 />
                 {errors.email && <small className="text-danger">{errors.email.message}</small>}
               </CCol>
-            </CRow>
-
-            <CRow className="mb-3">
-              <CCol md={12}>
+              <CCol md={6}>
                 <CFormInput
                   type="text"
                   label="Phone"

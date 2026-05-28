@@ -17,7 +17,6 @@ export default function Section5() {
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-          // ✅ FILTER TEXT NEWS (youtubeUrl empty)
           const textNews = u.data.filter(
             (item: any) => !item.youtubeUrl && item.type === 1,
           );
@@ -29,28 +28,18 @@ export default function Section5() {
               linkAuthor: `/page-author/${item.author?._id}`,
               linkComment: "#",
 
-              // img: item.thumbnail || "/assets/imgs/page/img-66.png",
-
               img: item.thumbnail
                 ? item.thumbnail.startsWith("http")
                   ? item.thumbnail
                   : `${setting.api}/uploads/images/${item.thumbnail}`
                 : "/assets/imgs/page/img-66.png",
 
-              // img: item.thumbnail
-              //   ? `${setting.api}/uploads/images/${item.thumbnail}`
-              //   : "/assets/imgs/page/img-66.png",
-
               badge: item.categories?.[0]?.name || "News",
-
               bgBadge: `bg-${(idx % 5) + 1}`,
-
               title: item.title || "No Title",
               description: item.subtitle || "No Description",
-
               imgAuthor: "/assets/imgs/template/author/author-1.png",
               author: item.author?.name || "Admin",
-
               date: new Date(item.createdAt).toDateString(),
 
               comment: "0",

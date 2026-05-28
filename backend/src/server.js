@@ -16,10 +16,9 @@ const app = express();
 
 app.set("trust proxy", 1);
 
-// ✅ RATE LIMIT
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 5000,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -32,11 +31,10 @@ app.use(
   "/api/auth",
   rateLimit({
     windowMs: 10 * 60 * 1000,
-    max: 10,
+    max: 20,
   }),
 );
 
-// ✅ APPLY ONLY TO API (BEST PRACTICE)
 app.use("/api", limiter);
 
 const allowedOrigins = [

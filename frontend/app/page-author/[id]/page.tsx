@@ -96,7 +96,7 @@ export default function Page_Author() {
 
                 {/* Extra Info */}
                 <div className="mt-4">
-                  {author?.email && (
+                  {/* {author?.email && (
                     <p>
                       <strong>Email:</strong> {author.email}
                     </p>
@@ -106,7 +106,7 @@ export default function Page_Author() {
                     <p>
                       <strong>Phone:</strong> {author.phone}
                     </p>
-                  )}
+                  )} */}
                   {/* 
                   {author?.role && (
                     <p>

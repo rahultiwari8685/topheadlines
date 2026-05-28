@@ -13,6 +13,7 @@ type NewsItem = {
   subtitle?: string;
   slug: string;
   thumbnail: string;
+  video_type?: string;
   categories?: { _id: string; name: string }[];
 };
 
@@ -53,7 +54,11 @@ export default async function Section1({ searchParams }: Section1Props) {
     const res = await fetch(url, { cache: "no-store" });
     const data = await res.json();
 
-    news = data.data || [];
+    // news = data.data || [];
+
+    news = (data.data || []).filter(
+      (item: NewsItem) => item.video_type === "2",
+    );
     totalPages = data.totalPages || 1;
   } catch (error) {
     console.error("Fetch Error:", error);
@@ -61,13 +66,11 @@ export default async function Section1({ searchParams }: Section1Props) {
 
   const cards: CardType[] = news.map((item) => ({
     title: item.title,
-    // img: item.thumbnail || "/assets/imgs/default.jpg",
     img: item.thumbnail
       ? `${setting.api}/uploads/images/${item.thumbnail}`
       : "/assets/imgs/other/img-other-4.png",
 
     description: item.subtitle || "",
-    // linkPost: `/news/${item.slug}`,
     linkPost: `/single-2?slug=${item.slug}`,
 
     badge1: item.categories?.[0]?.name || "News",

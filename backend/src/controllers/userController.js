@@ -5,8 +5,16 @@ import mongoose from "mongoose";
 
 export const saveUser = async (req, res) => {
   try {
-    const { name, email, phone, password, role, post_permission, user_status } =
-      req.body;
+    const {
+      name,
+      email,
+      phone,
+      password,
+      role,
+      post_permission,
+      user_status,
+      bio,
+    } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -29,6 +37,7 @@ export const saveUser = async (req, res) => {
 
     const user = await User.create({
       name,
+      bio,
       email,
       phone,
       role,

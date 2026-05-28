@@ -31,6 +31,7 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
 
   const {
     register,
@@ -40,7 +41,7 @@ const Login = () => {
     resolver: yupResolver(schema),
   })
 
-  const login = (data) => {
+  const login = async (data) => {
     console.log('Login data:', data)
 
     let lg = {
@@ -48,36 +49,49 @@ const Login = () => {
       password: data.password,
     }
 
-    fetch(setting.api + '/api/auth/login', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(lg),
-      mode: 'cors',
-    })
-      .then((response) => response.json())
-      .then((dd) => {
-        console.log('API response:', dd)
+    try {
+      const response = await fetch(setting.api + '/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(lg),
+        mode: 'cors',
+      })
 
-        if (dd.result === 'success') {
-          console.log('Login successful')
+      // Check server response
+      if (!response.ok) {
+        throw new Error('Server error. Please try again.')
+      }
 
-          let loginData = {
-            token: dd.token,
-            role: dd.role,
-            user: dd.user,
-          }
+      const dd = await response.json()
 
-          secureLocalStorage.setItem('logininfo', JSON.stringify(loginData))
-          navigate('/dashboard')
-        } else {
-          console.error('Login failed:', dd.message || dd.reason)
+      console.log('API response:', dd)
+
+      if (dd.result === 'success') {
+        let loginData = {
+          token: dd.token,
+          role: dd.role,
+          user: dd.user,
         }
-      })
-      .catch((error) => {
-        console.error('Error during login:', error)
-      })
+
+        secureLocalStorage.setItem('logininfo', JSON.stringify(loginData))
+
+        alert('Login Successful')
+
+        navigate('/dashboard')
+      } else {
+        // Show backend message
+        alert(dd.message || dd.reason || 'Invalid email or password')
+      }
+    } catch (error) {
+      console.error('Login Error:', error)
+
+      // Network / server issue
+      alert(error.message || 'Something went wrong')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -123,8 +137,17 @@ const Login = () => {
                   </CInputGroup>
                   {errors.password && <p style={styles.error}>{errors.password.message}</p>}
 
-                  <CButton type="submit" className="w-100 mt-3" style={styles.button}>
+                  {/* <CButton type="submit" className="w-100 mt-3" style={styles.button}>
                     Sign In
+                  </CButton> */}
+
+                  <CButton
+                    type="submit"
+                    className="w-100 mt-3"
+                    style={styles.button}
+                    disabled={loading}
+                  >
+                    {loading ? 'Signing In...' : 'Sign In'}
                   </CButton>
                 </CForm>
               </CCardBody>

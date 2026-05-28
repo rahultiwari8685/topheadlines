@@ -35,7 +35,7 @@ export default function Footer() {
             <div className="row g-5 sec-padding">
               <div className="col-lg-4 pe-lg-5">
                 <div className="d-flex gap-2">
-                  <Link className="dark-mode-invert" href="/index-2">
+                  <Link className="dark-mode-invert" href="/">
                     <Image
                       src="/assets/imgs/template/logo/TH_Logo.png"
                       width={143}

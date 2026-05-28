@@ -74,9 +74,8 @@ export default function ArticleCard12({ card, idx }: CardProps) {
               {card.badge}
             </Link>
             <Link href={card.linkPost}>
-              <h4 className="card-title mb-0 mt-3 text-truncate-2">
-                {card.title}
-              </h4>
+              {/* <h4 className="card-title mb-0 mt-3 text-truncate-2"> */}
+              <h4 className="card-title mb-0 mt-3 ">{card.title}</h4>
             </Link>
             {/* <p className="card-text text-600 fs-7 mb-0 mt-3 text-truncate-3">{card.description}</p> */}
             <div className="bottom mt-auto d-flex flex-wrap align-items-center gap-2 pt-5">

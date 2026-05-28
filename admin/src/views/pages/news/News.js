@@ -99,13 +99,52 @@ const News = () => {
     }
   }, [formDataValues.videoFile])
 
+  // useEffect(() => {
+  //   // Save only Draft news
+  //   if (formDataValues.type !== '2') return
+
+  //   let timeoutId
+
+  //   const interval = setInterval(() => {
+  //     try {
+  //       const draftData = {
+  //         ...formDataValues,
+  //         thumbnail: null,
+  //         videoFile: null,
+  //         content,
+  //       }
+
+  //       secureLocalStorage.setItem('newsDraft', JSON.stringify(draftData))
+
+  //       setDraftSaved(true)
+
+  //       timeoutId = setTimeout(() => {
+  //         setDraftSaved(false)
+  //       }, 1000)
+  //     } catch (error) {
+  //       console.error('Auto save failed', error)
+  //     }
+  //   }, 60000)
+
+  //   return () => {
+  //     clearInterval(interval)
+
+  //     if (timeoutId) {
+  //       clearTimeout(timeoutId)
+  //     }
+  //   }
+  // }, [formDataValues, content])
+
   useEffect(() => {
-    // Save only Draft news
+    // Save only Draft
     if (formDataValues.type !== '2') return
 
-    let timeoutId
+    // Don't save empty form
+    if (!formDataValues.title && !formDataValues.subtitle && !content) {
+      return
+    }
 
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       try {
         const draftData = {
           ...formDataValues,
@@ -116,38 +155,36 @@ const News = () => {
 
         secureLocalStorage.setItem('newsDraft', JSON.stringify(draftData))
 
+        localStorage.setItem('newsDraft', JSON.stringify(draftData))
+
         setDraftSaved(true)
 
-        timeoutId = setTimeout(() => {
+        setTimeout(() => {
           setDraftSaved(false)
-        }, 1000)
+        }, 2000)
+
+        console.log('Draft auto-saved')
       } catch (error) {
         console.error('Auto save failed', error)
       }
-    }, 60000)
+    }, 5000) // save after stop typing 5 sec
 
-    return () => {
-      clearInterval(interval)
-
-      if (timeoutId) {
-        clearTimeout(timeoutId)
-      }
-    }
+    return () => clearTimeout(timeout)
   }, [formDataValues, content])
 
-  useEffect(() => {
-    // Save only Draft news
-    if (formDataValues.type !== '2') return
+  // useEffect(() => {
+  //   // Save only Draft news
+  //   if (formDataValues.type !== '2') return
 
-    const draftData = {
-      ...formDataValues,
-      thumbnail: null,
-      videoFile: null,
-      content,
-    }
+  //   const draftData = {
+  //     ...formDataValues,
+  //     thumbnail: null,
+  //     videoFile: null,
+  //     content,
+  //   }
 
-    localStorage.setItem('newsDraft', JSON.stringify(draftData))
-  }, [formDataValues, content])
+  //   localStorage.setItem('newsDraft', JSON.stringify(draftData))
+  // }, [formDataValues, content])
 
   const toggleCategory = (id) => {
     const alreadySelected = formDataValues.categories.includes(id)
@@ -470,7 +507,7 @@ const News = () => {
                 </>
               )}
 
-              {/* {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>} */}
+              {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>}
 
               <div className="d-flex justify-content-end mt-4">
                 <CButton color="primary" type="submit" disabled={loading}>
