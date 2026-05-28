@@ -57,7 +57,7 @@ const DraftNews = () => {
         .filter((item) => {
           const newsTime = new Date(item.createdAt).getTime()
 
-        return Number(item.type) === 2 && now - newsTime <= threeMonths
+          return Number(item.type) === 2 && now - newsTime <= threeMonths
         })
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 

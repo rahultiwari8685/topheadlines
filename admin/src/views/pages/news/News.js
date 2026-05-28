@@ -114,7 +114,6 @@ const News = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + loginInfo?.token,
           },
           body: JSON.stringify({
             title: formDataValues.title,
@@ -122,7 +121,8 @@ const News = () => {
             categories: formDataValues.categories,
             videoType: formDataValues.videoType,
             content,
-            type: '2',
+            type: 2,
+            author,
           }),
         })
 
@@ -138,10 +138,9 @@ const News = () => {
           console.log('Draft auto-saved')
         }
       } catch (error) {
-        console.log(error)
-        alert('Auto save failed')
+        console.error('Auto save failed', error)
       }
-    }, 20000) // save after stop typing 15 sec
+    }, 30000)
 
     return () => clearTimeout(timeout)
   }, [formDataValues, content])
