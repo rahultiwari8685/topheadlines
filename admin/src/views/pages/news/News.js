@@ -138,7 +138,8 @@ const News = () => {
           console.log('Draft auto-saved')
         }
       } catch (error) {
-        console.error('Auto save failed', error)
+        console.log(error)
+        alert('Auto save failed')
       }
     }, 5000) // save after stop typing 5 sec
 
