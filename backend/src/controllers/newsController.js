@@ -291,9 +291,22 @@ export const getAllNewsByAuthorId = async (req, res) => {
   }
 };
 
+```js
 export const autoSaveNews = async (req, res) => {
   try {
-    const { title, subtitle, categories, videoType, content } = req.body;
+    const {
+      title,
+      subtitle,
+      categories,
+      videoType,
+      content,
+      type,
+    } = req.body;
+
+    // ❌ Skip translate for auto draft
+    if (Number(type) === 2) {
+      console.log("Draft auto-save: translation skipped");
+    }
 
     let parsedCategories = [];
 
@@ -317,9 +330,13 @@ export const autoSaveNews = async (req, res) => {
       draft.subtitle = subtitle;
       draft.categories = parsedCategories;
       draft.videoType = videoType;
-      draft.content =
-        typeof content === "string" ? content : JSON.stringify(content);
 
+      draft.content =
+        typeof content === "string"
+          ? content
+          : JSON.stringify(content);
+
+      // Clear old media
       draft.thumbnail = "";
       draft.youtubeUrl = "";
 
@@ -330,10 +347,16 @@ export const autoSaveNews = async (req, res) => {
         subtitle,
         categories: parsedCategories,
         videoType: videoType,
+
         content:
-          typeof content === "string" ? content : JSON.stringify(content),
+          typeof content === "string"
+            ? content
+            : JSON.stringify(content),
+
         type: 2,
         author: req.body.author,
+
+        // Empty media for auto draft
         thumbnail: "",
         youtubeUrl: "",
       });
@@ -341,6 +364,7 @@ export const autoSaveNews = async (req, res) => {
 
     res.json({
       status: true,
+      message: "Draft auto-saved",
       data: draft,
     });
   } catch (error) {
@@ -353,3 +377,4 @@ export const autoSaveNews = async (req, res) => {
     });
   }
 };
+```;
