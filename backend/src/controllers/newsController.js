@@ -293,3 +293,46 @@ export const getAllNewsByAuthorId = async (req, res) => {
     });
   }
 };
+
+export const autoSaveNews = async (req, res) => {
+  try {
+    const { title, subtitle, categories, videoType, content, type } = req.body;
+
+    let draft = await News.findOne({
+      author: req.user.id,
+      type: "2",
+    }).sort({ updatedAt: -1 });
+
+    if (draft) {
+      draft.title = title;
+      draft.subtitle = subtitle;
+      draft.categories = categories;
+      draft.video_type = videoType;
+      draft.content = JSON.stringify(content);
+
+      await draft.save();
+    } else {
+      draft = await News.create({
+        title,
+        subtitle,
+        categories,
+        video_type: videoType,
+        content: JSON.stringify(content),
+        type: "2",
+        author: req.user.id,
+      });
+    }
+
+    res.json({
+      status: true,
+      data: draft,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      status: false,
+      message: "Auto save failed",
+    });
+  }
+};

@@ -1,6 +1,6 @@
 import express from "express";
 import upload from "../middlewares/upload.js";
-
+import authMiddleware from "../middlewares/authMiddleware.js";
 import {
   createNews,
   getNews,
@@ -29,5 +29,7 @@ router.get("/id/:id", getNewsById);
 router.delete("/deleteNews/:id", deleteNews);
 
 router.get("/getAllNewsByAuthorId/:authorId", getAllNewsByAuthorId);
+
+router.post("/auto-save", authMiddleware, autoSaveNews);
 
 export default router;

@@ -99,71 +99,44 @@ const News = () => {
     }
   }, [formDataValues.videoFile])
 
-  // useEffect(() => {
-  //   // Save only Draft news
-  //   if (formDataValues.type !== '2') return
-
-  //   let timeoutId
-
-  //   const interval = setInterval(() => {
-  //     try {
-  //       const draftData = {
-  //         ...formDataValues,
-  //         thumbnail: null,
-  //         videoFile: null,
-  //         content,
-  //       }
-
-  //       secureLocalStorage.setItem('newsDraft', JSON.stringify(draftData))
-
-  //       setDraftSaved(true)
-
-  //       timeoutId = setTimeout(() => {
-  //         setDraftSaved(false)
-  //       }, 1000)
-  //     } catch (error) {
-  //       console.error('Auto save failed', error)
-  //     }
-  //   }, 60000)
-
-  //   return () => {
-  //     clearInterval(interval)
-
-  //     if (timeoutId) {
-  //       clearTimeout(timeoutId)
-  //     }
-  //   }
-  // }, [formDataValues, content])
-
   useEffect(() => {
     // Save only Draft
     if (formDataValues.type !== '2') return
 
     // Don't save empty form
-    if (!formDataValues.title && !formDataValues.subtitle && !content) {
+    if (!formDataValues.title && !formDataValues.subtitle) {
       return
     }
 
-    const timeout = setTimeout(() => {
+    const timeout = setTimeout(async () => {
       try {
-        const draftData = {
-          ...formDataValues,
-          thumbnail: null,
-          videoFile: null,
-          content,
+        const res = await fetch(`${setting.api}/api/news/auto-save`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + loginInfo?.token,
+          },
+          body: JSON.stringify({
+            title: formDataValues.title,
+            subtitle: formDataValues.subtitle,
+            categories: formDataValues.categories,
+            videoType: formDataValues.videoType,
+            content,
+            type: '2',
+          }),
+        })
+
+        const result = await res.json()
+
+        if (result.status) {
+          setDraftSaved(true)
+
+          setTimeout(() => {
+            setDraftSaved(false)
+          }, 2000)
+
+          console.log('Draft auto-saved')
         }
-
-        secureLocalStorage.setItem('newsDraft', JSON.stringify(draftData))
-
-        localStorage.setItem('newsDraft', JSON.stringify(draftData))
-
-        setDraftSaved(true)
-
-        setTimeout(() => {
-          setDraftSaved(false)
-        }, 2000)
-
-        console.log('Draft auto-saved')
       } catch (error) {
         console.error('Auto save failed', error)
       }
@@ -171,20 +144,6 @@ const News = () => {
 
     return () => clearTimeout(timeout)
   }, [formDataValues, content])
-
-  // useEffect(() => {
-  //   // Save only Draft news
-  //   if (formDataValues.type !== '2') return
-
-  //   const draftData = {
-  //     ...formDataValues,
-  //     thumbnail: null,
-  //     videoFile: null,
-  //     content,
-  //   }
-
-  //   localStorage.setItem('newsDraft', JSON.stringify(draftData))
-  // }, [formDataValues, content])
 
   const toggleCategory = (id) => {
     const alreadySelected = formDataValues.categories.includes(id)
@@ -220,28 +179,6 @@ const News = () => {
 
   useEffect(() => {
     getAllCategory()
-  }, [])
-
-  useEffect(() => {
-    try {
-      const savedDraft = secureLocalStorage.getItem('newsDraft')
-
-      if (!savedDraft) return
-
-      const parsedDraft = typeof savedDraft === 'string' ? JSON.parse(savedDraft) : savedDraft
-
-      Object.keys(parsedDraft).forEach((key) => {
-        setValue(key, parsedDraft[key])
-      })
-
-      if (parsedDraft.content) {
-        setContent(parsedDraft.content)
-      }
-
-      console.log('Draft restored')
-    } catch (error) {
-      console.error('Draft restore failed', error)
-    }
   }, [])
 
   const getYouTubeId = (url) => {
