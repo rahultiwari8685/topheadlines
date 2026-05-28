@@ -6,7 +6,6 @@ import List from '@editorjs/list'
 import Quote from '@editorjs/quote'
 import ImageTool from '@editorjs/image'
 import Embed from '@editorjs/embed'
-import LinkTool from '@editorjs/link'
 import Paragraph from '@editorjs/paragraph'
 import Marker from '@editorjs/marker'
 import Underline from '@editorjs/underline'
@@ -65,10 +64,6 @@ const EditorJSComponent = ({ data, onChange }) => {
           embed: {
             class: Embed,
             inlineToolbar: true,
-          },
-
-          linkTool: {
-            class: LinkTool,
           },
 
           image: {
