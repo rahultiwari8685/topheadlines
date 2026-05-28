@@ -293,30 +293,44 @@ export const getAllNewsByAuthorId = async (req, res) => {
 
 export const autoSaveNews = async (req, res) => {
   try {
-    const { title, subtitle, categories, videoType, content, type } = req.body;
+    const { title, subtitle, categories, videoType, content } = req.body;
+
+    let parsedCategories = [];
+
+    try {
+      parsedCategories = categories || [];
+    } catch (err) {
+      parsedCategories = [];
+    }
+
+    parsedCategories = parsedCategories.map(
+      (id) => new mongoose.Types.ObjectId(id),
+    );
 
     let draft = await News.findOne({
-      author: req.user.id,
+      author: req.body.author,
       type: "2",
     }).sort({ updatedAt: -1 });
 
     if (draft) {
       draft.title = title;
       draft.subtitle = subtitle;
-      draft.categories = categories;
-      draft.video_type = videoType;
-      draft.content = JSON.stringify(content);
+      draft.categories = parsedCategories;
+      draft.videoType = videoType;
+      draft.content =
+        typeof content === "string" ? content : JSON.stringify(content);
 
       await draft.save();
     } else {
       draft = await News.create({
         title,
         subtitle,
-        categories,
-        video_type: videoType,
-        content: JSON.stringify(content),
+        categories: parsedCategories,
+        videoType: videoType,
+        content:
+          typeof content === "string" ? content : JSON.stringify(content),
         type: "2",
-        author: req.user.id,
+        author: req.body.author,
       });
     }
 
@@ -325,11 +339,12 @@ export const autoSaveNews = async (req, res) => {
       data: draft,
     });
   } catch (error) {
-    console.error(error);
+    console.error("AUTO SAVE ERROR:", error);
 
     res.status(500).json({
       status: false,
       message: "Auto save failed",
+      error: error.message,
     });
   }
 };
