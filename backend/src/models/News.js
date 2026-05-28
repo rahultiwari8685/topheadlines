@@ -37,15 +37,8 @@ newsSchema.index({ title: 1, author: 1 }, { unique: true });
 
 newsSchema.pre("save", async function (next) {
   if (this.title) {
-    // Translate Hindi title to English
-    const result = await translate(this.title, {
-      from: "hi",
-      to: "en",
-    });
-
-    const englishTitle = result.text;
-
-    let baseSlug = slugify(englishTitle, {
+    // ✅ Direct Hindi → English slug
+    let baseSlug = slugify(this.title, {
       lower: true,
       strict: true,
     });
@@ -53,7 +46,7 @@ newsSchema.pre("save", async function (next) {
     let slug = baseSlug;
     let counter = 1;
 
-    // UNIQUE SLUG
+    // ✅ UNIQUE SLUG
     while (
       await mongoose.models.News.findOne({
         slug,

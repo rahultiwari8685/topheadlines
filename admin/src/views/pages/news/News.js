@@ -57,7 +57,7 @@ const News = () => {
       subtitle: '',
       categories: [],
       videoType: '2',
-      type: '2',
+      // type: '2',
       youtubeUrl: '',
       videoFile: null,
       thumbnail: null,
