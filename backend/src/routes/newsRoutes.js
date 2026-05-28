@@ -10,6 +10,7 @@ import {
   getAllNewsByCategory,
   getAllNewsByAuthorId,
   deleteNews,
+  autoSaveNews,
 } from "../controllers/newsController.js";
 import { verifyCustomer } from "../middlewares/authMiddleware.js";
 
