@@ -242,8 +242,14 @@ const News = () => {
 
     let endpoint = '/api/news/saveNews'
 
+    // ✅ If auto draft exists then update it
+    if (editingNews?._id) {
+      endpoint = '/api/news/updateNews'
+      formData.append('id', editingNews._id)
+    }
+
     if (editingNews) {
-      endpoint = '/api/news/update'
+      endpoint = '/api/news/updateNews'
       formData.append('id', editingNews.id)
     }
 
@@ -261,6 +267,11 @@ const News = () => {
       console.log('News API response:', result)
 
       if (result.status) {
+        // ✅ store draft id
+        if (result.data?._id) {
+          setEditingNews(result.data)
+        }
+
         secureLocalStorage.removeItem('newsDraft')
         localStorage.removeItem('newsDraft')
         alert(editingNews ? 'News updated!' : 'News created!')
