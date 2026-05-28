@@ -56,8 +56,8 @@ const News = () => {
       title: '',
       subtitle: '',
       categories: [],
-      videoType: '',
-      type: '',
+      videoType: '2',
+      type: '2',
       youtubeUrl: '',
       videoFile: null,
       thumbnail: null,
@@ -225,7 +225,7 @@ const News = () => {
     formData.append('title', data.title)
     formData.append('sub_title', data.subtitle)
     formData.append('video_type', data.videoType)
-    formData.append('type', data.type)
+    // formData.append('type', data.type)
     formData.append('author', author)
 
     formData.append('categories', JSON.stringify(data.categories))
@@ -371,7 +371,7 @@ const News = () => {
               </CRow>
 
               <CRow className="mb-3 mt-2">
-                <CCol md={6}>
+                {/* <CCol md={6}>
                   <CFormSelect
                     label="Type"
                     {...register('type')}
@@ -383,9 +383,9 @@ const News = () => {
                     <option value="2">Draft</option>
                   </CFormSelect>
                   {errors.type && <small className="text-danger">{errors.type.message}</small>}
-                </CCol>
+                </CCol> */}
 
-                <CCol md={6}>
+                <CCol md={12}>
                   <CFormSelect
                     label="News Type"
                     {...register('videoType')}
@@ -448,7 +448,15 @@ const News = () => {
               {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>}
 
               <div className="d-flex justify-content-end mt-4">
-                <CButton color="primary" type="submit" disabled={loading}>
+                <CButton
+                  color="primary"
+                  type="button"
+                  disabled={loading}
+                  onClick={() => {
+                    setValue('type', '1')
+                    handleSubmit(saveNews)()
+                  }}
+                >
                   {loading ? 'Saving...' : editingNews ? 'Update' : 'Publish'}
                 </CButton>
               </div>

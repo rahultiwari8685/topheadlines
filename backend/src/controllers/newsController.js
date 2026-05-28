@@ -3,8 +3,7 @@ import News from "../models/News.js";
 
 export const createNews = async (req, res) => {
   try {
-    const { title, sub_title, video_type, type, youtube_url, content } =
-      req.body;
+    const { title, sub_title, video_type, youtube_url, content } = req.body;
 
     let categories = [];
 
@@ -38,8 +37,6 @@ export const createNews = async (req, res) => {
       categories,
 
       videoType: video_type,
-
-      type,
 
       youtubeUrl: youtube_url || "",
 
@@ -188,7 +185,7 @@ export const getNewsById = async (req, res) => {
 
 export const updateNews = async (req, res) => {
   try {
-    const { id, title, sub_title, video_type, type, youtube_url } = req.body;
+    const { id, title, sub_title, video_type, youtube_url } = req.body;
 
     // ✅ SAFE PARSE
     let categories = [];
@@ -206,7 +203,7 @@ export const updateNews = async (req, res) => {
       subtitle: sub_title,
       categories,
       videoType: video_type,
-      type,
+
       youtubeUrl: youtube_url || "",
     };
 
