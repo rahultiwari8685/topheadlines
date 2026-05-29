@@ -148,7 +148,7 @@ const News = () => {
       } catch (error) {
         console.error('Auto save failed', error)
       }
-    }, 30000)
+    }, 15000)
 
     return () => clearTimeout(timeout)
   }, [formDataValues, content])
@@ -309,7 +309,7 @@ const News = () => {
       <CCol lg={7}>
         <CCard className="shadow border-0 rounded-4">
           <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
-            <h5 className="mb-0">{editingNews ? 'Update News' : 'Create News'}</h5>
+            <h5 className="mb-0">Create News</h5>
           </CCardHeader>
 
           <CCardBody>
@@ -475,7 +475,7 @@ const News = () => {
                     handleSubmit(saveNews)()
                   }}
                 >
-                  {loading ? 'Saving...' : editingNews ? 'Update' : 'Publish'}
+                  {loading ? 'Saving...' : 'Publish'}
                 </CButton>
               </div>
             </CForm>

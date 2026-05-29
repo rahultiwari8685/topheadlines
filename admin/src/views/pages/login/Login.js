@@ -77,7 +77,7 @@ const Login = () => {
 
         secureLocalStorage.setItem('logininfo', JSON.stringify(loginData))
 
-        alert('Login Successful')
+        // alert('Login Successful')
 
         navigate('/dashboard')
       } else {
