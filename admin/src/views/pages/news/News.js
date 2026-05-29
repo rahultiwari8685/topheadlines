@@ -279,7 +279,7 @@ const News = () => {
 
         secureLocalStorage.removeItem('newsDraft')
         localStorage.removeItem('newsDraft')
-        alert(editingNews ? 'News updated!' : 'News created!')
+        alert('News Published!')
 
         reset({
           title: '',
