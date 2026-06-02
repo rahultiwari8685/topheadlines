@@ -46,7 +46,8 @@ export default function Section3Interactive() {
         if (u.status !== false) {
           // const newsData = u.data || [];
           const newsData = u.data.filter(
-            (item: any) => !(item.youtubeUrl && item.type === "2"),
+            (item: any) =>
+              !(item.youtubeUrl && item.type === "2" && item.videoType === "1"),
           );
 
           setAllNews(newsData);
