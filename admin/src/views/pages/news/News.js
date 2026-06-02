@@ -156,7 +156,7 @@ const News = () => {
       } catch (error) {
         console.error('Auto save failed', error)
       }
-    }, 25000)
+    }, 5000)
 
     return () => clearTimeout(timeout)
   }, [formDataValues, content])
