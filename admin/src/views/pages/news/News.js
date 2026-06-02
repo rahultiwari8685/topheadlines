@@ -100,10 +100,8 @@ const News = () => {
   }, [formDataValues.videoFile])
 
   useEffect(() => {
-    // Save only Draft
     if (formDataValues.type !== '2') return
 
-    // Don't save empty form
     if (!formDataValues.title && !formDataValues.subtitle) {
       return
     }
@@ -115,18 +113,28 @@ const News = () => {
           headers: {
             'Content-Type': 'application/json',
           },
+
           body: JSON.stringify({
             title: formDataValues.title,
             subtitle: formDataValues.subtitle,
             categories: formDataValues.categories,
             videoType: formDataValues.videoType,
-
-            // ❌ prevent translate spam
-            content: {},
-
+            content, // ✅ save actual editor content
             type: 2,
             author,
           }),
+          // body: JSON.stringify({
+          //   title: formDataValues.title,
+          //   subtitle: formDataValues.subtitle,
+          //   categories: formDataValues.categories,
+          //   videoType: formDataValues.videoType,
+
+          //   // ❌ prevent translate spam
+          //   content: {},
+
+          //   type: 2,
+          //   author,
+          // }),
         })
 
         const result = await res.json()
@@ -148,7 +156,7 @@ const News = () => {
       } catch (error) {
         console.error('Auto save failed', error)
       }
-    }, 15000)
+    }, 25000)
 
     return () => clearTimeout(timeout)
   }, [formDataValues, content])
