@@ -33,7 +33,7 @@ export default function Single_2() {
       .then((u) => {
         if (u.status !== false) {
           const textNews = u.data.filter(
-            (item: any) => !item.youtubeUrl && item.type === 2,
+            (item: any) => !item.youtubeUrl && item.type === "2",
           );
           // const publishedNews = u.data.filter((item: any) => item.type === 1);
 

@@ -44,7 +44,10 @@ export default function Section3Interactive() {
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-          const newsData = u.data || [];
+          // const newsData = u.data || [];
+          const newsData = u.data.filter(
+            (item: any) => !item.youtubeUrl && item.type === "2",
+          );
 
           setAllNews(newsData);
 
