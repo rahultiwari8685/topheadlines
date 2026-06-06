@@ -21,7 +21,6 @@ import {
   CDropdownItem,
 } from '@coreui/react'
 import secureLocalStorage from 'react-secure-storage'
-// import EditorJSComponent from '../../../../../../igistrategy/admin/src/components/EditorJSComponent'
 import EditorJSComponent from '../../../components/EditorJSComponent'
 import { useNavigate } from 'react-router-dom'
 const schema = yup.object().shape({
@@ -61,6 +60,7 @@ const News = () => {
       youtubeUrl: '',
       videoFile: null,
       thumbnail: null,
+      scheduledAt: '',
     },
   })
 
@@ -99,6 +99,60 @@ const News = () => {
     }
   }, [formDataValues.videoFile])
 
+  // useEffect(() => {
+  //   // Save only Draft
+  //   if (formDataValues.type !== '2') return
+
+  //   // Don't save empty form
+  //   if (!formDataValues.title && !formDataValues.subtitle) {
+  //     return
+  //   }
+
+  //   const timeout = setTimeout(async () => {
+  //     try {
+  //       const res = await fetch(`${setting.api}/api/news/auto-save`, {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({
+  //           title: formDataValues.title,
+  //           subtitle: formDataValues.subtitle,
+  //           categories: formDataValues.categories,
+  //           videoType: formDataValues.videoType,
+
+  //           // ❌ prevent translate spam
+  //           content: content,
+
+  //           type: 2,
+  //           author,
+  //         }),
+  //       })
+
+  //       const result = await res.json()
+
+  //       if (result.status) {
+  //         // ✅ store auto draft
+  //         if (result.data?._id) {
+  //           setEditingNews(result.data)
+  //         }
+
+  //         setDraftSaved(true)
+
+  //         setTimeout(() => {
+  //           setDraftSaved(false)
+  //         }, 2000)
+
+  //         console.log('Draft auto-saved')
+  //       }
+  //     } catch (error) {
+  //       console.error('Auto save failed', error)
+  //     }
+  //   }, 10000)
+
+  //   return () => clearTimeout(timeout)
+  // }, [formDataValues, content])
+
   useEffect(() => {
     if (formDataValues.type !== '2') return
 
@@ -108,39 +162,31 @@ const News = () => {
 
     const timeout = setTimeout(async () => {
       try {
+        const formData = new FormData()
+
+        formData.append('title', formDataValues.title || '')
+        formData.append('subtitle', formDataValues.subtitle || '')
+        formData.append('videoType', formDataValues.videoType || '')
+        formData.append('type', '2')
+        formData.append('author', author)
+
+        formData.append('categories', JSON.stringify(formDataValues.categories || []))
+
+        formData.append('content', typeof content === 'string' ? content : JSON.stringify(content))
+
+        // ✅ Auto-save thumbnail
+        if (formDataValues.thumbnail?.[0]) {
+          formData.append('thumbnail', formDataValues.thumbnail[0])
+        }
+
         const res = await fetch(`${setting.api}/api/news/auto-save`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-
-          body: JSON.stringify({
-            title: formDataValues.title,
-            subtitle: formDataValues.subtitle,
-            categories: formDataValues.categories,
-            videoType: formDataValues.videoType,
-            content, // ✅ save actual editor content
-            type: 2,
-            author,
-          }),
-          // body: JSON.stringify({
-          //   title: formDataValues.title,
-          //   subtitle: formDataValues.subtitle,
-          //   categories: formDataValues.categories,
-          //   videoType: formDataValues.videoType,
-
-          //   // ❌ prevent translate spam
-          //   content: {},
-
-          //   type: 2,
-          //   author,
-          // }),
+          body: formData,
         })
 
         const result = await res.json()
 
         if (result.status) {
-          // ✅ store auto draft
           if (result.data?._id) {
             setEditingNews(result.data)
           }
@@ -156,7 +202,7 @@ const News = () => {
       } catch (error) {
         console.error('Auto save failed', error)
       }
-    }, 5000)
+    }, 10000)
 
     return () => clearTimeout(timeout)
   }, [formDataValues, content])
@@ -215,8 +261,6 @@ const News = () => {
     return null
   }
 
-  // const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo'))
-
   let loginInfo = null
 
   try {
@@ -236,12 +280,20 @@ const News = () => {
 
     setLoading(true)
 
+    if (data.type === '3' && !data.scheduledAt) {
+      alert('Please select schedule date & time')
+      setLoading(false)
+      return
+    }
+
     const formData = new FormData()
     formData.append('title', data.title)
     formData.append('sub_title', data.subtitle)
     formData.append('video_type', data.videoType)
     formData.append('type', data.type)
     formData.append('author', author)
+
+    formData.append('scheduledAt', data.scheduledAt || '')
 
     formData.append('categories', JSON.stringify(data.categories))
 
@@ -287,7 +339,7 @@ const News = () => {
 
         secureLocalStorage.removeItem('newsDraft')
         localStorage.removeItem('newsDraft')
-        alert('News Published!')
+        alert(data.type === '3' ? 'News Scheduled Successfully!' : 'News Published!')
 
         reset({
           title: '',
@@ -314,7 +366,7 @@ const News = () => {
 
   return (
     <div className="d-flex flex-column flex-lg-row gap-4">
-      <CCol lg={7}>
+      <CCol lg={8}>
         <CCard className="shadow border-0 rounded-4">
           <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
             <h5 className="mb-0">Create News</h5>
@@ -411,7 +463,7 @@ const News = () => {
                   {errors.type && <small className="text-danger">{errors.type.message}</small>}
                 </CCol> */}
 
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormSelect
                     label="News Type"
                     {...register('videoType')}
@@ -425,6 +477,14 @@ const News = () => {
                   {errors.videoType && (
                     <small className="text-danger">{errors.videoType.message}</small>
                   )}
+                </CCol>
+
+                <CCol md={6}>
+                  <CFormInput
+                    type="datetime-local"
+                    label="Schedule Publish"
+                    {...register('scheduledAt')}
+                  />
                 </CCol>
               </CRow>
 
@@ -474,7 +534,7 @@ const News = () => {
               {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>}
 
               <div className="d-flex justify-content-end mt-4">
-                <CButton
+                {/* <CButton
                   color="primary"
                   type="button"
                   disabled={loading}
@@ -484,14 +544,49 @@ const News = () => {
                   }}
                 >
                   {loading ? 'Saving...' : 'Publish'}
-                </CButton>
+                </CButton> */}
+
+                <div className="d-flex gap-2 justify-content-end">
+                  <CButton
+                    color="warning"
+                    type="button"
+                    onClick={() => {
+                      setValue('type', '2')
+                      handleSubmit(saveNews)()
+                    }}
+                  >
+                    Save Draft
+                  </CButton>
+
+                  <CButton
+                    color="info"
+                    type="button"
+                    onClick={() => {
+                      setValue('type', '3')
+                      handleSubmit(saveNews)()
+                    }}
+                  >
+                    Schedule
+                  </CButton>
+
+                  <CButton
+                    color="primary"
+                    type="button"
+                    onClick={() => {
+                      setValue('type', '1')
+                      handleSubmit(saveNews)()
+                    }}
+                  >
+                    Publish Now
+                  </CButton>
+                </div>
               </div>
             </CForm>
           </CCardBody>
         </CCard>
       </CCol>
 
-      <CCol lg={5}>
+      <CCol lg={4}>
         <CCard className="shadow border-0 rounded-4 text-dark">
           <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
             <h5 className="mb-0">Live Preview</h5>

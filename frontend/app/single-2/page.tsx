@@ -32,14 +32,7 @@ export default function Single_2() {
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-          const textNews = (u.data || []).filter(
-            (item: any) =>
-              Number(item.type) === 1 &&
-              (item.video_type === "2" ||
-                item.videoType === "2" ||
-                item.video_type === 2 ||
-                item.videoType === 2),
-          );
+          const textNews = u.data.filter((item: any) => !item.youtubeUrl);
 
           const formattedData: RelatedArticleType[] = textNews
             .slice(0, 4)

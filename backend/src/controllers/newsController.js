@@ -3,8 +3,15 @@ import News from "../models/News.js";
 
 export const createNews = async (req, res) => {
   try {
-    const { title, sub_title, video_type, youtube_url, content, type } =
-      req.body;
+    const {
+      title,
+      sub_title,
+      video_type,
+      youtube_url,
+      content,
+      type,
+      scheduledAt,
+    } = req.body;
 
     let categories = [];
 
@@ -16,17 +23,23 @@ export const createNews = async (req, res) => {
 
     categories = categories.map((id) => new mongoose.Types.ObjectId(id));
 
+    // Convert schedule date
+    let scheduledDate = null;
+
+    if (scheduledAt) {
+      scheduledDate = new Date(new Date(scheduledAt).getTime() - 19800000);
+    }
+
     const existingNews = await News.findOne({
       title: title.trim(),
       author: req.body.author,
-      type: 1, // ✅ only published news
+      type: 1,
     });
 
     const createdNews = await News.create({
       title,
       subtitle: sub_title,
 
-      // author: req.author,
       author: req.body.author,
 
       categories,
@@ -36,7 +49,12 @@ export const createNews = async (req, res) => {
       youtubeUrl: youtube_url || "",
 
       content: content || "",
+
       type: Number(type),
+
+      scheduledAt: scheduledDate,
+
+      isScheduled: Number(type) === 3,
 
       thumbnail: req.file?.filename || "",
     });
@@ -181,8 +199,16 @@ export const getNewsById = async (req, res) => {
 
 export const updateNews = async (req, res) => {
   try {
-    const { id, title, sub_title, video_type, youtube_url, content, type } =
-      req.body;
+    const {
+      id,
+      title,
+      sub_title,
+      video_type,
+      youtube_url,
+      content,
+      type,
+      scheduledAt,
+    } = req.body;
 
     // ✅ SAFE PARSE
     let categories = [];
@@ -219,6 +245,10 @@ export const updateNews = async (req, res) => {
 
       // ✅ update content
       content: content || "",
+      scheduledAt: req.body.scheduledAt
+        ? new Date(new Date(req.body.scheduledAt).getTime() - 19800000)
+        : null,
+      isScheduled: Number(type) === 3,
 
       // ✅ publish draft
       type: Number(type),
@@ -312,7 +342,6 @@ export const autoSaveNews = async (req, res) => {
   try {
     const { title, subtitle, categories, videoType, content, type } = req.body;
 
-    // ❌ Skip translate for auto draft
     if (Number(type) === 2) {
       console.log("Draft auto-save: translation skipped");
     }
@@ -320,7 +349,7 @@ export const autoSaveNews = async (req, res) => {
     let parsedCategories = [];
 
     try {
-      parsedCategories = categories || [];
+      parsedCategories = JSON.parse(categories || "[]");
     } catch (err) {
       parsedCategories = [];
     }
@@ -343,17 +372,18 @@ export const autoSaveNews = async (req, res) => {
       draft.content =
         typeof content === "string" ? content : JSON.stringify(content);
 
-      // Clear old media
-      draft.thumbnail = "";
-      draft.youtubeUrl = "";
+      if (req.file) {
+        draft.thumbnail = req.file.filename;
+      }
 
+      // Keep existing thumbnail & youtube url
       await draft.save();
     } else {
       draft = await News.create({
         title,
         subtitle,
         categories: parsedCategories,
-        videoType: videoType,
+        videoType,
 
         content:
           typeof content === "string" ? content : JSON.stringify(content),
@@ -361,8 +391,7 @@ export const autoSaveNews = async (req, res) => {
         type: 2,
         author: req.body.author,
 
-        // Empty media for auto draft
-        thumbnail: "",
+        thumbnail: req.file?.filename || "",
         youtubeUrl: "",
       });
     }

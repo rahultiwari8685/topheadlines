@@ -160,7 +160,7 @@ export default function Section3Interactive() {
 
   return (
     <div className="row">
-      {/* ✅ LEFT CATEGORY TABS */}
+      
       <div className="col-lg-3">
         <ul className="nav nav-tabs d-flex flex-lg-column flex-row flex-wrap ps-0 ps-lg-5">
           {categories.slice(0, 10).map((tab) => (
