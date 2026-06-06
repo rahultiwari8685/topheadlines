@@ -12,6 +12,8 @@ import authRoutes from "./routes/auth.js";
 import rateLimit from "express-rate-limit";
 import goldRoutes from "./routes/gold.js";
 
+import "./cron/publishScheduledNews.js";
+
 const app = express();
 
 app.set("trust proxy", 1);
