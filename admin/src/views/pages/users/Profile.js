@@ -22,15 +22,34 @@ const Profile = () => {
 
   const getProfile = async () => {
     try {
-      const res = await fetch(`${setting.api}/api/users/getUserById/${userId}`)
+      const res = await fetch(`${setting.api}/api/users/getUserById/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${loginInfo.token}`,
+        },
+      })
 
-      const result = await res.json()
+      if (!res.ok) {
+        throw new Error(`HTTP Error: ${res.status}`)
+      }
+
+      const text = await res.text()
+      console.log('Response:', text)
+
+      try {
+        const result = JSON.parse(text)
+
+        if (result.status) {
+          setUser(result.data)
+        }
+      } catch (err) {
+        console.error('Not JSON Response:', text)
+      }
 
       if (result.status) {
         setUser(result.data)
       }
     } catch (error) {
-      console.log(error)
+      console.error('Profile Error:', error)
     }
   }
 

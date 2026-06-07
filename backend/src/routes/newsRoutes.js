@@ -29,6 +29,8 @@ router.get("/id/:id", getNewsById);
 
 router.delete("/deleteNews/:id", deleteNews);
 
+router.get("/getUserById/:id", getUserById);
+
 router.get("/getAllNewsByAuthorId/:authorId", getAllNewsByAuthorId);
 
 router.post("/auto-save", upload.single("thumbnail"), autoSaveNews);
