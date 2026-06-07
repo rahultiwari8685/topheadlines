@@ -99,6 +99,7 @@ export const updateUser = async (req, res) => {
       role,
       post_permission,
       user_status,
+      bio,
     } = req.body;
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
@@ -109,6 +110,7 @@ export const updateUser = async (req, res) => {
     }
 
     const existingUser = await User.findById(id);
+
     if (!existingUser) {
       return res.status(404).json({
         success: false,
@@ -120,35 +122,38 @@ export const updateUser = async (req, res) => {
       name,
       email,
       phone,
-      password,
       role,
       post_permission,
       user_status,
+      bio,
     };
 
-    // ✅ Hash password if updated
-    if (password) {
+    // Update password only if provided
+    if (password && password.trim() !== "") {
       updateData.password = await bcrypt.hash(password, 10);
     }
 
-    // ✅ File update
+    // Update profile image
     if (req.file) {
       updateData.profileImage = req.file.filename;
     }
 
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
       new: true,
+      runValidators: true,
     }).select("-password");
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "User updated successfully",
       data: updatedUser,
     });
   } catch (error) {
-    res.status(500).json({
+    console.error("Update User Error:", error);
+
+    return res.status(500).json({
       success: false,
-      error: error.message,
+      message: error.message,
     });
   }
 };
