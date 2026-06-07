@@ -1,4 +1,5 @@
 import React from 'react'
+import Profile from './views/pages/users/Profile'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const News = React.lazy(() => import('./views/pages/news/News'))
