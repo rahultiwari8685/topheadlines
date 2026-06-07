@@ -187,9 +187,9 @@ const Login = () => {
 const styles = {
   bg: {
     background: `
-      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
-      url('https://images.unsplash.com/photo-1504711434969-e33886168f5c')
-    `,
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+    url('https://images.unsplash.com/photo-1495020689067-958852a7765e')
+  `,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     minHeight: '100vh',
