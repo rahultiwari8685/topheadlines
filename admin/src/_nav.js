@@ -71,15 +71,15 @@ export const adminNav = [
 
   {
     component: CNavItem,
-    name: 'Users',
-    to: '/Users',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
     name: 'Category',
     to: '/Category',
     icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Users',
+    to: '/Users',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   },
 ]
 export const editorNav = [
@@ -128,18 +128,17 @@ export const editorNav = [
       // },
     ],
   },
-
-  {
-    component: CNavItem,
-    name: 'Profile',
-    to: '/Profile',
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-  },
   {
     component: CNavItem,
     name: 'Category',
     to: '/Category',
     icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Profile',
+    to: '/Profile',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
 ]
 export const correspondenceNav = [
@@ -191,16 +190,17 @@ export const correspondenceNav = [
 
   {
     component: CNavItem,
+    name: 'Category',
+    to: '/Category',
+    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavItem,
     name: 'Profile',
     to: '/Profile',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
-  // {
-  //   component: CNavItem,
-  //   name: 'Category',
-  //   to: '/Category',
-  //   icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
-  // },
 ]
 export const subscriberNav = [
   {
@@ -251,14 +251,15 @@ export const subscriberNav = [
 
   {
     component: CNavItem,
+    name: 'Category',
+    to: '/Category',
+    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavItem,
     name: 'Profile',
     to: '/Profile',
     icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   },
-  // {
-  //   component: CNavItem,
-  //   name: 'Category',
-  //   to: '/Category',
-  //   icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
-  // },
 ]

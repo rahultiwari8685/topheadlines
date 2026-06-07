@@ -13,7 +13,7 @@ import {
 
 import secureLocalStorage from 'react-secure-storage'
 import setting from '../../../setting.json'
-
+import toast from 'react-hot-toast'
 const Profile = () => {
   const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo') || '{}')
 
@@ -88,14 +88,13 @@ const Profile = () => {
       const result = await res.json()
 
       if (result.success) {
-        alert('Profile Updated Successfully')
+        toast.success('Profile updated successfully')
         getProfile()
       } else {
-        alert(result.message || 'Update Failed')
+        toast.error(result.message || 'Update failed')
       }
     } catch (error) {
-      console.error(error)
-      alert('Something went wrong')
+      toast.error('Something went wrong')
     } finally {
       setLoading(false)
     }
@@ -198,7 +197,14 @@ const Profile = () => {
 
           <div className="text-end">
             <CButton color="primary" onClick={updateProfile} disabled={loading}>
-              {loading ? 'Updating...' : 'Update Profile'}
+              {loading ? (
+                <>
+                  <CSpinner size="sm" className="me-2" />
+                  Updating...
+                </>
+              ) : (
+                'Update Profile'
+              )}
             </CButton>
           </div>
         </CForm>
