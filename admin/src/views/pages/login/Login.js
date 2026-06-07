@@ -23,6 +23,9 @@ import toast from 'react-hot-toast'
 import setting from '../../../setting.json'
 import secureLocalStorage from 'react-secure-storage'
 
+import logo from '../../../assets/images/TH_Logo.png'
+import admin from '../../../assets/images/TH_Admin.png'
+
 const schema = yup.object().shape({
   email: yup.string().email().required('Enter your valid email'),
   password: yup
@@ -111,7 +114,7 @@ const Login = () => {
                 {/* Logo */}
                 <div className="text-center mb-4">
                   <img
-                    src="/logo.png"
+                    src={logo}
                     alt="Top Headlines"
                     style={{
                       width: '80px',
@@ -208,10 +211,11 @@ const styles = {
       rgba(0,0,0,0.75),
       rgba(0,0,0,0.85)
     ),
-    url('assets/images/TH_Admin.png')
+    url(${admin})
   `,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     minHeight: '100vh',
   },
 
