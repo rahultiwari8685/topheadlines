@@ -118,7 +118,7 @@ const Login = () => {
                     alt="Top Headlines"
                     style={{
                       width: '220px',
-                      marginBottom: '5px',
+                      marginBottom: '0px',
                     }}
                   />
                   {/* <h1 style={styles.brand}>Top Headlines</h1>
