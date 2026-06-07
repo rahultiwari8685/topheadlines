@@ -21,10 +21,11 @@ import {
   cilUser,
   cilTags,
 } from '@coreui/icons'
+import secureLocalStorage from 'react-secure-storage'
 
 const logininfo = JSON.parse(secureLocalStorage.getItem('logininfo'))
 
-const role = loginInfo?.role
+const role = logininfo?.role
 
 export const adminNav = [
   {
