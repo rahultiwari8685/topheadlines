@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "Top Headlines News",
     images: [
       {
-        url: "https://topheadlinesnews.com/assets/imgs/og-image.jpg",
+        url: "https://topheadlinesnews.com/assets/imgs/template/logo/TH_Logo.png",
         width: 1200,
         height: 630,
         alt: "Top Headlines News",
@@ -45,7 +45,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Top Headlines News",
     description: "Top Headlines News",
-    images: ["https://topheadlinesnews.com/assets/imgs/og-image.jpg"],
+    images: [
+      "https://topheadlinesnews.com/assets/imgs/template/logo/TH_Logo.png",
+    ],
   },
 };
 
