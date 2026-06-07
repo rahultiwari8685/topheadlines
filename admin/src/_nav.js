@@ -108,21 +108,15 @@ export const editorNav = [
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
       },
-      // {
-      //   component: CNavItem,
-      //   name: 'Deleted News',
-      //   to: '/DeletedNews',
-      //   icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
-      // },
     ],
   },
 
-  // {
-  //   component: CNavItem,
-  //   name: 'Users',
-  //   to: '/Users',
-  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  // },
+  {
+    component: CNavItem,
+    name: role === '1' ? 'Users' : 'Profile',
+    to: role === '1' ? '/Users' : '/Profile',
+    icon: <CIcon icon={role === '1' ? cilPeople : cilUser} customClassName="nav-icon" />,
+  },
   {
     component: CNavItem,
     name: 'Category',
@@ -177,12 +171,12 @@ export const correspondenceNav = [
     ],
   },
 
-  // {
-  //   component: CNavItem,
-  //   name: 'Users',
-  //   to: '/Users',
-  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  // },
+  {
+    component: CNavItem,
+    name: 'Users',
+    to: '/Users',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  },
   // {
   //   component: CNavItem,
   //   name: 'Category',
