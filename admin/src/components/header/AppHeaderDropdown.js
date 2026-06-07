@@ -113,7 +113,7 @@ const AppHeaderDropdown = () => {
         </CDropdownItem> */}
         <CDropdownItem disabled>
           <CIcon icon={cilUser} className="me-2" />
-          {logininfo?.user}
+          {logininfo?.user?.name}
         </CDropdownItem>
 
         <CDropdownDivider />
