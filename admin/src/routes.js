@@ -1,5 +1,4 @@
 import React from 'react'
-import Profile from './views/pages/users/Profile'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const News = React.lazy(() => import('./views/pages/news/News'))
@@ -10,6 +9,7 @@ const DeletedNews = React.lazy(() => import('./views/pages/news/DeletedNews'))
 const ChangePassword = React.lazy(() => import('./views/pages/changePassword/ChangePassword'))
 
 const Users = React.lazy(() => import('./views/pages/users/Users'))
+const Profile = React.lazy(() => import('./views/pages/users/Profile'))
 const Category = React.lazy(() => import('./views/pages/category/Category'))
 // import UpdateNews from "./pages/News/UpdateNews";
 
