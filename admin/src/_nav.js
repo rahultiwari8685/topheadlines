@@ -119,7 +119,7 @@ export const editorNav = [
   {
     component: CNavItem,
     name: role === '1' ? 'Users' : 'Profile',
-    to: role === '1' ? '/Users' : '/Profile',
+    to: role === '1' ? '/Users' : '/Users',
     icon: <CIcon icon={role === '1' ? cilPeople : cilUser} customClassName="nav-icon" />,
   },
   {
