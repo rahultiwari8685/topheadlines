@@ -11,7 +11,6 @@ import {
   getAllNewsByAuthorId,
   deleteNews,
   autoSaveNews,
-  getUserById,
 } from "../controllers/newsController.js";
 
 const router = express.Router();
@@ -29,8 +28,6 @@ router.get("/slug/:slug", getNewsBySlug);
 router.get("/id/:id", getNewsById);
 
 router.delete("/deleteNews/:id", deleteNews);
-
-router.get("/getUserById/:id", getUserById);
 
 router.get("/getAllNewsByAuthorId/:authorId", getAllNewsByAuthorId);
 

@@ -338,29 +338,6 @@ export const getAllNewsByAuthorId = async (req, res) => {
   }
 };
 
-export const getUserById = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-
-    if (!user) {
-      return res.status(404).json({
-        status: false,
-        message: "User not found",
-      });
-    }
-
-    return res.status(200).json({
-      status: true,
-      data: user,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: false,
-      message: error.message,
-    });
-  }
-};
-
 export const autoSaveNews = async (req, res) => {
   try {
     const { title, subtitle, categories, videoType, content, type } = req.body;
