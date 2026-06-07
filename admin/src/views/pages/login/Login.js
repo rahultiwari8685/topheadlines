@@ -93,7 +93,7 @@ const Login = () => {
     } catch (error) {
       console.error('Login Error:', error)
 
-      toast.error(dd.message || dd.reason || 'Invalid email or password')
+      toast.error(error.message || 'Something went wrong')
     } finally {
       setLoading(false)
     }
@@ -110,9 +110,26 @@ const Login = () => {
               <CCardBody>
                 {/* Logo */}
                 <div className="text-center mb-4">
+                  <img
+                    src="/logo.png"
+                    alt="Top Headlines"
+                    style={{
+                      width: '80px',
+                      marginBottom: '15px',
+                    }}
+                  />
                   <h1 style={styles.brand}>Top Headlines</h1>
-                  <div style={styles.divider}></div>
-                  <p style={styles.subtitle}>News Admin Login</p>
+
+                  <p style={styles.subtitle}>Content Management System</p>
+
+                  <p
+                    style={{
+                      color: '#888',
+                      fontSize: '13px',
+                    }}
+                  >
+                    Manage News, Categories & Authors
+                  </p>
                 </div>
 
                 <CForm onSubmit={handleSubmit(login)}>
@@ -187,8 +204,11 @@ const Login = () => {
 const styles = {
   bg: {
     background: `
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
-    url('https://images.unsplash.com/photo-1495020689067-958852a7765e')
+    linear-gradient(
+      rgba(0,0,0,0.75),
+      rgba(0,0,0,0.85)
+    ),
+    url('assets/images/TH_Admin.png')
   `,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -201,12 +221,22 @@ const styles = {
     height: '100%',
   },
 
+  // card: {
+  //   padding: '2rem',
+  //   borderRadius: '8px',
+  //   background: 'rgba(20,20,20,0.85)',
+  //   color: '#fff',
+  //   border: '1px solid rgba(255,255,255,0.08)',
+  // },
+
   card: {
-    padding: '2rem',
-    borderRadius: '8px',
-    background: 'rgba(20,20,20,0.85)',
-    color: '#fff',
+    padding: '2.5rem',
+    borderRadius: '20px',
+    background: 'rgba(15,15,15,0.85)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
     border: '1px solid rgba(255,255,255,0.08)',
+    boxShadow: '0 15px 40px rgba(0,0,0,0.4)',
   },
 
   brand: {
@@ -228,9 +258,10 @@ const styles = {
   },
 
   input: {
-    backgroundColor: 'transparent',
-    border: '1px solid #444',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    border: '1px solid #333',
     color: '#fff',
+    height: '50px',
   },
 
   iconBox: {
@@ -240,9 +271,11 @@ const styles = {
   },
 
   button: {
-    background: '#e50914',
+    background: 'linear-gradient(90deg,#e50914,#ff3b30)',
     border: 'none',
-    fontWeight: 'bold',
+    fontWeight: '700',
+    height: '50px',
+    borderRadius: '10px',
   },
 
   error: {
