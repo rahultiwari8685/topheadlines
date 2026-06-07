@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import setting from '../../../setting.json'
+import toast from 'react-hot-toast'
 
 import {
   CCard,
@@ -40,7 +41,7 @@ const News = () => {
 
   const [draftSaved, setDraftSaved] = useState(false)
   const [loading, setLoading] = useState(false)
-  import toast from 'react-hot-toast'
+
   const navigate = useNavigate()
   const {
     register,
