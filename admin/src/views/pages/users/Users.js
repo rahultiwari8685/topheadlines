@@ -50,11 +50,6 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
 
-  const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo') || '{}')
-
-  const loggedInRole = loginInfo?.role
-  const loggedInUserId = loginInfo?.user?.id
-
   const {
     register,
     handleSubmit,
@@ -63,19 +58,6 @@ const Users = () => {
     watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
-
-  const loadMyProfile = async () => {
-    try {
-      const user = userList.find((u) => String(u._id) === String(loggedInUserId))
-
-      if (user) {
-        setEditingUser(user)
-        setVisible(true)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   useEffect(() => {
     if (editingUser) {
@@ -114,17 +96,6 @@ const Users = () => {
   useEffect(() => {
     allUserList()
   }, [])
-
-  useEffect(() => {
-    if (loggedInRole !== '1' && userList.length > 0) {
-      const myProfile = userList.find((u) => String(u._id) === String(loggedInUserId))
-
-      if (myProfile) {
-        setEditingUser(myProfile)
-        setVisible(true)
-      }
-    }
-  }, [userList])
 
   const saveUser = async (data) => {
     const formData = new FormData()
@@ -227,132 +198,116 @@ const Users = () => {
 
   return (
     <div>
-      {loggedInRole === '1' && (
-        <CCard className="shadow border-0 rounded-4">
-          <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
-            <div className="d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">
-                <i className="bi bi-people-fill me-2 text-warning"></i> User
-              </h5>
-              <CButton
-                color="light"
-                variant="outline"
-                className="fw-semibold px-3 shadow-sm rounded-pill"
-                onClick={() => {
-                  setEditingUser(null)
-                  reset()
-                  setVisible(true)
-                }}
-              >
-                <i className="bi bi-plus-circle me-2"></i>{' '}
-                {userList ? 'Create User' : 'Update User'}
-              </CButton>
-            </div>
-          </CCardHeader>
+      <CCard className="shadow border-0 rounded-4">
+        <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
+          <div className="d-flex justify-content-between align-items-center">
+            <h5 className="mb-0">
+              <i className="bi bi-people-fill me-2 text-warning"></i> User
+            </h5>
+            <CButton
+              color="light"
+              variant="outline"
+              className="fw-semibold px-3 shadow-sm rounded-pill"
+              onClick={() => {
+                setEditingUser(null)
+                reset()
+                setVisible(true)
+              }}
+            >
+              <i className="bi bi-plus-circle me-2"></i> {userList ? 'Create User' : 'Update User'}
+            </CButton>
+          </div>
+        </CCardHeader>
 
-          <CCardBody>
-            <CTable striped responsive bordered hover>
-              <CTableHead color="dark">
-                <CTableRow>
-                  <CTableHeaderCell>#</CTableHeaderCell>
-                  <CTableHeaderCell>Name</CTableHeaderCell>
-                  <CTableHeaderCell>Phone</CTableHeaderCell>
-                  <CTableHeaderCell>Email</CTableHeaderCell>
-                  <CTableHeaderCell>Role</CTableHeaderCell>
-                  <CTableHeaderCell>Status</CTableHeaderCell>
-                  <CTableHeaderCell>Action</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                {paginatedItems.map((a, index) => {
-                  const actualIndex = (currentPage - 1) * itemsPerPage + index
-                  return (
-                    <CTableRow key={a.id}>
-                      <CTableDataCell>{actualIndex + 1}</CTableDataCell>
-                      <CTableDataCell>{a.name}</CTableDataCell>
-                      <CTableDataCell>{a.phone}</CTableDataCell>
-                      <CTableDataCell>{a.email}</CTableDataCell>
+        <CCardBody>
+          <CTable striped responsive bordered hover>
+            <CTableHead color="dark">
+              <CTableRow>
+                <CTableHeaderCell>#</CTableHeaderCell>
+                <CTableHeaderCell>Name</CTableHeaderCell>
+                <CTableHeaderCell>Phone</CTableHeaderCell>
+                <CTableHeaderCell>Email</CTableHeaderCell>
+                <CTableHeaderCell>Role</CTableHeaderCell>
+                <CTableHeaderCell>Status</CTableHeaderCell>
+                <CTableHeaderCell>Action</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+            <CTableBody>
+              {paginatedItems.map((a, index) => {
+                const actualIndex = (currentPage - 1) * itemsPerPage + index
+                return (
+                  <CTableRow key={a.id}>
+                    <CTableDataCell>{actualIndex + 1}</CTableDataCell>
+                    <CTableDataCell>{a.name}</CTableDataCell>
+                    <CTableDataCell>{a.phone}</CTableDataCell>
+                    <CTableDataCell>{a.email}</CTableDataCell>
 
-                      <CTableDataCell>
-                        <span className="badge bg-dark">
-                          {a.role === '1'
-                            ? 'Admin'
-                            : a.role === '2'
-                              ? 'Editor'
-                              : a.role === '3'
-                                ? 'Correspondent'
-                                : 'Subscriber'}
-                        </span>
-                      </CTableDataCell>
+                    <CTableDataCell>
+                      <span className="badge bg-dark">
+                        {a.role === '1'
+                          ? 'Admin'
+                          : a.role === '2'
+                            ? 'Editor'
+                            : a.role === '3'
+                              ? 'Correspondent'
+                              : 'Subscriber'}
+                      </span>
+                    </CTableDataCell>
 
-                      <CTableDataCell>
-                        <span className="badge bg-dark">
-                          {a.user_status === '1' ? 'Active' : 'Inactive'}
-                        </span>
-                      </CTableDataCell>
+                    <CTableDataCell>
+                      <span className="badge bg-dark">
+                        {a.user_status === '1' ? 'Active' : 'Inactive'}
+                      </span>
+                    </CTableDataCell>
 
-                      <CTableDataCell>
-                        <CButton
-                          size="sm"
-                          color="warning"
-                          className="rounded-pill px-3 shadow-sm fw-semibold"
-                          onClick={() => handleEdit(a)}
-                        >
-                          <CIcon icon={cilPencil} style={{ marginRight: '5px' }} />
-                          Edit
-                        </CButton>{' '}
-                        <CButton
-                          size="sm"
-                          color="danger"
-                          className="rounded-pill px-3 shadow-sm fw-semibold"
-                          onClick={() => handleDelete(a._id)}
-                        >
-                          <CIcon icon={cilTrash} style={{ marginRight: '5px' }} />
-                          Delete
-                        </CButton>
-                      </CTableDataCell>
-                    </CTableRow>
-                  )
-                })}
-              </CTableBody>
-            </CTable>
+                    <CTableDataCell>
+                      <CButton
+                        size="sm"
+                        color="warning"
+                        className="rounded-pill px-3 shadow-sm fw-semibold"
+                        onClick={() => handleEdit(a)}
+                      >
+                        <CIcon icon={cilPencil} style={{ marginRight: '5px' }} />
+                        Edit
+                      </CButton>{' '}
+                      <CButton
+                        size="sm"
+                        color="danger"
+                        className="rounded-pill px-3 shadow-sm fw-semibold"
+                        onClick={() => handleDelete(a._id)}
+                      >
+                        <CIcon icon={cilTrash} style={{ marginRight: '5px' }} />
+                        Delete
+                      </CButton>
+                    </CTableDataCell>
+                  </CTableRow>
+                )
+              })}
+            </CTableBody>
+          </CTable>
 
-            <div className="d-flex justify-content-end mt-3">
-              <CPagination align="end">
-                {[...Array(totalPages)].map((_, idx) => (
-                  <CPaginationItem
-                    key={idx + 1}
-                    active={currentPage === idx + 1}
-                    onClick={() => setCurrentPage(idx + 1)}
-                  >
-                    {idx + 1}
-                  </CPaginationItem>
-                ))}
-              </CPagination>
-            </div>
-          </CCardBody>
-        </CCard>
-      )}
+          <div className="d-flex justify-content-end mt-3">
+            <CPagination align="end">
+              {[...Array(totalPages)].map((_, idx) => (
+                <CPaginationItem
+                  key={idx + 1}
+                  active={currentPage === idx + 1}
+                  onClick={() => setCurrentPage(idx + 1)}
+                >
+                  {idx + 1}
+                </CPaginationItem>
+              ))}
+            </CPagination>
+          </div>
+        </CCardBody>
+      </CCard>
 
       <COffcanvas
         placement="end"
-        visible={loggedInRole === '1' ? visible : true}
-        onHide={() => loggedInRole === '1' && setVisible(false)}
+        visible={visible}
+        onHide={() => setVisible(false)}
+        backdrop={true}
       >
-        {loggedInRole === '1' && (
-          <CButton
-            color="light"
-            variant="outline"
-            className="fw-semibold px-3 shadow-sm rounded-pill"
-            onClick={() => {
-              setEditingUser(null)
-              reset()
-              setVisible(true)
-            }}
-          >
-            Create User
-          </CButton>
-        )}
         <COffcanvasHeader className="bg-dark text-white fw-bold" closeButton>
           {editingUser ? 'Update User' : 'Create User'}
         </COffcanvasHeader>

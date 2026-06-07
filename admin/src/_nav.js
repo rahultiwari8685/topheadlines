@@ -15,17 +15,12 @@ import {
   cilPlus,
   cilCheckCircle,
   cilPencil,
-  cilCalendar,
   cilTrash,
   cilChart,
   cilUser,
   cilTags,
+  cilCalendar,
 } from '@coreui/icons'
-import secureLocalStorage from 'react-secure-storage'
-
-const logininfo = JSON.parse(secureLocalStorage.getItem('logininfo'))
-
-const role = logininfo?.role
 
 export const adminNav = [
   {
@@ -58,6 +53,12 @@ export const adminNav = [
         name: 'Draft News',
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Scheduled News',
+        to: '/SchedulNews',
+        icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
       },
       // {
       //   component: CNavItem,
@@ -113,14 +114,26 @@ export const editorNav = [
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
       },
+      {
+        component: CNavItem,
+        name: 'Scheduled News',
+        to: '/SchedulNews',
+        icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
+      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Deleted News',
+      //   to: '/DeletedNews',
+      //   icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
+      // },
     ],
   },
 
   {
     component: CNavItem,
-    name: role === '1' ? 'Users' : 'Profile',
-    to: role === '1' ? '/Users' : '/Users',
-    icon: <CIcon icon={role === '1' ? cilPeople : cilUser} customClassName="nav-icon" />,
+    name: 'Profile',
+    to: '/Profile',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
@@ -163,8 +176,8 @@ export const correspondenceNav = [
       },
       {
         component: CNavItem,
-        name: 'Schedule News',
-        to: '/ScheduleNews',
+        name: 'Scheduled News',
+        to: '/SchedulNews',
         icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
       },
       // {
@@ -178,9 +191,9 @@ export const correspondenceNav = [
 
   {
     component: CNavItem,
-    name: 'Users',
-    to: '/Users',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+    name: 'Profile',
+    to: '/Profile',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
   // {
   //   component: CNavItem,
@@ -221,6 +234,12 @@ export const subscriberNav = [
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
       },
+      {
+        component: CNavItem,
+        name: 'Scheduled News',
+        to: '/SchedulNews',
+        icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
+      },
       // {
       //   component: CNavItem,
       //   name: 'Deleted News',
@@ -230,12 +249,12 @@ export const subscriberNav = [
     ],
   },
 
-  // {
-  //   component: CNavItem,
-  //   name: 'Users',
-  //   to: '/Users',
-  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  // },
+  {
+    component: CNavItem,
+    name: 'Profile',
+    to: '/Profile',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  },
   // {
   //   component: CNavItem,
   //   name: 'Category',
