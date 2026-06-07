@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes, BrowserRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
+import { Toaster } from 'react-hot-toast'
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
 
@@ -37,6 +37,36 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      {/* <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      /> */}
+
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            borderRadius: '8px',
+            fontSize: '14px',
+          },
+          success: {
+            style: {
+              background: '#22c55e',
+              color: '#fff',
+            },
+          },
+          error: {
+            style: {
+              background: '#ef4444',
+              color: '#fff',
+            },
+          },
+        }}
+      />
+
       <Suspense
         fallback={
           <div className="pt-3 text-center">

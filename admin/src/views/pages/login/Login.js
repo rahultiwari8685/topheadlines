@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import CIcon from '@coreui/icons-react'
+import toast from 'react-hot-toast'
 
 import setting from '../../../setting.json'
 import secureLocalStorage from 'react-secure-storage'
@@ -44,6 +45,7 @@ const Login = () => {
   })
 
   const login = async (data) => {
+    setLoading(true)
     console.log('Login data:', data)
 
     let lg = {
@@ -79,18 +81,19 @@ const Login = () => {
 
         secureLocalStorage.setItem('logininfo', JSON.stringify(loginData))
 
-        // alert('Login Successful')
+        toast.success('Login Successful')
 
-        navigate('/dashboard')
+        setTimeout(() => {
+          navigate('/dashboard')
+        }, 1000)
       } else {
         // Show backend message
-        alert(dd.message || dd.reason || 'Invalid email or password')
+        toast.error(dd.message || dd.reason || 'Invalid email or password')
       }
     } catch (error) {
       console.error('Login Error:', error)
 
-      // Network / server issue
-      alert(error.message || 'Something went wrong')
+      toast.error(dd.message || dd.reason || 'Invalid email or password')
     } finally {
       setLoading(false)
     }
