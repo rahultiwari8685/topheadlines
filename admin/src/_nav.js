@@ -22,6 +22,8 @@ import {
   cilTags,
 } from '@coreui/icons'
 
+const role = loginInfo?.role
+
 export const adminNav = [
   {
     component: CNavItem,
