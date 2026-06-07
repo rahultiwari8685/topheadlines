@@ -117,7 +117,7 @@ const Login = () => {
                     src={logo}
                     alt="Top Headlines"
                     style={{
-                      width: '150px',
+                      width: '220px',
                       marginBottom: '15px',
                     }}
                   />
