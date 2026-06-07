@@ -22,6 +22,8 @@ import {
   cilTags,
 } from '@coreui/icons'
 
+const logininfo = JSON.parse(secureLocalStorage.getItem('logininfo'))
+
 const role = loginInfo?.role
 
 export const adminNav = [
