@@ -117,13 +117,13 @@ const Login = () => {
                     src={logo}
                     alt="Top Headlines"
                     style={{
-                      width: '80px',
+                      width: '150px',
                       marginBottom: '15px',
                     }}
                   />
-                  <h1 style={styles.brand}>Top Headlines</h1>
+                  {/* <h1 style={styles.brand}>Top Headlines</h1>
 
-                  <p style={styles.subtitle}>Content Management System</p>
+                  <p style={styles.subtitle}>Content Management System</p> */}
 
                   <p
                     style={{
@@ -237,8 +237,8 @@ const styles = {
     padding: '2.5rem',
     borderRadius: '20px',
     background: 'rgba(15,15,15,0.85)',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
+    backdropFilter: 'blur(4px)',
+    WebkitBackdropFilter: 'blur(4px)',
     border: '1px solid rgba(255,255,255,0.08)',
     boxShadow: '0 15px 40px rgba(0,0,0,0.4)',
   },
