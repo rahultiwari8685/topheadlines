@@ -40,7 +40,7 @@ const News = () => {
 
   const [draftSaved, setDraftSaved] = useState(false)
   const [loading, setLoading] = useState(false)
-
+  import toast from 'react-hot-toast'
   const navigate = useNavigate()
   const {
     register,
@@ -281,7 +281,7 @@ const News = () => {
     setLoading(true)
 
     if (data.type === '3' && !data.scheduledAt) {
-      alert('Please select schedule date & time')
+      toast.error('Please select schedule date & time')
       setLoading(false)
       return
     }
@@ -339,8 +339,13 @@ const News = () => {
 
         secureLocalStorage.removeItem('newsDraft')
         localStorage.removeItem('newsDraft')
-        alert(data.type === '3' ? 'News Scheduled Successfully!' : 'News Published!')
-
+        toast.success(
+          data.type === '3'
+            ? 'News Scheduled Successfully!'
+            : data.type === '2'
+              ? 'Draft Saved Successfully!'
+              : 'News Published Successfully!',
+        )
         reset({
           title: '',
           slug: '',
@@ -355,10 +360,12 @@ const News = () => {
         setEditingNews(null)
         navigate('/PublishedNews')
       } else {
-        alert(result.message || 'Failed to save news')
+        toast.error(result.message || 'Failed to save news')
       }
     } catch (error) {
       console.error('Error saving news:', error)
+
+      toast.error(error.message || 'Something went wrong while saving news')
     } finally {
       setLoading(false)
     }
@@ -531,7 +538,9 @@ const News = () => {
                 </>
               )}
 
-              {draftSaved && <p className="text-success small mt-3">Draft auto-saved</p>}
+              {draftSaved && (
+                <div className="alert alert-success py-2 mt-3">✅ Draft Auto Saved</div>
+              )}
 
               <div className="d-flex justify-content-end mt-4">
                 {/* <CButton
@@ -547,7 +556,7 @@ const News = () => {
                 </CButton> */}
 
                 <div className="d-flex gap-2 justify-content-end">
-                  <CButton
+                  {/* <CButton
                     color="warning"
                     type="button"
                     onClick={() => {
@@ -556,28 +565,41 @@ const News = () => {
                     }}
                   >
                     Save Draft
-                  </CButton>
+                  </CButton> */}
 
+                  <CButton
+                    color="warning"
+                    type="button"
+                    disabled={loading}
+                    onClick={() => {
+                      setValue('type', '2')
+                      handleSubmit(saveNews)()
+                    }}
+                  >
+                    {loading ? 'Saving...' : 'Save Draft'}
+                  </CButton>
                   <CButton
                     color="info"
                     type="button"
+                    disabled={loading}
                     onClick={() => {
                       setValue('type', '3')
                       handleSubmit(saveNews)()
                     }}
                   >
-                    Schedule
+                    {loading ? 'Scheduling...' : 'Schedule'}
                   </CButton>
 
                   <CButton
                     color="primary"
                     type="button"
+                    disabled={loading}
                     onClick={() => {
                       setValue('type', '1')
                       handleSubmit(saveNews)()
                     }}
                   >
-                    Publish Now
+                    {loading ? 'Publishing...' : 'Publish Now'}
                   </CButton>
                 </div>
               </div>

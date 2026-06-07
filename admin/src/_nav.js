@@ -15,6 +15,7 @@ import {
   cilPlus,
   cilCheckCircle,
   cilPencil,
+  cilCalendar,
   cilTrash,
   cilChart,
   cilUser,
@@ -160,6 +161,12 @@ export const correspondenceNav = [
         name: 'Draft News',
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Schedule News',
+        to: '/ScheduleNews',
+        icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
       },
       // {
       //   component: CNavItem,

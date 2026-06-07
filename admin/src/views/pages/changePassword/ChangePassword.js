@@ -18,8 +18,10 @@ import secureLocalStorage from 'react-secure-storage'
 import setting from '../../../setting.json'
 
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const ChangePassword = () => {
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     oldPassword: '',
@@ -48,13 +50,22 @@ const ChangePassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (formData.newPassword !== formData.confirmPassword) {
+      toast.error('New Password and Confirm Password do not match')
+      return
+    }
+
+    if (formData.newPassword.length < 6) {
+      toast.error('Password must be at least 6 characters')
+      return
+    }
+
     try {
+      setLoading(true)
+
       const loginInfo = JSON.parse(secureLocalStorage.getItem('logininfo') || '{}')
 
-      // const userId = loginInfo?.user?.id
-
       const userId = loginInfo?.user?.id || loginInfo?.userId
-      console.log('User ID from storage:', userId)
       const token = loginInfo?.token
 
       const res = await fetch(setting.api + '/api/users/change-password', {
@@ -63,25 +74,35 @@ const ChangePassword = () => {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
         },
-        body: JSON.stringify({ ...formData, userId }),
+        body: JSON.stringify({
+          ...formData,
+          userId,
+        }),
       })
 
       const data = await res.json()
 
       if (data.status) {
-        alert('Password changed successfully ✅')
+        toast.success('Password changed successfully')
 
         setFormData({
           oldPassword: '',
           newPassword: '',
           confirmPassword: '',
         })
-        navigate('/login')
+
+        setTimeout(() => {
+          secureLocalStorage.clear()
+          navigate('/login')
+        }, 1500)
       } else {
-        alert(data.message || 'Error')
+        toast.error(data.message || 'Failed to change password')
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error(error)
+      toast.error('Something went wrong')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -122,7 +143,7 @@ const ChangePassword = () => {
                     role="button"
                     style={{ cursor: 'pointer', backgroundColor: '#e3f2fd' }}
                   >
-                    <CIcon icon={showPasswords.old ? cilLockUnlocked : cilLockLocked} />
+                    {showPasswords.old ? '🙈' : '👁️'}
                   </CInputGroupText>
                 </CInputGroup>
               </div>
@@ -146,7 +167,7 @@ const ChangePassword = () => {
                     role="button"
                     style={{ cursor: 'pointer', backgroundColor: '#d4edda' }}
                   >
-                    <CIcon icon={showPasswords.new ? cilLockUnlocked : cilLockLocked} />
+                    {showPasswords.old ? '🙈' : '👁️'}
                   </CInputGroupText>
                 </CInputGroup>
               </div>
@@ -170,7 +191,7 @@ const ChangePassword = () => {
                     role="button"
                     style={{ cursor: 'pointer', backgroundColor: '#f8d7da' }}
                   >
-                    <CIcon icon={showPasswords.confirm ? cilLockUnlocked : cilLockLocked} />
+                    {showPasswords.old ? '🙈' : '👁️'}
                   </CInputGroupText>
                 </CInputGroup>
               </div>
@@ -178,14 +199,14 @@ const ChangePassword = () => {
               <div className="text-center">
                 <CButton
                   type="submit"
-                  color="gradient"
                   className="px-4 py-2 bg-primary"
                   style={{
                     color: '#fff',
                     border: 'none',
                   }}
+                  disabled={loading}
                 >
-                  Change Password
+                  {loading ? 'Changing Password...' : 'Change Password'}
                 </CButton>
               </div>
             </CForm>

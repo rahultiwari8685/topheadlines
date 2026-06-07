@@ -23,13 +23,14 @@ import CIcon from '@coreui/icons-react'
 import setting from '../../../setting.json'
 import secureLocalStorage from 'react-secure-storage'
 import { useNavigate } from 'react-router-dom'
-
+import toast from 'react-hot-toast'
 const PublishedNews = () => {
   const [newsList, setNewsList] = useState([])
   const navigate = useNavigate()
   const [searchText, setSearchText] = useState('')
   const [userList, setUserList] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
+  const [loading, setLoading] = useState(false)
   const itemsPerPage = 30
 
   const [fromDate, setFromDate] = useState('')
@@ -45,6 +46,8 @@ const PublishedNews = () => {
 
   const fetchNews = async () => {
     try {
+      setLoading(true)
+
       const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
 
       const res = await fetch(setting.api + '/api/news/getAllNews', {
@@ -56,19 +59,19 @@ const PublishedNews = () => {
 
       const data = await res.json()
 
-      // 1 month ago date
       const oneMonthAgo = new Date()
       oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
 
       const filteredNews = (data.data || []).filter((item) => {
         const newsDate = new Date(item.createdAt)
-
         return item.type === 1 && newsDate >= oneMonthAgo
       })
 
       setNewsList(filteredNews)
     } catch (error) {
       console.error('Error fetching news:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -124,7 +127,7 @@ const PublishedNews = () => {
   }
 
   function handleDelete(id) {
-    var ans = confirm('Are you sure For Delete?')
+    const ans = window.confirm('Are you sure you want to delete this news?')
     console.log(ans)
 
     if (ans == true) {
@@ -136,24 +139,27 @@ const PublishedNews = () => {
     try {
       const response = await fetch(`${setting.api}/api/news/deleteNews/${id}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       })
 
       const data = await response.json()
-      fetchNews()
 
       if (data.status === true) {
-        console.log('Deleted successfully')
-
         setNewsList((prev) => prev.filter((item) => item._id !== id))
-        fetchNews()
+
+        toast.success('News deleted successfully')
+      } else {
+        toast.error(data.message || 'Delete failed')
       }
     } catch (error) {
       console.error('Delete Error:', error)
+
+      toast.error('Something went wrong')
     }
   }
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchText, selectedAuthor, selectedCategory, fromDate, toDate])
 
   const filteredNews = newsList.filter((news) => {
     const titleMatch = news.title?.toLowerCase().includes(searchText.toLowerCase())
@@ -184,7 +190,8 @@ const PublishedNews = () => {
       <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="mb-0">
-            <i className="bi bi-play-circle-fill me-2 text-danger"></i> Published News
+            <i className="bi bi-play-circle-fill me-2 text-danger"></i>
+            Published News ({filteredNews.length})
           </h5>
         </div>
       </CCardHeader>
@@ -246,126 +253,134 @@ const PublishedNews = () => {
           </CRow>
         </CForm>
 
-        <CTable align="middle" hover responsive bordered>
-          <CTableHead color="light">
-            <CTableRow>
-              <CTableHeaderCell scope="col">#</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Title</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Category</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Author</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Date & Time</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Action</CTableHeaderCell>
-            </CTableRow>
-          </CTableHead>
-          <CTableBody>
-            {paginatedItems.map((news, index) => {
-              const actualIndex = (currentPage - 1) * itemsPerPage + index
-              return (
-                <CTableRow key={news.id}>
-                  <CTableDataCell>{actualIndex + 1}</CTableDataCell>
-                  <CTableDataCell>
-                    <a
-                      href={`https://bharattvmedia.com/single-2?slug=${news.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        textDecoration: 'none',
-                        color: '#0d6efd',
-                        fontWeight: '500',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {news.title}
-                    </a>
-                  </CTableDataCell>
-                  {/* <CTableDataCell>{news.title}</CTableDataCell> */}
-
-                  <CTableDataCell>
-                    {news.categories && news.categories.length > 0
-                      ? news.categories.map((cat) => cat.name).join(', ')
-                      : '-'}
-                  </CTableDataCell>
-
-                  <CTableDataCell> {news.author?.name || 'N/A'}</CTableDataCell>
-
-                  <CTableDataCell>
-                    {new Date(news.updatedAt || news.createdAt).toLocaleString('en-IN', {
-                      timeZone: 'Asia/Kolkata',
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      hour12: true,
-                    })}
-                  </CTableDataCell>
-
-                  <CTableDataCell>
-                    <CButton
-                      size="sm"
-                      color="primary"
-                      className="rounded-pill px-3 shadow-sm fw-semibold"
-                      onClick={() => handleEdit(news)}
-                    >
-                      <CIcon icon={cilPencil} /> Edit
-                    </CButton>{' '}
-                    <CButton
-                      size="sm"
-                      color="danger"
-                      className="rounded-pill px-3 shadow-sm fw-semibold"
-                      onClick={() => handleDelete(news._id)}
-                    >
-                      <CIcon icon={cilTrash} /> Delete
-                    </CButton>
-                  </CTableDataCell>
+        {loading ? (
+          <div className="text-center py-5">
+            <div className="spinner-border text-primary" role="status" />
+          </div>
+        ) : (
+          <>
+            <CTable align="middle" hover responsive bordered>
+              <CTableHead color="light">
+                <CTableRow>
+                  <CTableHeaderCell scope="col">#</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Title</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Category</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Author</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Published At</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Action</CTableHeaderCell>
                 </CTableRow>
-              )
-            })}
-          </CTableBody>
-        </CTable>
+              </CTableHead>
+              <CTableBody>
+                {paginatedItems.map((news, index) => {
+                  const actualIndex = (currentPage - 1) * itemsPerPage + index
+                  return (
+                    <CTableRow key={news._id}>
+                      <CTableDataCell>{actualIndex + 1}</CTableDataCell>
+                      <CTableDataCell>
+                        <a
+                          href={`https://topheadlinesnews.com/single-2?slug=${news.slug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            textDecoration: 'none',
+                            color: '#0d6efd',
+                            fontWeight: '500',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          {news.title}
+                        </a>
+                      </CTableDataCell>
+                      {/* <CTableDataCell>{news.title}</CTableDataCell> */}
 
-        <div className="d-flex justify-content-center mt-4">
-          <CPagination align="center">
-            {/* Previous Button */}
-            <CPaginationItem
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
-              Previous
-            </CPaginationItem>
+                      <CTableDataCell>
+                        {news.categories && news.categories.length > 0
+                          ? news.categories.map((cat) => cat.name).join(', ')
+                          : '-'}
+                      </CTableDataCell>
 
-            {/* Dynamic Page Numbers */}
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter(
-                (page) =>
-                  page === 1 ||
-                  page === totalPages ||
-                  (page >= currentPage - 2 && page <= currentPage + 2),
-              )
-              .map((page, idx, arr) => (
-                <React.Fragment key={page}>
-                  {idx > 0 && page - arr[idx - 1] > 1 && (
-                    <CPaginationItem disabled>...</CPaginationItem>
-                  )}
+                      <CTableDataCell> {news.author?.name || 'N/A'}</CTableDataCell>
 
-                  <CPaginationItem
-                    active={currentPage === page}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    {page}
-                  </CPaginationItem>
-                </React.Fragment>
-              ))}
+                      <CTableDataCell>
+                        {new Date(news.createdAt).toLocaleString('en-IN', {
+                          timeZone: 'Asia/Kolkata',
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                        })}
+                      </CTableDataCell>
 
-            {/* Next Button */}
-            <CPaginationItem
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              Next
-            </CPaginationItem>
-          </CPagination>
-        </div>
+                      <CTableDataCell>
+                        <CButton
+                          size="sm"
+                          color="primary"
+                          className="rounded-pill px-3 shadow-sm fw-semibold"
+                          onClick={() => handleEdit(news)}
+                        >
+                          <CIcon icon={cilPencil} /> Edit
+                        </CButton>{' '}
+                        <CButton
+                          size="sm"
+                          color="danger"
+                          className="rounded-pill px-3 shadow-sm fw-semibold"
+                          onClick={() => handleDelete(news._id)}
+                        >
+                          <CIcon icon={cilTrash} /> Delete
+                        </CButton>
+                      </CTableDataCell>
+                    </CTableRow>
+                  )
+                })}
+              </CTableBody>
+            </CTable>
+
+            <div className="d-flex justify-content-center mt-4">
+              <CPagination align="center">
+                {/* Previous Button */}
+                <CPaginationItem
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  Previous
+                </CPaginationItem>
+
+                {/* Dynamic Page Numbers */}
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  .filter(
+                    (page) =>
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 2 && page <= currentPage + 2),
+                  )
+                  .map((page, idx, arr) => (
+                    <React.Fragment key={page}>
+                      {idx > 0 && page - arr[idx - 1] > 1 && (
+                        <CPaginationItem disabled>...</CPaginationItem>
+                      )}
+
+                      <CPaginationItem
+                        active={currentPage === page}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        {page}
+                      </CPaginationItem>
+                    </React.Fragment>
+                  ))}
+
+                {/* Next Button */}
+                <CPaginationItem
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Next
+                </CPaginationItem>
+              </CPagination>
+            </div>
+          </>
+        )}
       </CCardBody>
     </CCard>
   )

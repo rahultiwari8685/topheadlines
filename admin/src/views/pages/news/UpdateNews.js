@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import setting from '../../../setting.json'
 
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 import {
   CCard,
@@ -42,7 +43,7 @@ const UpdateNews = () => {
   const [editingNews, setEditingNews] = useState(null)
   const [newsList, setNewsList] = useState([])
   const [categoriesList, setCategoryList] = useState([])
-
+  const [loading, setLoading] = useState(false)
   const [content, setContent] = useState({})
 
   const {
@@ -145,7 +146,7 @@ const UpdateNews = () => {
       const result = await res.json()
 
       if (!result.status) {
-        alert('News not found')
+        toast.error('News not found')
         return
       }
 
@@ -194,6 +195,10 @@ const UpdateNews = () => {
   }, [id])
 
   const updateNews = async (data) => {
+    if (loading) return
+
+    setLoading(true)
+
     const formData = new FormData()
     formData.append('id', id)
 
@@ -227,8 +232,7 @@ const UpdateNews = () => {
       console.log('News API response:', result)
 
       if (result.status === true) {
-        alert('News updated!')
-
+        toast.success('News Updated Successfully!')
         reset({
           title: '',
           slug: '',
@@ -242,10 +246,14 @@ const UpdateNews = () => {
         setEditingNews(null)
         navigate('/PublishedNews')
       } else {
-        alert(result.message || 'Failed to save news')
+        toast.error(result.message || 'Failed to update news')
       }
     } catch (error) {
       console.error('Error saving news:', error)
+
+      toast.error(error.message || 'Something went wrong')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -444,8 +452,8 @@ const UpdateNews = () => {
               )}
 
               <div className="d-flex justify-content-end mt-4">
-                <CButton color="primary" type="submit">
-                  {editingNews ? 'Update' : 'Publish'}
+                <CButton color="primary" type="submit" disabled={loading}>
+                  {loading ? 'Updating...' : editingNews ? 'Update News' : 'Publish News'}
                 </CButton>
               </div>
             </CForm>
@@ -468,7 +476,7 @@ const UpdateNews = () => {
               <p>
                 <strong>Categories:</strong>{' '}
                 {categoriesList
-                  .filter((cat) => formDataValues.categories.includes(cat.id))
+                  .filter((cat) => formDataValues.categories.includes(cat._id))
                   .map((cat) => cat.name)
                   .join(', ')}
               </p>
@@ -498,7 +506,7 @@ const UpdateNews = () => {
               </video>
             )}
 
-            {formDataValues.videoType === 'self' && formDataValues.thumbnail?.[0] && (
+            {formDataValues.videoType === '2' && formDataValues.thumbnail?.[0] && (
               <div className="mt-3">
                 <strong>Thumbnail:</strong>
                 <img

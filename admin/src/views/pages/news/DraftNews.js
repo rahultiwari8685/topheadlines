@@ -24,12 +24,23 @@ import setting from '../../../setting.json'
 import secureLocalStorage from 'react-secure-storage'
 import { useNavigate } from 'react-router-dom'
 
+import toast from 'react-hot-toast'
+
 const DraftNews = () => {
   const [newsList, setNewsList] = useState([])
   const navigate = useNavigate()
   const [searchText, setSearchText] = useState('')
   const [userList, setUserList] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
+
+  const [loading, setLoading] = useState(false)
+
+  const [fromDate, setFromDate] = useState('')
+  const [toDate, setToDate] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedAuthor, setSelectedAuthor] = useState('')
+
+  const [categoryList, setCategoryList] = useState([])
   const itemsPerPage = 30
 
   const userRole = JSON.parse(secureLocalStorage.getItem('logininfo')).role
@@ -38,6 +49,7 @@ const DraftNews = () => {
 
   const fetchNews = async () => {
     try {
+      setLoading(true)
       const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
 
       const res = await fetch(setting.api + '/api/news/getAllNews', {
@@ -66,8 +78,28 @@ const DraftNews = () => {
       setNewsList(filteredNews)
     } catch (error) {
       console.error('Error fetching news:', error)
+    } finally {
+      setLoading(false)
     }
   }
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch(setting.api + '/api/categories/getAllCategory')
+
+      const data = await res.json()
+
+      if (data.success) {
+        setCategoryList(data.data)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
 
   useEffect(() => {
     fetchNews()
@@ -129,20 +161,33 @@ const DraftNews = () => {
       fetchNews()
 
       if (data.status === true) {
-        console.log('Deleted successfully')
+        toast.success('Draft deleted successfully')
 
-        // optional: remove from UI
         setNewsList((prev) => prev.filter((item) => item._id !== id))
         fetchNews()
       }
+      toast.error(data.message || 'Delete failed')
     } catch (error) {
-      console.error('Delete Error:', error)
+      toast.error('Something went wrong')
     }
   }
 
-  const filteredNews = newsList.filter((news) =>
-    news.title.toLowerCase().includes(searchText.toLowerCase()),
-  )
+  const filteredNews = newsList.filter((news) => {
+    const titleMatch = news.title?.toLowerCase().includes(searchText.toLowerCase())
+
+    const authorMatch = !selectedAuthor || news.author?._id === selectedAuthor
+
+    const categoryMatch =
+      !selectedCategory || news.categories?.some((cat) => cat._id === selectedCategory)
+
+    const newsDate = new Date(news.createdAt)
+
+    const fromMatch = !fromDate || newsDate >= new Date(fromDate)
+
+    const toMatch = !toDate || newsDate <= new Date(new Date(toDate).setHours(23, 59, 59))
+
+    return titleMatch && authorMatch && categoryMatch && fromMatch && toMatch
+  })
 
   const totalPages = Math.ceil(filteredNews.length / itemsPerPage)
 
@@ -151,12 +196,16 @@ const DraftNews = () => {
     currentPage * itemsPerPage,
   )
 
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchText, selectedAuthor, selectedCategory, fromDate, toDate])
   return (
     <CCard className="shadow-sm border-0 rounded-4">
       <CCardHeader className="bg-dark text-white fw-bold px-4 py-3 shadow-sm">
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="mb-0">
-            <i className="bi bi-play-circle-fill me-2 text-danger"></i> Draft News
+            <i className="bi bi-file-earmark-text-fill me-2 text-warning"></i>
+            Draft News ({filteredNews.length})
           </h5>
         </div>
       </CCardHeader>
@@ -164,129 +213,171 @@ const DraftNews = () => {
       <CCardBody>
         <CForm className="mb-4">
           <CRow className="g-3">
-            {/* <CCol md={3}>
-              <CFormLabel htmlFor="fromDate">From Date</CFormLabel>
-              <CFormInput type="date" id="fromDate" />
-            </CCol>
             <CCol md={3}>
-              <CFormLabel htmlFor="toDate">To Date</CFormLabel>
-              <CFormInput type="date" id="toDate" />
-            </CCol> */}
-            {/* <CCol md={12}>
               <CFormInput
-                type="text"
-                id="searchText"
+                type="date"
+                value={fromDate}
+                onChange={(e) => setFromDate(e.target.value)}
+              />
+            </CCol>
+
+            <CCol md={3}>
+              <CFormInput type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+            </CCol>
+
+            <CCol md={3}>
+              <select
+                className="form-select"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                <option value="">All Categories</option>
+
+                {categoryList.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </CCol>
+
+            <CCol md={3}>
+              <select
+                className="form-select"
+                value={selectedAuthor}
+                onChange={(e) => setSelectedAuthor(e.target.value)}
+              >
+                <option value="">All Authors</option>
+
+                {userList.map((user) => (
+                  <option key={user._id} value={user._id}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </CCol>
+
+            <CCol md={12}>
+              <CFormInput
                 placeholder="Search by Title"
-                value={searchText} // bind state
+                value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />
-            </CCol> */}
+            </CCol>
           </CRow>
         </CForm>
 
-        <CTable align="middle" hover responsive bordered>
-          <CTableHead color="light">
-            <CTableRow>
-              <CTableHeaderCell scope="col">#</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Title</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Category</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Author</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Date & Time</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Action</CTableHeaderCell>
-            </CTableRow>
-          </CTableHead>
-
-          <CTableBody>
-            {paginatedItems.map((news, index) => {
-              const actualIndex = (currentPage - 1) * itemsPerPage + index
-              return (
-                <CTableRow key={news.id}>
-                  <CTableDataCell>{actualIndex + 1}</CTableDataCell>
-                  <CTableDataCell>{news.title}</CTableDataCell>
-
-                  <CTableDataCell>
-                    {news.categories && news.categories.length > 0
-                      ? news.categories.map((cat) => cat.name).join(', ')
-                      : '-'}
-                  </CTableDataCell>
-
-                  <CTableDataCell> {news.author?.name || 'N/A'}</CTableDataCell>
-
-                  <CTableDataCell>
-                    {new Date(news.updatedAt || news.createdAt).toLocaleString('en-IN', {
-                      timeZone: 'Asia/Kolkata',
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      hour12: true,
-                    })}
-                  </CTableDataCell>
-
-                  <CTableDataCell>
-                    <CButton
-                      size="sm"
-                      color="primary"
-                      className="rounded-pill px-3 shadow-sm fw-semibold"
-                      onClick={() => handleEdit(news)}
-                    >
-                      <CIcon icon={cilPencil} /> Edit
-                    </CButton>{' '}
-                    <CButton
-                      size="sm"
-                      color="danger"
-                      className="rounded-pill px-3 shadow-sm fw-semibold"
-                      onClick={() => handleDelete(news._id)}
-                    >
-                      <CIcon icon={cilTrash} /> Delete
-                    </CButton>
-                  </CTableDataCell>
+        {loading ? (
+          <div className="text-center py-5">
+            <div className="spinner-border text-primary" role="status" />
+          </div>
+        ) : (
+          <>
+            <CTable align="middle" hover responsive bordered>
+              <CTableHead color="light">
+                <CTableRow>
+                  <CTableHeaderCell scope="col">#</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Title</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Category</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Author</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Published At</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">Action</CTableHeaderCell>
                 </CTableRow>
-              )
-            })}
-          </CTableBody>
-        </CTable>
+              </CTableHead>
 
-        <div className="d-flex justify-content-center mt-4">
-          <CPagination align="center">
-            <CPaginationItem
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
-              Previous
-            </CPaginationItem>
+              <CTableBody>
+                {paginatedItems.map((news, index) => {
+                  const actualIndex = (currentPage - 1) * itemsPerPage + index
+                  return (
+                    <CTableRow key={news._id}>
+                      <CTableDataCell>{actualIndex + 1}</CTableDataCell>
+                      <CTableDataCell>{news.title}</CTableDataCell>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter(
-                (page) =>
-                  page === 1 ||
-                  page === totalPages ||
-                  (page >= currentPage - 2 && page <= currentPage + 2),
-              )
-              .map((page, idx, arr) => (
-                <React.Fragment key={page}>
-                  {idx > 0 && page - arr[idx - 1] > 1 && (
-                    <CPaginationItem disabled>...</CPaginationItem>
-                  )}
+                      <CTableDataCell>
+                        {news.categories && news.categories.length > 0
+                          ? news.categories.map((cat) => cat.name).join(', ')
+                          : '-'}
+                      </CTableDataCell>
 
-                  <CPaginationItem
-                    active={currentPage === page}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    {page}
-                  </CPaginationItem>
-                </React.Fragment>
-              ))}
+                      <CTableDataCell> {news.author?.name || 'N/A'}</CTableDataCell>
 
-            <CPaginationItem
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              Next
-            </CPaginationItem>
-          </CPagination>
-        </div>
+                      <CTableDataCell>
+                        {new Date(news.createdAt).toLocaleString('en-IN', {
+                          timeZone: 'Asia/Kolkata',
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                        })}
+                      </CTableDataCell>
+
+                      <CTableDataCell>
+                        <CButton
+                          size="sm"
+                          color="primary"
+                          className="rounded-pill px-3 shadow-sm fw-semibold"
+                          onClick={() => handleEdit(news)}
+                        >
+                          <CIcon icon={cilPencil} /> Edit
+                        </CButton>{' '}
+                        <CButton
+                          size="sm"
+                          color="danger"
+                          className="rounded-pill px-3 shadow-sm fw-semibold"
+                          onClick={() => handleDelete(news._id)}
+                        >
+                          <CIcon icon={cilTrash} /> Delete
+                        </CButton>
+                      </CTableDataCell>
+                    </CTableRow>
+                  )
+                })}
+              </CTableBody>
+            </CTable>
+
+            <div className="d-flex justify-content-center mt-4">
+              <CPagination align="center">
+                <CPaginationItem
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  Previous
+                </CPaginationItem>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  .filter(
+                    (page) =>
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 2 && page <= currentPage + 2),
+                  )
+                  .map((page, idx, arr) => (
+                    <React.Fragment key={page}>
+                      {idx > 0 && page - arr[idx - 1] > 1 && (
+                        <CPaginationItem disabled>...</CPaginationItem>
+                      )}
+
+                      <CPaginationItem
+                        active={currentPage === page}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        {page}
+                      </CPaginationItem>
+                    </React.Fragment>
+                  ))}
+
+                <CPaginationItem
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Next
+                </CPaginationItem>
+              </CPagination>
+            </div>
+          </>
+        )}
       </CCardBody>
     </CCard>
   )

@@ -30,6 +30,8 @@ import secureLocalStorage from 'react-secure-storage'
 import { cilPen, cilPencil, cilTrash } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
+import toast from 'react-hot-toast'
+
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   parent: yup.string().required('Phone is required'),
@@ -41,7 +43,8 @@ const Category = () => {
   const [category, setCategoryList] = useState([])
   const [editingCategory, setEditingCategory] = useState(null)
   const [visible, setVisible] = useState(false)
-
+  const [loading, setLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
 
@@ -80,6 +83,10 @@ const Category = () => {
   }, [])
 
   const saveCategory = async (data) => {
+    if (loading) return
+
+    setLoading(true)
+
     const db = {
       name: data.name,
       parentCategory: data.parent,
@@ -107,16 +114,23 @@ const Category = () => {
 
       const result = await res.json()
 
-      if (result.status === true) {
+      if (result.status) {
+        toast.success(
+          editingCategory ? 'Category Updated Successfully' : 'Category Created Successfully',
+        )
+
         reset()
         getAllCategory()
         setEditingCategory(null)
         setVisible(false)
       } else {
-        alert(result.message || 'Failed to save category')
+        toast.error(result.message || 'Failed to save category')
       }
     } catch (err) {
-      console.error('Error saving category:', err)
+      console.error(err)
+      toast.error('Something went wrong')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -143,6 +157,8 @@ const Category = () => {
 
   const deleteCategory = async (id) => {
     try {
+      setDeleteLoading(id)
+
       const token = JSON.parse(secureLocalStorage.getItem('logininfo'))?.token
 
       const response = await fetch(`${setting.api}/api/categories/deleteCategory`, {
@@ -156,14 +172,18 @@ const Category = () => {
 
       const result = await response.json()
 
-      if (!response.ok) {
-        console.error('Delete failed:', result)
+      if (result.status) {
+        toast.success('Category Deleted Successfully')
+
+        setCategoryList((prev) => prev.filter((item) => item._id !== id))
       } else {
-        console.log('Category deleted:', result)
-        getAllCategory()
+        toast.error(result.message || 'Delete failed')
       }
     } catch (err) {
-      console.error('Error deleting category:', err)
+      console.error(err)
+      toast.error('Something went wrong')
+    } finally {
+      setDeleteLoading(null)
     }
   }
 
@@ -235,10 +255,12 @@ const Category = () => {
                       <CButton
                         size="sm"
                         color="danger"
-                        className="rounded-pill px-3 shadow-sm fw-semibold"
+                        disabled={deleteLoading === cat._id}
                         onClick={() => handleDelete(cat._id)}
                       >
-                        <CIcon icon={cilTrash} style={{ marginRight: '5px' }} /> Delete
+                        <CIcon icon={cilTrash} style={{ marginRight: '5px' }} />
+
+                        {deleteLoading === cat._id ? 'Deleting...' : 'Delete'}
                       </CButton>
                     </CTableDataCell>
                   </CTableRow>
@@ -364,12 +386,9 @@ const Category = () => {
               <CButton
                 type="submit"
                 color={editingCategory ? 'warning' : 'success'}
-                className="rounded-pill px-4 shadow-sm fw-semibold"
+                disabled={loading}
               >
-                <i
-                  className={`bi ${editingCategory ? 'bi-arrow-repeat' : 'bi-check-circle'} me-2`}
-                ></i>
-                {editingCategory ? 'Update Category' : 'Save Category'}
+                {loading ? 'Saving...' : editingCategory ? 'Update Category' : 'Save Category'}
               </CButton>
             </div>
           </CForm>
