@@ -5,6 +5,7 @@ const News = React.lazy(() => import('./views/pages/news/News'))
 const UpdateNews = React.lazy(() => import('./views/pages/news/UpdateNews'))
 const PublishedNews = React.lazy(() => import('./views/pages/news/PublishedNews'))
 const DraftNews = React.lazy(() => import('./views/pages/news/DraftNews'))
+const ScheduleNews = React.lazy(() => import('./views/pages/news/ScheduleNews'))
 const DeletedNews = React.lazy(() => import('./views/pages/news/DeletedNews'))
 const ChangePassword = React.lazy(() => import('./views/pages/changePassword/ChangePassword'))
 
@@ -21,6 +22,7 @@ const routes = [
   { path: '/UpdateNews/:id', name: 'Update News', element: UpdateNews },
   { path: '/PublishedNews', name: 'Published News', element: PublishedNews },
   { path: '/DraftNews', name: 'Draft News', element: DraftNews },
+  { path: '/ScheduleNews', name: 'Draft News', element: ScheduleNews },
   { path: '/DeletedNews', name: 'Deleted News', element: DeletedNews },
 
   { path: '/ChangePassword', name: 'Change Password', element: ChangePassword },

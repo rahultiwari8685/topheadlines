@@ -57,7 +57,7 @@ export const adminNav = [
       {
         component: CNavItem,
         name: 'Scheduled News',
-        to: '/SchedulNews',
+        to: '/ScheduleNews',
         icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
       },
       // {
@@ -117,7 +117,7 @@ export const editorNav = [
       {
         component: CNavItem,
         name: 'Scheduled News',
-        to: '/SchedulNews',
+        to: '/ScheduleNews',
         icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
       },
       // {
@@ -176,7 +176,7 @@ export const correspondenceNav = [
       {
         component: CNavItem,
         name: 'Scheduled News',
-        to: '/SchedulNews',
+        to: '/ScheduleNews',
         icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
       },
       // {
@@ -237,7 +237,7 @@ export const subscriberNav = [
       {
         component: CNavItem,
         name: 'Scheduled News',
-        to: '/SchedulNews',
+        to: '/ScheduleNews',
         icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
       },
       // {
