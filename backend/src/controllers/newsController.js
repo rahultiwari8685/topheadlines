@@ -148,12 +148,10 @@ export const getAllNewsByCategory = async (req, res) => {
 };
 
 export const getNewsBySlug = async (req, res) => {
-  const news = await News.findOne({ slug: req.params.slug })
-    .populate(
-      "author",
-      "name email profileImage bio"
-    )
-    .populate("categories", "name slug");
+  try {
+    const news = await News.findOne({ slug: req.params.slug })
+      .populate("author", "name email profileImage bio")
+      .populate("categories", "name slug");
 
     if (!news) {
       return res.status(404).json({
@@ -167,6 +165,8 @@ export const getNewsBySlug = async (req, res) => {
       data: news,
     });
   } catch (error) {
+    console.error("Get News By Slug Error:", error);
+
     return res.status(500).json({
       status: false,
       message: error.message,
