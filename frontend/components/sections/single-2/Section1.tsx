@@ -70,11 +70,18 @@ export default function Section1() {
 
             <div className="d-flex align-items-center gap-2">
               <img
-                src="/assets/imgs/template/author/author-1.png"
+                src={
+                  news.author?.profileImage
+                    ? `${setting.api}/uploads/images/${news.author.profileImage}`
+                    : "/assets/imgs/template/author/author-1.png"
+                }
                 width={40}
                 height={40}
-                style={{ borderRadius: "50%" }}
-                alt="author"
+                style={{
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+                alt={news.author?.name || "author"}
               />
               {/* <span>{news.author || "Admin"}</span> */}
 
