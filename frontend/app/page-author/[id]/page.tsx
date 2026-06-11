@@ -34,13 +34,15 @@ export default function Page_Author() {
 
     fetch(`${setting.api}/api/users/getUserById/${id}`)
       .then((res) => res.json())
+
       .then((data) => {
         console.log("AUTHOR DATA:", data);
 
-        if (data.success) {
-          setAuthor(data.data || data.user);
+        if (data.status) {
+          setAuthor(data.data);
         }
       })
+
       .catch((err) => {
         console.error("Author Fetch Error:", err);
       })
@@ -93,27 +95,6 @@ export default function Page_Author() {
                 <p className="mb-0 fs-7">
                   {author?.bio || "Latest news updates and trending stories."}
                 </p>
-
-                {/* Extra Info */}
-                <div className="mt-4">
-                  {/* {author?.email && (
-                    <p>
-                      <strong>Email:</strong> {author.email}
-                    </p>
-                  )}
-
-                  {author?.phone && (
-                    <p>
-                      <strong>Phone:</strong> {author.phone}
-                    </p>
-                  )} */}
-                  {/* 
-                  {author?.role && (
-                    <p>
-                      <strong>Role:</strong> {author.role}
-                    </p>
-                  )} */}
-                </div>
 
                 {/* Social Links */}
                 <div
