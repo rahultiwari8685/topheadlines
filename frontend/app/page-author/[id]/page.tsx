@@ -32,7 +32,7 @@ export default function Page_Author() {
 
     setLoading(true);
 
-    fetch(`${setting.api}/api/users/getUserDetailsById/${id}`)
+    fetch(`${setting.api}/api/users/getUserById/${id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("AUTHOR DATA:", data);
