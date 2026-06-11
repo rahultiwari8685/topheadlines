@@ -147,7 +147,7 @@ export default function Section1() {
 
                 {/* Copy Link */}
                 <button
-                  className="btn btn-warning btn-sm"
+                  className="btn btn-dark btn-sm"
                   onClick={() => {
                     navigator.clipboard.writeText(currentUrl);
                     alert("Link copied successfully");
@@ -158,7 +158,7 @@ export default function Section1() {
 
                 {/* Native Share Mobile */}
                 <button
-                  className="btn btn-danger btn-sm"
+                  className="btn btn-dark btn-sm"
                   onClick={async () => {
                     if (navigator.share) {
                       await navigator.share({
