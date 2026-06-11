@@ -5,7 +5,7 @@ import "@/public/assets/css/vendors/swiper-bundle.min.css";
 import "@/public/assets/css/vendors/carouselTicker.css";
 import "@/public/assets/css/main.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
-
+import "remixicon/fonts/remixicon.css";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 

@@ -22,7 +22,7 @@ const routes = [
   { path: '/UpdateNews/:id', name: 'Update News', element: UpdateNews },
   { path: '/PublishedNews', name: 'Published News', element: PublishedNews },
   { path: '/DraftNews', name: 'Draft News', element: DraftNews },
-  { path: '/ScheduleNews', name: 'Draft News', element: ScheduleNews },
+  { path: '/ScheduleNews', name: 'Scheduled News', element: ScheduleNews },
   { path: '/DeletedNews', name: 'Deleted News', element: DeletedNews },
 
   { path: '/ChangePassword', name: 'Change Password', element: ChangePassword },
