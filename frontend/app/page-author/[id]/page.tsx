@@ -71,7 +71,7 @@ export default function Page_Author() {
             <div className="card shadow border-0 rounded-4 p-4">
               {/* Author Image */}
               <div className="card-img mb-4 text-center">
-                <Image
+                <img
                   className="rounded-circle avatar-154"
                   src={
                     author?.profileImage
