@@ -12,30 +12,32 @@ export default function Header2Server() {
   return (
     <>
       <header>
-        <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
+        {/* <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
           <div className="overflow-hidden">
             <div className="d-flex justify-content-between align-items-center">
               <div className="left">
                 <WeatherWidget />
               </div>
 
-              {/* <div className="right">
+              <div className="right">
         <GoldPrice/>
-      </div> */}
+      </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <nav className="navbar style-2">
           <div className="navbar-collapse d-none d-lg-block" id="navbarNav">
-            <MainMenu2 />
+            <ul className="navbar-nav">
+              <MainMenu2 />
+            </ul>
           </div>
           <Link className="navbar-brand fw-bold fs-3" href="/">
             <Image
               className="dark-mode-invert"
               src="/assets/imgs/template/logo/TH_Logo.png"
               width={143}
-              height={100}
+              height={70}
               alt="logo"
             />
           </Link>
