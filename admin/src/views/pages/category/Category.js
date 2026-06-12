@@ -238,7 +238,7 @@ const Category = () => {
               {paginatedItems.map((cat, index) => {
                 const actualIndex = (currentPage - 1) * itemsPerPage + index
                 return (
-                  <CTableRow key={cat.id}>
+                  <CTableRow key={cat._id}>
                     <CTableDataCell>{actualIndex + 1}</CTableDataCell>
 
                     <CTableDataCell>{cat?.name}</CTableDataCell>
