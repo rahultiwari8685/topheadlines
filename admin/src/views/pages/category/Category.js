@@ -29,7 +29,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import secureLocalStorage from 'react-secure-storage'
 import { cilPen, cilPencil, cilTrash } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-
 import toast from 'react-hot-toast'
 
 const schema = yup.object().shape({
@@ -44,7 +43,6 @@ const Category = () => {
   const [editingCategory, setEditingCategory] = useState(null)
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [deleteLoading, setDeleteLoading] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
 
@@ -83,16 +81,14 @@ const Category = () => {
   }, [])
 
   const saveCategory = async (data) => {
-    if (loading) return
-
     setLoading(true)
-
     const db = {
       name: data.name,
       parentCategory: data.parent,
       meta_title: data.meta_title,
       meta_desc: data.meta_desc,
       showInMenu: data.nav,
+      position: Number(data.position || 0),
     }
 
     let endpoint = '/api/categories/saveCategory'
@@ -114,17 +110,17 @@ const Category = () => {
 
       const result = await res.json()
 
-      if (result.status) {
+      if (result.success) {
         toast.success(
           editingCategory ? 'Category Updated Successfully' : 'Category Created Successfully',
         )
-
         reset({
           name: '',
-          parentCategory: '0',
+          parent: '0',
           meta_title: '',
           meta_desc: '',
-          showInMenu: '',
+          nav: '0',
+          position: 0,
         })
         getAllCategory()
         setEditingCategory(null)
@@ -133,7 +129,6 @@ const Category = () => {
         toast.error(result.message || 'Failed to save category')
       }
     } catch (err) {
-      console.error(err)
       toast.error('Something went wrong')
     } finally {
       setLoading(false)
@@ -145,11 +140,11 @@ const Category = () => {
     setVisible(true)
 
     setValue('name', cat.name)
-    setValue('parent', cat.parentCategory._id)
-    // setValue('slug', cat.slug)
-    setValue('meta_title', cat.meta_title)
-    setValue('meta_desc', cat.meta_desc)
-    setValue('nav', cat.showInMenu)
+    setValue('parent', cat.parentCategory?._id || '0')
+    setValue('meta_title', cat.meta_title || '')
+    setValue('meta_desc', cat.meta_desc || '')
+    setValue('nav', cat.showInMenu ? '1' : '0')
+    setValue('position', cat.position || 0)
   }
 
   function handleDelete(id) {
@@ -163,8 +158,7 @@ const Category = () => {
 
   const deleteCategory = async (id) => {
     try {
-      setDeleteLoading(id)
-
+      setLoading(true)
       const token = JSON.parse(secureLocalStorage.getItem('logininfo'))?.token
 
       const response = await fetch(`${setting.api}/api/categories/deleteCategory`, {
@@ -189,7 +183,7 @@ const Category = () => {
       console.error(err)
       toast.error('Something went wrong')
     } finally {
-      setDeleteLoading(null)
+      setLoading(false)
     }
   }
 
@@ -234,7 +228,9 @@ const Category = () => {
               <CTableRow>
                 <CTableHeaderCell>#</CTableHeaderCell>
                 <CTableHeaderCell>Name</CTableHeaderCell>
-                <CTableHeaderCell>Parent</CTableHeaderCell>
+                <CTableHeaderCell>Parent Category</CTableHeaderCell>
+                <CTableHeaderCell>Show in Menu</CTableHeaderCell>
+                <CTableHeaderCell>Position</CTableHeaderCell>
                 <CTableHeaderCell>Actions</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
@@ -248,6 +244,8 @@ const Category = () => {
                     <CTableDataCell>{cat?.name}</CTableDataCell>
 
                     <CTableDataCell>{cat.parentCategory?.name || '-'}</CTableDataCell>
+                    <CTableDataCell>{cat.showInMenu ? 'Yes' : 'No'}</CTableDataCell>
+                    <CTableDataCell>{cat.position || '-'}</CTableDataCell>
 
                     <CTableDataCell>
                       <CButton
@@ -261,12 +259,10 @@ const Category = () => {
                       <CButton
                         size="sm"
                         color="danger"
-                        disabled={deleteLoading === cat._id}
+                        className="rounded-pill px-3 shadow-sm fw-semibold"
                         onClick={() => handleDelete(cat._id)}
                       >
-                        <CIcon icon={cilTrash} style={{ marginRight: '5px' }} />
-
-                        {deleteLoading === cat._id ? 'Deleting...' : 'Delete'}
+                        <CIcon icon={cilTrash} style={{ marginRight: '5px' }} /> Delete
                       </CButton>
                     </CTableDataCell>
                   </CTableRow>
@@ -375,7 +371,7 @@ const Category = () => {
             </CRow>
 
             <CRow className="mb-3">
-              <CCol md={12}>
+              <CCol md={6}>
                 <CFormSelect
                   label="Show in Menu"
                   {...register('nav', { required: 'Menu is required' })}
@@ -386,15 +382,29 @@ const Category = () => {
                 </CFormSelect>
                 {errors.nav && <small className="text-danger">{errors.nav.message}</small>}
               </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="number"
+                  label="Menu Position"
+                  placeholder="Enter Position"
+                  {...register('position')}
+                />
+                {errors.position && (
+                  <small className="text-danger">{errors.position.message}</small>
+                )}
+              </CCol>
             </CRow>
 
             <div className="d-flex justify-content-end">
               <CButton
                 type="submit"
                 color={editingCategory ? 'warning' : 'success'}
-                disabled={loading}
+                className="rounded-pill px-4 shadow-sm fw-semibold"
               >
-                {loading ? 'Saving...' : editingCategory ? 'Update Category' : 'Save Category'}
+                <i
+                  className={`bi ${editingCategory ? 'bi-arrow-repeat' : 'bi-check-circle'} me-2`}
+                ></i>
+                {editingCategory ? 'Update Category' : 'Save Category'}
               </CButton>
             </div>
           </CForm>

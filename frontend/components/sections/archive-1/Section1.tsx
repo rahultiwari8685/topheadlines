@@ -54,8 +54,6 @@ export default async function Section1({ searchParams }: Section1Props) {
     const res = await fetch(url, { cache: "no-store" });
     const data = await res.json();
 
-    // news = data.data || [];
-
     news = (data.data || []).filter(
       (item: any) => Number(item.videoType) === 2,
     );
