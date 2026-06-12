@@ -29,6 +29,17 @@ const schema = yup.object().shape({
   subtitle: yup.string().required('Subtitle is required'),
   videoType: yup.string().required('Video source is required'),
   type: yup.string().required('Video source is required'),
+  thumbnail: yup.mixed().when('videoType', {
+    is: '2',
+    then: (schema) =>
+      schema
+        .test('required', 'Thumbnail is required', (value) => value && value.length > 0)
+        .test('fileSize', 'Image size must be less than 1 MB', (value) => {
+          if (!value || value.length === 0) return true
+          return value[0].size <= 1024 * 1024
+        }),
+    otherwise: (schema) => schema.notRequired(),
+  }),
 })
 
 const News = () => {
@@ -99,8 +110,6 @@ const News = () => {
       URL.revokeObjectURL(objectUrl)
     }
   }, [formDataValues.videoFile])
-
- 
 
   useEffect(() => {
     if (formDataValues.type !== '2') return
@@ -261,8 +270,6 @@ const News = () => {
       endpoint = '/api/news/updateNews'
       formData.append('id', editingNews._id)
     }
-
- 
 
     try {
       const res = await fetch(setting.api + endpoint, {
@@ -477,6 +484,10 @@ const News = () => {
                             accept="image/*"
                             {...register('thumbnail')}
                           />
+
+                          {errors.thumbnail && (
+                            <small className="text-danger">{errors.thumbnail.message}</small>
+                          )}
                         </CCol>
                       </>
                     )}

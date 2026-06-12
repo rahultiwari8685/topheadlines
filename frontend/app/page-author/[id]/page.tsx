@@ -143,10 +143,6 @@ export default function Page_Author() {
         </div>
       </div>
 
-      {/* Ads */}
-      {/* <Ads /> */}
-
-      {/* Author News */}
       {id && (
         <Section1
           authorId={id.toString()}

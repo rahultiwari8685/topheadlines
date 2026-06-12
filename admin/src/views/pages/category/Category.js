@@ -119,7 +119,13 @@ const Category = () => {
           editingCategory ? 'Category Updated Successfully' : 'Category Created Successfully',
         )
 
-        reset()
+        reset({
+          name: '',
+          parentCategory: '0',
+          meta_title: '',
+          meta_desc: '',
+          showInMenu: '',
+        })
         getAllCategory()
         setEditingCategory(null)
         setVisible(false)
