@@ -41,7 +41,7 @@ export default async function Section1({ searchParams }: Section1Props) {
     : 1;
 
   const categoryId = resolvedSearchParams?.category || "";
-  const itemsPerPage = 6;
+  const itemsPerPage = 18;
 
   let news: NewsItem[] = [];
   let totalPages = 1;
