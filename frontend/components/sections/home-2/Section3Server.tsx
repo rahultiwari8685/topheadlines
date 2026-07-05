@@ -5,7 +5,7 @@ export default function Section3Server() {
   return (
     <>
       {/*Home 2 Section 2*/}
-      <section className="sec-3-home-2 mb-5 sec-padding overflow-hidden">
+      <section className="sec-3-home-2 overflow-hidden">
         <div className="container">
           <div className="row">
             <div className="col-12">

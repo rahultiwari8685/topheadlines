@@ -86,7 +86,7 @@ export default function Section1({ classList }: any) {
 
   return (
     <section
-      className={`sec-1-home-2 sec-padding ${classList}`}
+      className={`sec-1-home-2  ${classList}`}
       data-background="/assets/imgs/page/bg-home1-sec1.png"
     >
       <div className="container">

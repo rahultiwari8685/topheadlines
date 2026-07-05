@@ -63,7 +63,7 @@ export default function Section5() {
   }
 
   return (
-    <section className="sec-5-home-2 mb-5 sec-padding overflow-hidden">
+    <section className="sec-5-home-2 overflow-hidden">
       <div className="container">
         {/* Title */}
         <div className="row">
