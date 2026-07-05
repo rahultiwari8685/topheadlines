@@ -42,21 +42,21 @@ export default function Header2Server() {
                         <g opacity="0.5">
                           <path
                             d="M10 16.5417C13.3368 16.5417 16.0417 13.8367 16.0417 10.5C16.0417 7.16327 13.3368 4.45833 10 4.45833C6.66332 4.45833 3.95837 7.16327 3.95837 10.5C3.95837 13.8367 6.66332 16.5417 10 16.5417Z"
-                            stroke="dark"
+                            stroke="#000"
                             strokeWidth="1.25"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M12.7083 10.5C12.7083 14.25 11.0355 16.5417 9.99996 16.5417C8.96446 16.5417 7.29163 14.25 7.29163 10.5C7.29163 6.74999 8.96446 4.45833 9.99996 4.45833C11.0355 4.45833 12.7083 6.74999 12.7083 10.5Z"
-                            stroke="dark"
+                            stroke="#000"
                             strokeWidth="1.25"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M4.16663 10.5H9.99996H15.8333"
-                            stroke="dark"
+                            stroke="#000"
                             strokeWidth="1.25"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -93,14 +93,14 @@ export default function Header2Server() {
                       >
                         <path
                           d="M6.83335 4.5L3.16669 8L6.83335 11.5"
-                          stroke="dark"
+                          stroke="#000"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.8333 8H3.33331"
-                          stroke="dark"
+                          stroke="#000"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -110,25 +110,26 @@ export default function Header2Server() {
                     <button
                       type="button"
                       className="btn btn-sm fs-7 text-dark switch-btn-next border-700"
+                      style={{ color: "#000" }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width={16}
                         height={16}
                         viewBox="0 0 16 16"
-                        color="dark"
+                        color="#000"
                         fill="none"
                       >
                         <path
                           d="M9.16669 4.5L12.8334 8L9.16669 11.5"
-                          stroke="dark"
+                          stroke="#000"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.6667 8H3.16669"
-                          stroke="dark"
+                          stroke="#000"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -152,14 +153,14 @@ export default function Header2Server() {
                         <g opacity="0.5">
                           <path
                             d="M3.95833 6.95834C3.95833 6.03786 4.70452 5.29167 5.62499 5.29167H14.375C15.2955 5.29167 16.0417 6.03786 16.0417 6.95834V14.0417C16.0417 14.9622 15.2955 15.7083 14.375 15.7083H5.62499C4.70452 15.7083 3.95833 14.9622 3.95833 14.0417V6.95834Z"
-                            stroke="dark"
+                            stroke="#000"
                             strokeWidth="1.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M4.58333 5.91667L10 10.7083L15.4167 5.91667"
-                            stroke="dark"
+                            stroke="#000"
                             strokeWidth="1.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
