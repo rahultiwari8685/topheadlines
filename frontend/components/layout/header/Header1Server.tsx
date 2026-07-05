@@ -233,10 +233,10 @@ export default function Header1Server() {
                     >
                       {/* SwiperDynamic will be rendered here by Header1Interactive */}
 
-                      <Header1Interactive />
+                      {/* <Header1Interactive /> */}
                     </div>
                   </li>
-                  {/* <li className="switch-btn">
+                  <li className="switch-btn">
                     <button
                       type="button"
                       className="btn btn-sm fs-7 switch-btn-prev border-700"
@@ -293,7 +293,7 @@ export default function Header1Server() {
                         />
                       </svg>
                     </button>
-                  </li> */}
+                  </li>
                 </ul>
               </div>
               <div className="right">
