@@ -88,6 +88,7 @@ export default function Header2Server() {
                         xmlns="http://www.w3.org/2000/svg"
                         width={16}
                         height={16}
+                        color="dark"
                         viewBox="0 0 16 16"
                         fill="none"
                       >
@@ -116,6 +117,7 @@ export default function Header2Server() {
                         width={16}
                         height={16}
                         viewBox="0 0 16 16"
+                        color="dark"
                         fill="none"
                       >
                         <path
@@ -158,14 +160,14 @@ export default function Header2Server() {
                           />
                           <path
                             d="M4.58333 5.91667L10 10.7083L15.4167 5.91667"
-                            stroke="white"
+                            stroke="dark"
                             strokeWidth="1.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                         </g>
                       </svg>
-                      <span className="text-white fs-7 text-nowrap dark-mode-invert">
+                      <span className="text-dark fs-7 text-nowrap dark-mode-invert">
                         Subscribe Our Newsletter
                       </span>
                     </a>
