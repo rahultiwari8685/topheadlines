@@ -413,3 +413,49 @@ export const autoSaveNews = async (req, res) => {
     });
   }
 };
+
+export const getLatestNewsForSitemap = async (req, res) => {
+  try {
+    // Last 48 hours
+    const twoDaysAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
+
+    const news = await News.find({
+      type: 1, // Published News
+      createdAt: { $gte: twoDaysAgo },
+    })
+      .select("title slug createdAt updatedAt")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      status: true,
+      data: news,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllNewsForSitemap = async (req, res) => {
+  const news = await News.find({
+    type: 1,
+  })
+    .select("slug updatedAt")
+    .sort({ updatedAt: -1 });
+
+  res.json({
+    status: true,
+    data: news,
+  });
+};
+
+export const getCategorySitemap = async (req, res) => {
+  const categories = await Category.find().select("slug");
+
+  res.json({
+    status: true,
+    data: categories,
+  });
+};

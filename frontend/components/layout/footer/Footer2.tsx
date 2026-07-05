@@ -46,9 +46,7 @@ export default function Footer() {
                   {/* <p className="fs-7 m-0">The colors of life.</p> */}
                 </div>
                 <p className="fs-7 text-dark mt-4">
-                  Blending tech, life, and business. Stay informed with fresh
-                  trends, smart insights, and expert takes across every topic
-                  that matters.
+                 Get the latest updates in politics, business, technology, entertainment, sports, and world affairs. Top Headlines News delivers accurate, timely, and unbiased reporting to keep you informed every day.
                 </p>
                 <div className="d-inline-flex group-social-icons">
                   <a

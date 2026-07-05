@@ -83,7 +83,6 @@ export default function Section1() {
                 }}
                 alt={news.author?.name || "author"}
               />
-              {/* <span>{news.author || "Admin"}</span> */}
 
               <Link href={`/page-author/${news.author?._id}`}>
                 <span className="cursor-pointer hover:text-red-500">
@@ -92,7 +91,6 @@ export default function Section1() {
               </Link>
 
               <div className="d-flex align-items-center gap-2 ms-3">
-                {/* WhatsApp */}
                 <a
                   href={`https://wa.me/?text=${encodeURIComponent(
                     `${news.title}\n${currentUrl}`,
@@ -104,7 +102,6 @@ export default function Section1() {
                   <i className="ri-whatsapp-line"></i>
                 </a>
 
-                {/* Facebook */}
                 <a
                   href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                     currentUrl,
@@ -115,8 +112,6 @@ export default function Section1() {
                 >
                   <i className="ri-facebook-fill"></i>
                 </a>
-
-                {/* Twitter / X */}
                 <a
                   href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                     news.title,
@@ -128,7 +123,6 @@ export default function Section1() {
                   <i className="ri-twitter-x-line"></i>
                 </a>
 
-                {/* Telegram */}
                 <a
                   href={`https://t.me/share/url?url=${encodeURIComponent(
                     currentUrl,
@@ -140,7 +134,6 @@ export default function Section1() {
                   <i className="ri-telegram-line"></i>
                 </a>
 
-                {/* LinkedIn */}
                 <a
                   href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
                     currentUrl,
@@ -152,7 +145,6 @@ export default function Section1() {
                   <i className="ri-linkedin-fill"></i>
                 </a>
 
-                {/* Copy Link */}
                 <button
                   className="btn btn-dark btn-sm"
                   onClick={() => {
@@ -242,7 +234,6 @@ export default function Section1() {
                     ? JSON.parse(news.content)
                     : news.content;
 
-                // ✅ EditorJS Content
                 if (parsedContent?.blocks) {
                   return parsedContent.blocks.map((block: any, idx: number) => {
                     switch (block.type) {
@@ -282,7 +273,6 @@ export default function Section1() {
                   });
                 }
 
-                // ✅ Old HTML Content
                 return (
                   <div
                     dangerouslySetInnerHTML={{
@@ -291,7 +281,6 @@ export default function Section1() {
                   />
                 );
               } catch (err) {
-                // ✅ fallback old html
                 return (
                   <div
                     dangerouslySetInnerHTML={{

@@ -1,3 +1,4 @@
+import Header1Server from "@/components/layout/header/Header1Server";
 import Layout from "@/components/layout/Layout";
 
 import Section1 from "@/components/sections/home-2/Section1";

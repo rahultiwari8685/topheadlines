@@ -36,10 +36,6 @@ export default function Section1({ classList }: any) {
               linkAuthor: `/page-author/${item.author?._id}`,
               linkComment: "#",
 
-              // img: item.thumbnail
-              //   ? `${setting.api}/uploads/images/${item.thumbnail}`
-              //   : "",
-              // img: item.thumbnail || "",
               img: item.thumbnail?.startsWith("http")
                 ? item.thumbnail
                 : `${setting.api}/uploads/images/${item.thumbnail}`,

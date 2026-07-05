@@ -1,4 +1,5 @@
 {
-    "api": "https://api.topheadlinesnews.com",
-    "Name": "Top Headlines"
+  "api": "https://api.topheadlinesnews.com",
+  "site": "https://topheadlinesnews.com",
+  "Name": "Top Headlines News"
 }

@@ -1,5 +1,6 @@
 import express from "express";
 import upload from "../middlewares/upload.js";
+import { getLatestNewsForSitemap } from "../controllers/newsController.js";
 
 import {
   createNews,
@@ -11,6 +12,8 @@ import {
   getAllNewsByAuthorId,
   deleteNews,
   autoSaveNews,
+  getAllNewsForSitemap,
+  getCategorySitemap,
 } from "../controllers/newsController.js";
 
 const router = express.Router();
@@ -32,4 +35,7 @@ router.delete("/deleteNews/:id", deleteNews);
 router.get("/getAllNewsByAuthorId/:authorId", getAllNewsByAuthorId);
 
 router.post("/auto-save", upload.single("thumbnail"), autoSaveNews);
+router.get("/news-sitemap", getLatestNewsForSitemap);
+router.get("/all-sitemap", getAllNewsForSitemap);
+router.get("/category-sitemap", getCategorySitemap);
 export default router;
