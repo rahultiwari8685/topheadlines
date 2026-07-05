@@ -19,13 +19,13 @@ export default function Header2Server() {
                 <WeatherWidget />
               </div>
 
-              <div className="right">
+              {/* <div className="right">
                 <GoldPrice />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
-        <div className="topbar d-none d-lg-block">
+        <div className="topbar d-none bg-white d-lg-block">
           <div className="overflow-hidden">
             <div className="d-flex justify-content-between align-items-center">
               <div className="left">
