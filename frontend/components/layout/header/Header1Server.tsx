@@ -308,14 +308,14 @@ export default function Header1Server() {
                         <g opacity="0.5">
                           <path
                             d="M3.95833 6.95834C3.95833 6.03786 4.70452 5.29167 5.62499 5.29167H14.375C15.2955 5.29167 16.0417 6.03786 16.0417 6.95834V14.0417C16.0417 14.9622 15.2955 15.7083 14.375 15.7083H5.62499C4.70452 15.7083 3.95833 14.9622 3.95833 14.0417V6.95834Z"
-                            stroke="white"
+                            stroke="dark"
                             strokeWidth="1.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M4.58333 5.91667L10 10.7083L15.4167 5.91667"
-                            stroke="white"
+                            stroke="dark"
                             strokeWidth="1.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
