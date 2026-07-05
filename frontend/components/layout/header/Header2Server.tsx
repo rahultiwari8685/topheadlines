@@ -26,7 +26,7 @@ export default function Header2Server() {
           </div>
         </div>
         <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
-          <div className="overflow-hidden">
+          <div className="overflow-hidden text-dark">
             <div className="d-flex justify-content-between align-items-center">
               <div className="left">
                 <ul className="list-unstyled d-inline-flex gap-3">
@@ -42,28 +42,28 @@ export default function Header2Server() {
                         <g opacity="0.5">
                           <path
                             d="M10 16.5417C13.3368 16.5417 16.0417 13.8367 16.0417 10.5C16.0417 7.16327 13.3368 4.45833 10 4.45833C6.66332 4.45833 3.95837 7.16327 3.95837 10.5C3.95837 13.8367 6.66332 16.5417 10 16.5417Z"
-                            stroke="white"
+                            stroke="dark"
                             strokeWidth="1.25"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M12.7083 10.5C12.7083 14.25 11.0355 16.5417 9.99996 16.5417C8.96446 16.5417 7.29163 14.25 7.29163 10.5C7.29163 6.74999 8.96446 4.45833 9.99996 4.45833C11.0355 4.45833 12.7083 6.74999 12.7083 10.5Z"
-                            stroke="white"
+                            stroke="dark"
                             strokeWidth="1.25"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                           <path
                             d="M4.16663 10.5H9.99996H15.8333"
-                            stroke="white"
+                            stroke="dark"
                             strokeWidth="1.25"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
                         </g>
                       </svg>
-                      <span className="text-white dark-mode-invert">
+                      <span className="text-dark dark-mode-invert">
                         Breaking
                       </span>
                     </a>
@@ -82,7 +82,7 @@ export default function Header2Server() {
                   <li className="switch-btn">
                     <button
                       type="button"
-                      className="btn btn-sm fs-7 switch-btn-prev border-700"
+                      className="btn btn-sm fs-7 text-dark switch-btn-prev border-700"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -93,14 +93,14 @@ export default function Header2Server() {
                       >
                         <path
                           d="M6.83335 4.5L3.16669 8L6.83335 11.5"
-                          stroke="white"
+                          stroke="dark"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.8333 8H3.33331"
-                          stroke="white"
+                          stroke="dark"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -109,7 +109,7 @@ export default function Header2Server() {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-sm fs-7 switch-btn-next border-700"
+                      className="btn btn-sm fs-7 text-dark switch-btn-next border-700"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -120,14 +120,14 @@ export default function Header2Server() {
                       >
                         <path
                           d="M9.16669 4.5L12.8334 8L9.16669 11.5"
-                          stroke="white"
+                          stroke="dark"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.6667 8H3.16669"
-                          stroke="white"
+                          stroke="dark"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
