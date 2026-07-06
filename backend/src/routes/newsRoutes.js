@@ -36,7 +36,8 @@ router.get("/id/:id", getNewsById);
 router.delete("/deleteNews/:id", deleteNews);
 router.get("/trending", getTrendingNews);
 router.get("/getAllNewsByAuthorId/:authorId", getAllNewsByAuthorId);
-
+router.get("/getAllTextNews", getTextNews);
+router.get("/getAllVideoNews", getVideoNews);
 router.post("/auto-save", upload.single("thumbnail"), autoSaveNews);
 router.get("/news-sitemap", getLatestNewsForSitemap);
 router.get("/all-sitemap", getAllNewsForSitemap);
