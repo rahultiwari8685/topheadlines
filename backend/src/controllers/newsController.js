@@ -36,6 +36,13 @@ export const createNews = async (req, res) => {
       type: 1,
     });
 
+    if (existingNews) {
+      return res.status(400).json({
+        status: false,
+        message: "News already exists",
+      });
+    }
+
     const createdNews = await News.create({
       title,
       subtitle: sub_title,
@@ -447,6 +454,13 @@ export const getAllNewsByAuthorId = async (req, res) => {
 export const autoSaveNews = async (req, res) => {
   try {
     const { title, subtitle, categories, videoType, content, type } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.json({
+        status: true,
+        message: "Auto save skipped. Title is empty.",
+      });
+    }
 
     if (Number(type) === 2) {
       console.log("Draft auto-save: translation skipped");
