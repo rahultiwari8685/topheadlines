@@ -80,9 +80,5 @@ export async function generateMetadata({
 }
 
 export default function Page() {
-  return (
-    <Layout headerStyle={2} footerStyle={2}>
-      <SingleNewsClient />
-    </Layout>
-  );
+  return <SingleNewsClient />;
 }
