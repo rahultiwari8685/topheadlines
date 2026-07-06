@@ -13,38 +13,34 @@ export default function Section5() {
   useEffect(() => {
     setLoading(true);
 
-    fetch(setting.api + "/api/news/getAllNews")
+    fetch(setting.api + "/api/news/getAllTextNews?limit=7")
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-          const textNews = u.data.filter(
-            (item: any) => !item.youtubeUrl && item.type === 1,
-          );
-          const formattedData = textNews
-            .slice(0, 5)
-            .map((item: any, idx: number) => ({
-              linkPost: `/single-2?slug=${item.slug}`,
-              linkBadge: "#",
-              linkAuthor: `/page-author/${item.author?._id}`,
-              linkComment: "#",
+          const textNews = u.data;
+          const formattedData = textNews.map((item: any, idx: number) => ({
+            linkPost: `/single-2?slug=${item.slug}`,
+            linkBadge: "#",
+            linkAuthor: `/page-author/${item.author?._id}`,
+            linkComment: "#",
 
-              img: item.thumbnail
-                ? item.thumbnail.startsWith("http")
-                  ? item.thumbnail
-                  : `${setting.api}/uploads/images/${item.thumbnail}`
-                : "/assets/imgs/page/img-66.png",
+            img: item.thumbnail
+              ? item.thumbnail.startsWith("http")
+                ? item.thumbnail
+                : `${setting.api}/uploads/images/${item.thumbnail}`
+              : "/assets/imgs/page/img-66.png",
 
-              badge: item.categories?.[0]?.name || "News",
-              bgBadge: `bg-${(idx % 5) + 1}`,
-              title: item.title || "No Title",
-              description: item.subtitle || "No Description",
-              imgAuthor: "/assets/imgs/template/author/author-1.png",
-              author: item.author?.name || "Admin",
-              date: new Date(item.createdAt).toDateString(),
+            badge: item.categories?.[0]?.name || "News",
+            bgBadge: `bg-${(idx % 5) + 1}`,
+            title: item.title || "No Title",
+            description: item.subtitle || "No Description",
+            imgAuthor: "/assets/imgs/template/author/author-1.png",
+            author: item.author?.name || "Admin",
+            date: new Date(item.createdAt).toDateString(),
 
-              comment: "0",
-              readNum: "0",
-            }));
+            comment: "0",
+            readNum: "0",
+          }));
 
           setBlogs(formattedData);
         } else {
@@ -65,7 +61,7 @@ export default function Section5() {
   return (
     <section className="sec-5-home-2 overflow-hidden">
       <div className="container">
-        {/* Title */}
+      
         <div className="row">
           <div className="col-12">
             <SectionTitle
@@ -75,7 +71,7 @@ export default function Section5() {
           </div>
         </div>
 
-        {/* News List */}
+     
         <div className="row mt-2 g-4">
           {blogs.map((card, idx) => (
             <div className="col-12" key={idx}>

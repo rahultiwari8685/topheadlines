@@ -14,6 +14,9 @@ import {
   autoSaveNews,
   getAllNewsForSitemap,
   getCategorySitemap,
+  getTextNews,
+  getVideoNews,
+  getTrendingNews,
 } from "../controllers/newsController.js";
 
 const router = express.Router();
@@ -31,7 +34,7 @@ router.get("/slug/:slug", getNewsBySlug);
 router.get("/id/:id", getNewsById);
 
 router.delete("/deleteNews/:id", deleteNews);
-
+router.get("/trending", getTrendingNews);
 router.get("/getAllNewsByAuthorId/:authorId", getAllNewsByAuthorId);
 
 router.post("/auto-save", upload.single("thumbnail"), autoSaveNews);

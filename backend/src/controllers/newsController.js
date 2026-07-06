@@ -105,6 +105,108 @@ export const getNews = async (req, res) => {
   }
 };
 
+export const getTrendingNews = async (req, res) => {
+  try {
+    const { limit = 10, days = 7 } = req.query;
+
+    const fromDate = new Date();
+    fromDate.setDate(fromDate.getDate() - Number(days));
+
+    const news = await News.find({
+      type: 1,
+      createdAt: { $gte: fromDate },
+    })
+      .select("title slug thumbnail views createdAt")
+      .sort({
+        views: -1,
+        createdAt: -1,
+      })
+      .limit(Number(limit));
+
+    res.json({
+      status: true,
+      data: news,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: err.message,
+    });
+  }
+};
+
+export const getTextNews = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const news = await News.find({
+      type: 1, // Published
+      videoType: 2, // Text News
+    })
+      .populate("author", "name email")
+      .populate("categories", "name slug")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await News.countDocuments({
+      type: 1,
+      videoType: 2,
+    });
+
+    return res.status(200).json({
+      status: true,
+      total,
+      totalPages: Math.ceil(total / Number(limit)),
+      currentPage: Number(page),
+      data: news,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getVideoNews = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const news = await News.find({
+      type: 1, // Published
+      videoType: 1, // Video News
+    })
+      .populate("author", "name email")
+      .populate("categories", "name slug")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await News.countDocuments({
+      type: 1,
+      videoType: 1,
+    });
+
+    return res.status(200).json({
+      status: true,
+      total,
+      totalPages: Math.ceil(total / Number(limit)),
+      currentPage: Number(page),
+      data: news,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getAllNewsByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
@@ -149,7 +251,11 @@ export const getAllNewsByCategory = async (req, res) => {
 
 export const getNewsBySlug = async (req, res) => {
   try {
-    const news = await News.findOne({ slug: req.params.slug })
+    const news = await News.findOneAndUpdate(
+      { slug: req.params.slug },
+      { $inc: { views: 1 } },
+      { new: true },
+    )
       .populate("author", "name email profileImage bio")
       .populate("categories", "name slug");
 
@@ -160,16 +266,14 @@ export const getNewsBySlug = async (req, res) => {
       });
     }
 
-    return res.status(200).json({
+    res.json({
       status: true,
       data: news,
     });
-  } catch (error) {
-    console.error("Get News By Slug Error:", error);
-
-    return res.status(500).json({
+  } catch (err) {
+    res.status(500).json({
       status: false,
-      message: error.message,
+      message: err.message,
     });
   }
 };

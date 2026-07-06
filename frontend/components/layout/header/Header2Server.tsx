@@ -64,7 +64,7 @@ export default function Header2Server() {
                         </g>
                       </svg>
                       <span className="text-dark dark-mode-invert">
-                        Breaking
+                        Trending
                       </span>
                     </a>
                   </li>

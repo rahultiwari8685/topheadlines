@@ -18,13 +18,13 @@ export default function Section1({ classList }: any) {
   useEffect(() => {
     setLoading(true);
 
-    fetch(setting.api + "/api/news/getAllNews")
+    fetch(setting.api + "/api/news/getAllTextNews?page=1&limit=4")
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
           // const formattedData = u.data.map((item: any) => {
 
-          const publishedNews = u.data.filter((item: any) => item.type === 1);
+          const publishedNews = u.data;
 
           const formattedData = publishedNews.map((item: any) => {
             const videoId = getYouTubeId(item.youtubeUrl);
@@ -32,7 +32,6 @@ export default function Section1({ classList }: any) {
             return {
               linkPost: `/single-2?slug=${item.slug}`,
               linkBadge: "#",
-              // linkAuthor: "#",
               linkAuthor: `/page-author/${item.author?._id}`,
               linkComment: "#",
 

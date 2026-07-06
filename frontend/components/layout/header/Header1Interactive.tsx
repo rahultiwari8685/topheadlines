@@ -1,14 +1,26 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+
 import SwiperDynamic from "@/components/shared/SwiperDynamic";
 import useSidebarMenu from "@/util/useSidebarMenu";
 import { useScrollState } from "@/util/useScrollState";
 import PopupSearch from "@/components/layout/cardPopupSearchServer";
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import setting from "../../../setting.json";
 
 export default function Header1Interactive() {
   const scroll = useScrollState();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavbarHidden, setIsNavbarHidden] = useState(false);
+
+  interface TrendingNews {
+    _id: string;
+    title: string;
+    slug: string;
+  }
+
+  const [trendingNews, setTrendingNews] = useState<TrendingNews[]>([]);
+
   const { toggleSidebar } = useSidebarMenu();
   const searchBtnRef = useRef<Element | null>(null);
   const navbarTogglerRef = useRef<Element | null>(null);
@@ -17,6 +29,23 @@ export default function Header1Interactive() {
     transition: string;
     transform: string;
   } | null>(null);
+
+  useEffect(() => {
+    const fetchTrendingNews = async () => {
+      const res = await fetch(`${setting.api}/api/news/trending?limit=10`);
+      const data = await res.json();
+
+      if (data.status) {
+        setTrendingNews(data.data);
+      }
+    };
+
+    fetchTrendingNews();
+
+    const interval = setInterval(fetchTrendingNews, 60000); // every 1 minute
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Handle search button click
   useEffect(() => {
@@ -196,9 +225,7 @@ export default function Header1Interactive() {
         <SwiperDynamic
           className="swiper swiper-topbar"
           slidesPerView={1}
-          spaceBetween={0}
-          direction="horizontal"
-          loop={true}
+          loop
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,
@@ -208,21 +235,15 @@ export default function Header1Interactive() {
             prevEl: ".switch-btn-prev",
           }}
         >
-          <a href="#" className="text-dark fs-7 text-nowrap dark-mode-invert">
-            Sustainable Eating in a Climate-Conscious World
-          </a>
-          <a href="#" className="text-dark fs-7 text-nowrap dark-mode-invert">
-            Sustainable Eating in a sub-menu sub-menu
-          </a>
-          <a href="#" className="text-dark fs-7 text-nowrap dark-mode-invert">
-            Sustainable Eating in a Climate-Conscious World
-          </a>
-          <a href="#" className="text-dark fs-7 text-nowrap dark-mode-invert">
-            Sustainable Eating in a Climate-Conscious World
-          </a>
-          <a href="#" className="text-dark fs-7 text-nowrap dark-mode-invert">
-            Sustainable Eating in a Climate-Conscious World
-          </a>
+          {trendingNews.map((item) => (
+            <Link
+              key={item._id}
+              href={`/single-2?slug=${item.slug}`}
+              className="text-dark fs-7 text-nowrap dark-mode-invert"
+            >
+              {item.title}
+            </Link>
+          ))}
         </SwiperDynamic>
       </div>
 

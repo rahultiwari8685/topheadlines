@@ -40,15 +40,12 @@ export default function Section3Interactive() {
   useEffect(() => {
     setLoading(true);
 
-    fetch(setting.api + "/api/news/getAllNews")
+    fetch(setting.api + "/api/news/getAllTextNews?limit=70")
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
           // const newsData = u.data || [];
-          const newsData = u.data.filter(
-            (item: any) =>
-              !(item.youtubeUrl && item.type === "2" && item.videoType === "1"),
-          );
+          const newsData = u.data;
 
           setAllNews(newsData);
 
@@ -160,7 +157,6 @@ export default function Section3Interactive() {
 
   return (
     <div className="row">
-      
       <div className="col-lg-3">
         <ul className="nav nav-tabs d-flex flex-lg-column flex-row flex-wrap ps-0 ps-lg-5">
           {categories.slice(0, 10).map((tab) => (

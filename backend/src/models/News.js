@@ -17,11 +17,10 @@ const newsSchema = new mongoose.Schema(
 
     content: { type: Object, default: {} },
 
-    // type: {
-    //   type: Number,
-    //   enum: [1, 2],
-    //   default: 2,
-    // },
+    views: {
+      type: Number,
+      default: 0,
+    },
 
     type: {
       type: Number,
