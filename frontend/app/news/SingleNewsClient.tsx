@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/news/Section1";
+import Section1 from "@/components/sections/single-2/Section1";
 import Ads_sm from "@/components/elements/ads_sm";
 import ArticleCard5 from "@/components/cards/ArticleCard5";
 
@@ -28,11 +28,11 @@ export default function Single_2() {
   useEffect(() => {
     setLoading(true);
 
-    fetch(setting.api + "/api/news/getAllNews")
+    fetch(`${setting.api}/api/news/getAllTextNews?limit=4`)
       .then((res) => res.json())
       .then((u) => {
         if (u.status !== false) {
-          const textNews = u.data.filter((item: any) => !item.youtubeUrl);
+          const textNews = u.data;
 
           const formattedData: RelatedArticleType[] = textNews
             .slice(0, 4)
