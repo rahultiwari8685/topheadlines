@@ -1,12 +1,13 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import ArticleCard5 from "@/components/cards/ArticleCard5";
 import ArticleCard11 from "@/components/cards/ArticleCard11";
-import { useState, useEffect } from "react";
 import setting from "../../../setting.json";
 
 export default function Section1({ classList }: any) {
-  const [blogs, setBlogs] = useState<any[]>([]);
+  const [textNews, setTextNews] = useState<any[]>([]);
+  const [videoNews, setVideoNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getYouTubeId = (url: string) => {
@@ -15,129 +16,73 @@ export default function Section1({ classList }: any) {
     return match ? match[1] : "";
   };
 
+  const formatNews = (data: any[]) => {
+    return data.map((item: any) => {
+      const videoId = getYouTubeId(item.youtubeUrl);
+
+      return {
+        linkPost: `/news?slug=${item.slug}`,
+        linkBadge: "#",
+        linkAuthor: `/page-author/${item.author?._id}`,
+        linkComment: "#",
+
+        img: item.thumbnail?.startsWith("http")
+          ? item.thumbnail
+          : `${setting.api}/uploads/images/${item.thumbnail}`,
+
+        videoUrl: videoId ? `https://www.youtube.com/embed/${videoId}` : "",
+
+        hasVideo: !!videoId,
+        youtubeUrl: item.youtubeUrl || "",
+
+        badge: item.categories?.[0]?.name || "News",
+        bgBadge: "bg-2",
+
+        title: item.title || "No Title",
+        description: item.subtitle || "No Description",
+
+        imgAuthor: "/assets/imgs/template/author/author-1.png",
+        author: item.author?.name || "Admin",
+
+        date: new Date(item.createdAt).toDateString(),
+
+        comment: "0",
+        readNum: "0",
+      };
+    });
+  };
+
   useEffect(() => {
-    setLoading(true);
+    const fetchNews = async () => {
+      try {
+        setLoading(true);
 
-    fetch(setting.api + "/api/news/getAllTextNews?page=1&limit=4")
-      .then((res) => res.json())
-      .then((u) => {
-        if (u.status !== false) {
-          // const formattedData = u.data.map((item: any) => {
+        const [textRes, videoRes] = await Promise.all([
+          fetch(`${setting.api}/api/news/getAllTextNews?limit=4`),
+          fetch(`${setting.api}/api/news/getAllVideoNews?limit=1`),
+        ]);
 
-          const publishedNews = u.data;
+        const textData = await textRes.json();
+        const videoData = await videoRes.json();
 
-          const formattedData = publishedNews.map((item: any) => {
-            const videoId = getYouTubeId(item.youtubeUrl);
+        setTextNews(
+          textData.status !== false ? formatNews(textData.data || []) : [],
+        );
 
-            return {
-              linkPost: `/news?slug=${item.slug}`,
-              linkBadge: "#",
-              linkAuthor: `/page-author/${item.author?._id}`,
-              linkComment: "#",
-
-              img: item.thumbnail?.startsWith("http")
-                ? item.thumbnail
-                : `${setting.api}/uploads/images/${item.thumbnail}`,
-
-              videoUrl: videoId
-                ? `https://www.youtube.com/embed/${videoId}`
-                : "",
-
-              hasVideo: !!videoId,
-
-              youtubeUrl: item.youtubeUrl || "",
-
-              badge: item.categories?.[0]?.name || "News",
-              bgBadge: "bg-2",
-
-              title: item.title || "No Title",
-              description: item.subtitle || "No Description",
-
-              imgAuthor: "/assets/imgs/template/author/author-1.png",
-              // author: "Admin",
-              author: item.author?.name || "Admin",
-
-              date: new Date(item.createdAt).toDateString(),
-
-              comment: "0",
-              readNum: "0",
-            };
-          });
-
-          setBlogs(formattedData);
-        } else {
-          setBlogs([]);
-        }
-      })
-      .catch((err) => {
+        setVideoNews(
+          videoData.status !== false ? formatNews(videoData.data || []) : [],
+        );
+      } catch (err) {
         console.error("API Error:", err);
-        setBlogs([]);
-      })
-      .finally(() => setLoading(false));
+        setTextNews([]);
+        setVideoNews([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
   }, []);
-  useEffect(() => {
-    setLoading(true);
-
-    fetch(setting.api + "/api/news/getAllVideoNews?page=1&limit=1")
-      .then((res) => res.json())
-      .then((u) => {
-        if (u.status !== false) {
-          // const formattedData = u.data.map((item: any) => {
-
-          const publishedNews = u.data;
-
-          const formattedData = publishedNews.map((item: any) => {
-            const videoId = getYouTubeId(item.youtubeUrl);
-
-            return {
-              linkPost: `/news?slug=${item.slug}`,
-              linkBadge: "#",
-              linkAuthor: `/page-author/${item.author?._id}`,
-              linkComment: "#",
-
-              img: item.thumbnail?.startsWith("http")
-                ? item.thumbnail
-                : `${setting.api}/uploads/images/${item.thumbnail}`,
-
-              videoUrl: videoId
-                ? `https://www.youtube.com/embed/${videoId}`
-                : "",
-
-              hasVideo: !!videoId,
-
-              youtubeUrl: item.youtubeUrl || "",
-
-              badge: item.categories?.[0]?.name || "News",
-              bgBadge: "bg-2",
-
-              title: item.title || "No Title",
-              description: item.subtitle || "No Description",
-
-              imgAuthor: "/assets/imgs/template/author/author-1.png",
-              // author: "Admin",
-              author: item.author?.name || "Admin",
-
-              date: new Date(item.createdAt).toDateString(),
-
-              comment: "0",
-              readNum: "0",
-            };
-          });
-
-          setBlogs(formattedData);
-        } else {
-          setBlogs([]);
-        }
-      })
-      .catch((err) => {
-        console.error("API Error:", err);
-        setBlogs([]);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  const textNews = blogs.filter((item) => !item.youtubeUrl);
-  const videoNews = blogs.filter((item) => item.youtubeUrl);
 
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
@@ -145,12 +90,19 @@ export default function Section1({ classList }: any) {
 
   return (
     <section
-      className={`sec-1-home-2  ${classList}`}
+      className={`sec-1-home-2 sec-padding ${classList}`}
       data-background="/assets/imgs/page/bg-home1-sec1.png"
     >
       <div className="container">
         <div className="row mt-2 g-4">
-          {/* TEXT COLUMN 1 */}
+          {/* Video */}
+          {videoNews.map((card, idx) => (
+            <div className="col-lg-6" key={idx}>
+              <ArticleCard11 card={card} idx={idx} />
+            </div>
+          ))}
+
+          {/* Text Column 1 */}
           <div className="col-lg-3">
             <div className="row g-4">
               {textNews.slice(0, 2).map((card, idx) => (
@@ -161,7 +113,7 @@ export default function Section1({ classList }: any) {
             </div>
           </div>
 
-          {/* TEXT COLUMN 2 */}
+          {/* Text Column 2 */}
           <div className="col-lg-3">
             <div className="row g-4">
               {textNews.slice(2, 4).map((card, idx) => (
@@ -171,13 +123,6 @@ export default function Section1({ classList }: any) {
               ))}
             </div>
           </div>
-
-          {/* VIDEO COLUMN RIGHT SIDE */}
-          {videoNews.slice(0, 1).map((card, idx) => (
-            <div className="col-lg-6" key={idx}>
-              <ArticleCard11 card={card} idx={idx} />
-            </div>
-          ))}
         </div>
       </div>
     </section>
