@@ -30,7 +30,67 @@ export default function Section1({ classList }: any) {
             const videoId = getYouTubeId(item.youtubeUrl);
 
             return {
-              linkPost: `/single-2?slug=${item.slug}`,
+              linkPost: `/news?slug=${item.slug}`,
+              linkBadge: "#",
+              linkAuthor: `/page-author/${item.author?._id}`,
+              linkComment: "#",
+
+              img: item.thumbnail?.startsWith("http")
+                ? item.thumbnail
+                : `${setting.api}/uploads/images/${item.thumbnail}`,
+
+              videoUrl: videoId
+                ? `https://www.youtube.com/embed/${videoId}`
+                : "",
+
+              hasVideo: !!videoId,
+
+              youtubeUrl: item.youtubeUrl || "",
+
+              badge: item.categories?.[0]?.name || "News",
+              bgBadge: "bg-2",
+
+              title: item.title || "No Title",
+              description: item.subtitle || "No Description",
+
+              imgAuthor: "/assets/imgs/template/author/author-1.png",
+              // author: "Admin",
+              author: item.author?.name || "Admin",
+
+              date: new Date(item.createdAt).toDateString(),
+
+              comment: "0",
+              readNum: "0",
+            };
+          });
+
+          setBlogs(formattedData);
+        } else {
+          setBlogs([]);
+        }
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
+        setBlogs([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+  useEffect(() => {
+    setLoading(true);
+
+    fetch(setting.api + "/api/news/getAllVideoNews?page=1&limit=1")
+      .then((res) => res.json())
+      .then((u) => {
+        if (u.status !== false) {
+          // const formattedData = u.data.map((item: any) => {
+
+          const publishedNews = u.data;
+
+          const formattedData = publishedNews.map((item: any) => {
+            const videoId = getYouTubeId(item.youtubeUrl);
+
+            return {
+              linkPost: `/news?slug=${item.slug}`,
               linkBadge: "#",
               linkAuthor: `/page-author/${item.author?._id}`,
               linkComment: "#",
