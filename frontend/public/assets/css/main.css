@@ -5038,18 +5038,18 @@ strong {
     border-color: var(--tc-neutral-500) !important;
 }
 
-.sec-1-single-2 .block-banner .card-title {
+.sec-1-news .block-banner .card-title {
     padding-bottom: 40px;
 }
 
 @media (min-width: 992px) {
-    .sec-1-single-2 .block-banner .card-title {
+    .sec-1-news .block-banner .card-title {
         padding-top: 100px;
         padding-bottom: 125px;
     }
 }
 
-.sec-1-single-2 .banner {
+.sec-1-news .banner {
     max-height: 600px;
 }
 

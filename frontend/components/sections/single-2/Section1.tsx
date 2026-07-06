@@ -52,7 +52,7 @@ export default function Section1() {
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
   return (
-    <section className="sec-1-single-2 pb-70 overflow-hidden mt-10">
+    <section className="sec-1-news pb-70 overflow-hidden mt-10">
       <div className="container">
         <div className="row py-4">
           <div className="col-lg-6 pe-lg-5">

@@ -238,7 +238,7 @@ export default function Header1Interactive() {
           {trendingNews.map((item) => (
             <Link
               key={item._id}
-              href={`/single-2?slug=${item.slug}`}
+              href={`/news?slug=${item.slug}`}
               className="text-dark fs-7 text-nowrap dark-mode-invert"
             >
               {item.title}

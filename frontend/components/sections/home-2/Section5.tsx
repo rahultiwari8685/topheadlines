@@ -19,7 +19,7 @@ export default function Section5() {
         if (u.status !== false) {
           const textNews = u.data;
           const formattedData = textNews.map((item: any, idx: number) => ({
-            linkPost: `/single-2?slug=${item.slug}`,
+            linkPost: `/news?slug=${item.slug}`,
             linkBadge: "#",
             linkAuthor: `/page-author/${item.author?._id}`,
             linkComment: "#",
@@ -61,7 +61,6 @@ export default function Section5() {
   return (
     <section className="sec-5-home-2 overflow-hidden">
       <div className="container">
-      
         <div className="row">
           <div className="col-12">
             <SectionTitle
@@ -71,7 +70,6 @@ export default function Section5() {
           </div>
         </div>
 
-     
         <div className="row mt-2 g-4">
           {blogs.map((card, idx) => (
             <div className="col-12" key={idx}>

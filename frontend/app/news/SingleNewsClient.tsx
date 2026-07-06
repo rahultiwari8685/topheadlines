@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import Layout from "@/components/layout/Layout";
-import Section1 from "@/components/sections/single-2/Section1";
+import Section1 from "@/components/sections/news/Section1";
 import Ads_sm from "@/components/elements/ads_sm";
 import ArticleCard5 from "@/components/cards/ArticleCard5";
 
@@ -47,7 +47,7 @@ export default function Single_2() {
 
               linkBadge: "#",
 
-              linkPost: `/single-2?slug=${item.slug}`,
+              linkPost: `/news?slug=${item.slug}`,
               linkAuthor: `/page-author/${item.author?._id}`,
 
               badge: item.categories?.[0]?.name || "News",

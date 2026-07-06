@@ -16,7 +16,7 @@ export async function generateMetadata({
 
   if (!slug) {
     return {
-      title: "Bharat TV Media",
+      title: "Top Headlines News",
       description: "Latest News",
     };
   }
@@ -40,9 +40,9 @@ export async function generateMetadata({
       ? news.thumbnail.startsWith("http")
         ? news.thumbnail
         : `${setting.api}/uploads/images/${news.thumbnail}`
-      : "https://bharattvmedia.com/assets/imgs/template/logo/Bharat_Logo.png";
+      : "https://topheadlinesnews.com/assets/imgs/template/logo/TH_Logo.png";
 
-    const url = `https://bharattvmedia.com/single-2?slug=${slug}`;
+    const url = `https://topheadlinesnews.com/news?slug=${slug}`;
 
     return {
       title: news.title,
@@ -52,7 +52,7 @@ export async function generateMetadata({
         title: news.title,
         description: news.subtitle,
         url,
-        siteName: "Bharat TV Media",
+        siteName: "Top Headlines News",
         type: "article",
         images: [
           {
@@ -73,7 +73,7 @@ export async function generateMetadata({
     };
   } catch (error) {
     return {
-      title: "Bharat TV Media",
+      title: "Top Headlines News",
       description: "Latest News",
     };
   }
