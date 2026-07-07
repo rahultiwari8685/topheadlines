@@ -32,7 +32,7 @@ export default function Footer() {
       <footer>
         <div className="section-footer-2 overflow-hidden">
           <div className="container">
-            <div className="row g-5 sec-padding">
+            <div className="row g-5 ">
               <div className="col-lg-4 pe-lg-5">
                 <div className="d-flex gap-2">
                   <Link className="dark-mode-invert" href="/">
@@ -46,7 +46,10 @@ export default function Footer() {
                   {/* <p className="fs-7 m-0">The colors of life.</p> */}
                 </div>
                 <p className="fs-7 text-dark mt-4">
-                 Get the latest updates in politics, business, technology, entertainment, sports, and world affairs. Top Headlines News delivers accurate, timely, and unbiased reporting to keep you informed every day.
+                  Top Headlines News delivers breaking news and trusted updates
+                  from India and around the globe. Get accurate, fast, and
+                  unbiased coverage of politics, business, technology,
+                  entertainment, sports, and world affairs—all in one place.
                 </p>
                 <div className="d-inline-flex group-social-icons">
                   <a

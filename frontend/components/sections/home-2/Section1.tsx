@@ -95,9 +95,7 @@ export default function Section1({ classList }: any) {
     >
       <div className="container">
         <div className="row mt-2 g-4">
-          {/* Video */}
-
-          {/* Text Column 1 */}
+   
           <div className="col-lg-3">
             <div className="row g-4">
               {textNews.slice(0, 2).map((card, idx) => (

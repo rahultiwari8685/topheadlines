@@ -8,10 +8,10 @@ import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import newsRoutes from "./routes/newsRoutes.js";
 import authRoutes from "./routes/auth.js";
-
+import advertisementRoutes from "./routes/advertisementRoutes.js";
 import rateLimit from "express-rate-limit";
 import goldRoutes from "./routes/gold.js";
-
+import siteSettingRoutes from "./routes/siteSettingRoutes.js";
 import "./cron/publishScheduledNews.js";
 
 const app = express();
@@ -69,10 +69,10 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/news", newsRoutes);
-
+app.use("/api/advertisements", advertisementRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api", goldRoutes);
-
+app.use("/api/site-settings", siteSettingRoutes);
 const PORT = process.env.PORT || 5001;
 const MONGO_URI = process.env.MONGO_URI;
 

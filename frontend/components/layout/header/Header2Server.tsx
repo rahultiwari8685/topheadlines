@@ -68,7 +68,7 @@ export default function Header2Server() {
                       </span>
                     </a>
                   </li>
-                  <li className="mw-350px">
+                  <li className="mw-600px">
                     {/* Swiper will be handled by client component */}
                     <div
                       className="swiper-container swiper-topbar"
@@ -172,10 +172,10 @@ export default function Header2Server() {
                       </span>
                     </a>
                   </li>
-                  <li className="ps-4" />
+                  {/* <li className="ps-4" />
                   <li className="border-end-700" />
-                  <li className="pe-4" />
-                  <li>
+                  <li className="pe-4" /> */}
+                  {/* <li>
                     <div className="d-flex align-items-center gap-1">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +193,7 @@ export default function Header2Server() {
                         June 24, 2026
                       </span>
                     </div>
-                  </li>
+                  </li> */}
                   <li className="pe-4" />
                 </ul>
               </div>

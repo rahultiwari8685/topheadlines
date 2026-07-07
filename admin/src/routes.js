@@ -8,10 +8,12 @@ const DraftNews = React.lazy(() => import('./views/pages/news/DraftNews'))
 const ScheduleNews = React.lazy(() => import('./views/pages/news/ScheduleNews'))
 const DeletedNews = React.lazy(() => import('./views/pages/news/DeletedNews'))
 const ChangePassword = React.lazy(() => import('./views/pages/changePassword/ChangePassword'))
+const Advertisement = React.lazy(() => import('./views/pages/advertisement/Advertisement'))
 
 const Users = React.lazy(() => import('./views/pages/users/Users'))
 const Profile = React.lazy(() => import('./views/pages/users/Profile'))
 const Category = React.lazy(() => import('./views/pages/category/Category'))
+const SiteSetting = React.lazy(() => import('./views/pages/siteSetting/SiteSetting'))
 // import UpdateNews from "./pages/News/UpdateNews";
 
 const routes = [
@@ -24,10 +26,11 @@ const routes = [
   { path: '/DraftNews', name: 'Draft News', element: DraftNews },
   { path: '/ScheduleNews', name: 'Scheduled News', element: ScheduleNews },
   { path: '/DeletedNews', name: 'Deleted News', element: DeletedNews },
-
+  { path: '/advertisement', name: 'Advertisement', element: Advertisement },
   { path: '/ChangePassword', name: 'Change Password', element: ChangePassword },
   { path: '/Users', name: 'Users', element: Users },
   { path: '/Profile', name: 'Profile', element: Profile },
+  { path: '/siteSetting', name: 'Site Setting', element: SiteSetting },
   { path: '/Category', name: 'Category', element: Category },
 ]
 export default routes
