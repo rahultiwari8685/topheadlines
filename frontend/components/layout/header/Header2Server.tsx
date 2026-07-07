@@ -19,9 +19,9 @@ export default function Header2Server() {
                 <WeatherWidget />
               </div>
 
-              {/* <div className="right">
+              <div className="right">
                 <GoldPrice />
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
