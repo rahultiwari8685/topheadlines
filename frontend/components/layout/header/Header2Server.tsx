@@ -13,33 +13,17 @@ export default function Header2Server() {
   return (
     <>
       <header>
-        <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
-          <div className="container-fluid">
-            <div className="d-flex justify-content-between align-items-center">
-              {/* Left */}
-              <div className="left">
-                <WeatherWidget />
-              </div>
+        <div className="container-fluid">
+          <div
+            className="d-flex justify-content-between align-items-center"
+            style={{ minHeight: "250px" }}
+          >
+            <div className="left">
+              <WeatherWidget />
+            </div>
 
-              {/* Right */}
-              <div
-                className="right"
-                style={{
-                  marginLeft: "auto",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "flex-start",
-                }}
-              >
-                <div
-                  style={{
-                    width: "500px",
-                    height: "200px",
-                  }}
-                >
-                  <Ads_sm />
-                </div>
-              </div>
+            <div className="ms-auto">
+              <Ads_sm />
             </div>
           </div>
         </div>
