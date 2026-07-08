@@ -235,7 +235,7 @@ export default function Header1Interactive() {
           <Link
             key={item._id}
             href={`/news?slug=${item.slug}`}
-            className="news-slide text-nowrap dark-mode-invert"
+            className="news-slide"
           >
             {item.title}
           </Link>
