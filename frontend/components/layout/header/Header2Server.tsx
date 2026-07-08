@@ -71,11 +71,11 @@ export default function Header2Server() {
                       </span>
                     </a>
                   </li>
-                  <li className="mw-350px">
+                  <li className="mw-600px">
                     {/* Swiper will be handled by client component */}
                     <div
                       className="swiper-container swiper-topbar"
-                      style={{ height: "27px", overflow: "hidden" }}
+                      style={{ height: "23px", overflow: "hidden" }}
                     >
                       {/* SwiperDynamic will be rendered here by Header1Interactive */}
 
@@ -85,7 +85,7 @@ export default function Header2Server() {
                   <li className="switch-btn">
                     <button
                       type="button"
-                      className="btn btn-sm fs-7 switch-btn-prev border-700"
+                      className="btn text-dark  btn-sm fs-7 switch-btn-prev border-700"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -96,16 +96,16 @@ export default function Header2Server() {
                       >
                         <path
                           d="M6.83335 4.5L3.16669 8L6.83335 11.5"
-                          stroke="light"
-                          className="dark-mode-invert"
+                          stroke="dark"
+                          className="light-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.8333 8H3.33331"
-                          stroke="light"
-                          className="dark-mode-invert"
+                          stroke="dark"
+                          className="light-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
