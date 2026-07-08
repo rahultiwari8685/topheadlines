@@ -217,61 +217,58 @@ export default function Header1Interactive() {
 
   return (
     <>
-      {/* Swiper carousel for breaking news - will be mounted into topbar container */}
-      <div
-        className="swiper-container swiper-topbar"
-        style={{ height: "27px", width: "100%", overflow: "hidden" }}
+      <SwiperDynamic
+        className="swiper-topbar"
+        slidesPerView={1}
+        loop={true}
+        speed={800}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        navigation={{
+          nextEl: ".switch-btn-next",
+          prevEl: ".switch-btn-prev",
+        }}
       >
-        <SwiperDynamic
-          className="swiper swiper-topbar"
-          slidesPerView={1}
-          loop={true}
-          speed={800}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          navigation={{
-            nextEl: ".switch-btn-next",
-            prevEl: ".switch-btn-prev",
-          }}
-        >
-          {trendingNews.map((item) => (
-            <Link
-              key={item._id}
-              href={`/news?slug=${item.slug}`}
-              className="news-slide"
-            >
-              {item.title}
-            </Link>
-          ))}
-        </SwiperDynamic>
-      </div>
+        {trendingNews.map((item) => (
+          <Link
+            key={item._id}
+            href={`/news?slug=${item.slug}`}
+            className="news-slide"
+          >
+            {item.title}
+          </Link>
+        ))}
+      </SwiperDynamic>
 
-      {/* Search popup with state management */}
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
-      <>
-        {/* Your JSX */}
+      <style jsx>{`
+        .swiper-topbar {
+          width: 100%;
+          height: 27px;
+        }
 
-        <style jsx>{`
-          .news-slide {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            height: 27px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #000;
-            text-decoration: none;
-          }
+        .swiper {
+          width: 100%;
+        }
 
-          .swiper-topbar {
-            width: 100%;
-          }
-        `}</style>
-      </>
+        .swiper-slide {
+          display: flex;
+          align-items: center;
+        }
+
+        .news-slide {
+          display: block;
+          width: 100%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: #000;
+          text-decoration: none;
+        }
+      `}</style>
     </>
   );
 }

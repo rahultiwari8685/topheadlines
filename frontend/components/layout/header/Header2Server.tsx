@@ -29,7 +29,7 @@ export default function Header2Server() {
           <div className="overflow-hidden text-dark">
             <div className="d-flex justify-content-between align-items-center">
               <div className="left">
-                <ul className="list-unstyled d-inline-flex gap-3">
+                <ul className="list-unstyled d-flex align-items-center w-100 mb-0">
                   <li>
                     <a href="#" className="btn btn-sm fs-7 border-700">
                       <svg
@@ -68,7 +68,10 @@ export default function Header2Server() {
                       </span>
                     </a>
                   </li>
-                  <li className="flex-grow-1 overflow-hidden">
+                  <li
+                    className="flex-grow-1 overflow-hidden"
+                    style={{ minWidth: 0 }}
+                  >
                     {/* Swiper will be handled by client component */}
                     <div
                       className="swiper-container swiper-topbar"
