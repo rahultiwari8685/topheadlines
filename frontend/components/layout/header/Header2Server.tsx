@@ -254,7 +254,7 @@ export default function Header2Server() {
       <SideBar />
 
       {/* Client component for interactive logic */}
-      <Header2Interactive />
+      {/* <Header2Interactive /> */}
     </>
   );
 }
