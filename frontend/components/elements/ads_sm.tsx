@@ -1,54 +1,98 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import setting from "../../setting.json";
+
+interface Advertisement {
+  _id: string;
+  title: string;
+  type: "image" | "video" | "html";
+  image: string;
+  video: string;
+  htmlCode: string;
+  redirectUrl: string;
+  position: string;
+  priority: number;
+  width: number;
+  height: number;
+  totalViews: number;
+  totalClicks: number;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function Ads_sm() {
+  const [ad, setAd] = useState<Advertisement | null>(null);
+
+  useEffect(() => {
+    const fetchAdvertisement = async () => {
+      try {
+        const res = await fetch(
+          `${setting.api}/api/advertisements?position=homepage_top`,
+        );
+        const data = await res.json();
+
+        if (data.success && data.data.length > 0) {
+          setAd(data.data[0]);
+        }
+      } catch (err) {
+        console.error("Advertisement Error:", err);
+      }
+    };
+
+    fetchAdvertisement();
+  }, []);
+
+  if (!ad) return null;
+
   return (
-    <>
-      <div className="block-ads bg-200">
-        <div
-          className="banner-ads"
-          data-background="/assets/imgs/page/bg-archive1.png"
-        >
-          {/* <Image
-            src="/assets/imgs/template/logo/logo-gradient-sm.svg"
-            width={70}
-            height={10}
-            alt="magzin"
-            priority={true}
-          /> */}
-          <h4 className="mt-3 fs-5">
-            Top Headlines &amp; News <br className="d-none d-lg-block" />
-            theme with <span>Outstanding</span> performance
-          </h4>
-          <div className="d-flex flex-wrap align-items-center gap-lg-4 gap-3">
-            <div className="tag-ads">
-              <Image
-                src="/assets/imgs/template/icons/icon-1.svg"
-                width={34}
-                height={34}
-                alt="magzin"
-                priority={true}
+    <div className="block-ads bg-200">
+      <div className="banner-ads">
+        <a href={ad.redirectUrl} target="_blank" rel="noopener noreferrer">
+          {ad.type === "image" && (
+            <Image
+              src={`${setting.api}/uploads/images/${ad.image}`}
+              alt={ad.title}
+              width={1200}
+              height={300}
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "10px",
+              }}
+              priority
+            />
+          )}
+
+          {ad.type === "video" && (
+            <video
+              controls
+              autoPlay
+              muted
+              loop
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+              }}
+            >
+              <source
+                src={`${setting.api}/uploads/images/${ad.video}`}
+                type="video/mp4"
               />
-              <div className="tag-ads__content">
-                <h6 className="fw-medium fs-7 m-0">Google</h6>
-                <p className="fs-10 m-0">PageSpeed Insidghts</p>
-              </div>
-            </div>
-            <div className="tag-ads">
-              <Image
-                src="/assets/imgs/template/icons/icon-2.svg"
-                width={29}
-                height={29}
-                alt="magzin"
-                priority={true}
-              />
-              <div className="tag-ads__content">
-                <h6 className="fw-medium fs-7 m-0">Core Web Vitals</h6>
-                <p className="fs-10 m-0">Assessment Passed</p>
-              </div>
-            </div>
-          </div>
-        </div>
+            </video>
+          )}
+
+          {ad.type === "html" && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: ad.htmlCode,
+              }}
+            />
+          )}
+        </a>
       </div>
-    </>
+    </div>
   );
 }
