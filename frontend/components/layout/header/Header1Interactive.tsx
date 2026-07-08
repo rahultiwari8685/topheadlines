@@ -7,7 +7,7 @@ import PopupSearch from "@/components/layout/cardPopupSearchServer";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import setting from "../../../setting.json";
-import { SwiperSlide } from "swiper/react";
+
 export default function Header1Interactive() {
   const scroll = useScrollState();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -237,11 +237,13 @@ export default function Header1Interactive() {
           }}
         >
           {trendingNews.map((item) => (
-            <SwiperSlide key={item._id}>
-              <Link href={`/news?slug=${item.slug}`} className="news-slide">
-                {item.title}
-              </Link>
-            </SwiperSlide>
+            <Link
+              key={item._id}
+              href={`/news?slug=${item.slug}`}
+              className="news-slide"
+            >
+              {item.title}
+            </Link>
           ))}
         </SwiperDynamic>
       </div>
