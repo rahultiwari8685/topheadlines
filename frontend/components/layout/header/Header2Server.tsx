@@ -7,21 +7,22 @@ import Header2Interactive from "./Header2Interactive";
 import Header1Interactive from "./Header1Interactive";
 import GoldPrice from "@/components/GoldPrice";
 import WeatherWidget from "@/components/WeatherWidget";
+import Ads_sm from "@/components/elements/ads_sm";
 
 export default function Header2Server() {
   return (
     <>
       <header>
         <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
-          <div className="overflow-hidden">
+          <div className="container-fluid">
             <div className="d-flex justify-content-between align-items-center">
               <div className="left">
                 <WeatherWidget />
               </div>
 
-              {/* <div className="right">
-                <GoldPrice />
-              </div> */}
+              <div className="right d-flex justify-content-end">
+                <Ads_sm />
+              </div>
             </div>
           </div>
         </div>
