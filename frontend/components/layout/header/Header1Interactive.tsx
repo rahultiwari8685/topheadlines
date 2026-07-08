@@ -7,7 +7,7 @@ import PopupSearch from "@/components/layout/cardPopupSearchServer";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import setting from "../../../setting.json";
-
+import { SwiperSlide } from "swiper/react";
 export default function Header1Interactive() {
   const scroll = useScrollState();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -225,9 +225,10 @@ export default function Header1Interactive() {
         <SwiperDynamic
           className="swiper swiper-topbar"
           slidesPerView={1}
-          loop
+          loop={true}
+          speed={800}
           autoplay={{
-            delay: 5000,
+            delay: 3000,
             disableOnInteraction: false,
           }}
           navigation={{
@@ -236,19 +237,39 @@ export default function Header1Interactive() {
           }}
         >
           {trendingNews.map((item) => (
-            <Link
-              key={item._id}
-              href={`/news?slug=${item.slug}`}
-              className="text-dark fs-7 text-nowrap dark-mode-invert"
-            >
-              {item.title}
-            </Link>
+            <SwiperSlide key={item._id}>
+              <Link href={`/news?slug=${item.slug}`} className="news-slide">
+                {item.title}
+              </Link>
+            </SwiperSlide>
           ))}
         </SwiperDynamic>
       </div>
 
       {/* Search popup with state management */}
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+
+      <>
+        {/* Your JSX */}
+
+        <style jsx>{`
+          .news-slide {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 27px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #000;
+            text-decoration: none;
+          }
+
+          .swiper-topbar {
+            width: 100%;
+          }
+        `}</style>
+      </>
     </>
   );
 }
