@@ -16,7 +16,7 @@ export default function Header2Server() {
         <div className="container-fluid">
           <div
             className="d-flex justify-content-between align-items-center"
-            style={{ minHeight: "100px" }}
+            style={{ maxHeight: "100px" }}
           >
             <div className="left">
               <WeatherWidget />
