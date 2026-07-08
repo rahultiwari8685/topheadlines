@@ -96,16 +96,12 @@ export default function Header2Server() {
                       >
                         <path
                           d="M6.83335 4.5L3.16669 8L6.83335 11.5"
-                          stroke="light"
-                          className="dark-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.8333 8H3.33331"
-                          stroke="light"
-                          className="dark-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -125,14 +121,12 @@ export default function Header2Server() {
                       >
                         <path
                           d="M9.16669 4.5L12.8334 8L9.16669 11.5"
-                          stroke="dark"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.6667 8H3.16669"
-                          stroke="dark"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
