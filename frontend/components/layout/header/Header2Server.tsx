@@ -22,7 +22,7 @@ export default function Header2Server() {
               <WeatherWidget />
             </div>
 
-            <div className="ms-auto m-4 height-130 width-400">
+            <div className=" m-4 height-130 width-700">
               <Ads_sm />
             </div>
           </div>
