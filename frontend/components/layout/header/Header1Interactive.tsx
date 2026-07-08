@@ -247,7 +247,7 @@ export default function Header1Interactive() {
       <style jsx>{`
         .swiper-topbar {
           width: 100%;
-          height: 27px;
+          height: 24px;
         }
 
         .swiper {
