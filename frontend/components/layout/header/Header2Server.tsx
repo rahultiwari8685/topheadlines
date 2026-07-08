@@ -170,7 +170,7 @@ export default function Header2Server() {
                           />
                         </g>
                       </svg>
-                      <span className="text-white fs-7 text-nowrap dark-mode-invert">
+                      <span className="text-dark fs-7 text-nowrap dark-mode-invert">
                         Subscribe Our Newsletter
                       </span>
                     </a>
@@ -192,7 +192,7 @@ export default function Header2Server() {
                           fill="white"
                         />
                       </svg>
-                      <span className="text-white fs-7 text-nowrap dark-mode-invert">
+                      <span className="text-dark fs-7 text-nowrap dark-mode-invert">
                         June 24, 2026
                       </span>
                     </div>
