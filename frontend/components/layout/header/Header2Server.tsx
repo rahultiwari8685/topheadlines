@@ -22,8 +22,21 @@ export default function Header2Server() {
               </div>
 
               {/* Right */}
-              <div className="right ms-auto d-flex justify-content-end">
-                <div className="ad300">
+              <div
+                className="right"
+                style={{
+                  marginLeft: "auto",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-start",
+                }}
+              >
+                <div
+                  style={{
+                    width: "500px",
+                    height: "200px",
+                  }}
+                >
                   <Ads_sm />
                 </div>
               </div>
