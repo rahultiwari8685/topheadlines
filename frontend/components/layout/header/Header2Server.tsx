@@ -66,7 +66,9 @@ export default function Header2Server() {
                           />
                         </g>
                       </svg>
-                      <span className=" dark-mode-invert">Breaking</span>
+                      <span className="text-white dark-mode-invert">
+                        Breaking
+                      </span>
                     </a>
                   </li>
                   <li className="mw-350px">
