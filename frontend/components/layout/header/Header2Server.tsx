@@ -66,7 +66,7 @@ export default function Header2Server() {
                           />
                         </g>
                       </svg>
-                      <span className="text-dark dark-mode-invert">
+                      <span className="text-dark light-mode-invert">
                         Breaking
                       </span>
                     </a>
@@ -170,7 +170,7 @@ export default function Header2Server() {
                           />
                         </g>
                       </svg>
-                      <span className="text-dark fs-7  dark-mode-invert">
+                      <span className="text-dark fs-7  light-mode-invert">
                         Subscribe Our Newsletter
                       </span>
                     </a>
@@ -192,7 +192,7 @@ export default function Header2Server() {
                           fill="white"
                         />
                       </svg>
-                      <span className="text-dark fs-7  dark-mode-invert">
+                      <span className="text-dark fs-7 light-mode-invert">
                         June 24, 2026
                       </span>
                     </div>
