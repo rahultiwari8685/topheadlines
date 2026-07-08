@@ -68,7 +68,7 @@ export default function Header2Server() {
                       </span>
                     </a>
                   </li>
-                  <li className="mw-600px">
+                  <li className="mw-250px">
                     {/* Swiper will be handled by client component */}
                     <div
                       className="swiper-container swiper-topbar"
