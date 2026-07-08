@@ -52,8 +52,8 @@ export default function Ads_sm() {
       <div className="banner-ads">
         <a href={ad.redirectUrl} target="_blank" rel="noopener noreferrer">
           {ad.type === "image" && (
-            <Image
-              src={`${setting.site}/uploads/images/${ad.image}`}
+            <img
+              src={`${setting.api}/uploads/images/${ad.image}`}
               alt={ad.title}
               width={1200}
               height={300}
