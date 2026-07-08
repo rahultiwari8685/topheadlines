@@ -15,20 +15,43 @@ export default function Header2Server() {
       <header>
         <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
           <div className="container-fluid">
-            <div className="d-flex justify-content-between align-items-center">
-              {/* Left */}
+            <div className="d-flex justify-content-between align-items-start">
               <div className="left">
                 <WeatherWidget />
               </div>
 
-              {/* Right */}
-              <div className="right ms-auto d-flex justify-content-end">
-                <div className="ad-100x100">
+              <div className="right">
+                <div className="ad300">
                   <Ads_sm />
                 </div>
               </div>
             </div>
           </div>
+
+          <style jsx>{`
+            .right {
+              margin-left: auto;
+              display: flex;
+              justify-content: flex-end;
+              align-items: flex-start;
+            }
+
+            .ad300 {
+              width: 300px;
+              height: 250px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              overflow: hidden;
+            }
+
+            .ad300 :global(img),
+            .ad300 :global(iframe) {
+              width: 300px;
+              height: 250px;
+              object-fit: cover;
+            }
+          `}</style>
         </div>
 
         <nav className="navbar style-2">
