@@ -243,32 +243,6 @@ export default function Header1Interactive() {
       </SwiperDynamic>
 
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-
-      <style jsx>{`
-        .swiper-topbar {
-          width: 100%;
-          height: 27px;
-        }
-
-        .swiper {
-          width: 100%;
-        }
-
-        .swiper-slide {
-          display: flex;
-          align-items: center;
-        }
-
-        .news-slide {
-          display: block;
-          width: 100%;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          color: #000;
-          text-decoration: none;
-        }
-      `}</style>
     </>
   );
 }
