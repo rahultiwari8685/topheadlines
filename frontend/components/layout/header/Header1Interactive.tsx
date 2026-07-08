@@ -42,7 +42,7 @@ export default function Header1Interactive() {
 
     fetchTrendingNews();
 
-    const interval = setInterval(fetchTrendingNews, 60000); // every 1 minute
+    const interval = setInterval(fetchTrendingNews, 2000); // every 1 minute
 
     return () => clearInterval(interval);
   }, []);
