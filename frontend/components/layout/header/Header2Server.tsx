@@ -28,7 +28,7 @@ export default function Header2Server() {
           </div>
         </div>
 
-        <div className="topbar d-none d-lg-block">
+        <div className="topbar d-none d-lg-block bg-white">
           <div className="overflow-hidden">
             <div className="d-flex justify-content-between align-items-center">
               <div className="left">
