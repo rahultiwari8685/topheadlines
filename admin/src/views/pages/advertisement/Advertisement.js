@@ -250,7 +250,7 @@ const Advertisement = () => {
 
                     <CTableDataCell>
                       <img
-                        src={`${setting.api}/uploads/advertisements/${item.image}`}
+                        src={`${setting.api}/uploads/images/${item.image}`}
                         width="90"
                         height="60"
                         alt=""
