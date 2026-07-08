@@ -220,7 +220,7 @@ export default function Header1Interactive() {
       {/* Swiper carousel for breaking news - will be mounted into topbar container */}
       <div
         className="swiper-container swiper-topbar"
-        style={{ height: "27px", overflow: "hidden" }}
+        style={{ height: "27px", width: "100%", overflow: "hidden" }}
       >
         <SwiperDynamic
           className="swiper swiper-topbar"
