@@ -66,9 +66,7 @@ export default function Header2Server() {
                           />
                         </g>
                       </svg>
-                      <span className="text-light dark-mode-invert">
-                        Breaking
-                      </span>
+                      <span className=" dark-mode-invert">Breaking</span>
                     </a>
                   </li>
                   <li className="mw-350px">
@@ -96,14 +94,16 @@ export default function Header2Server() {
                       >
                         <path
                           d="M6.83335 4.5L3.16669 8L6.83335 11.5"
-                          stroke="dark"
+                          stroke="light"
+                          className="dark-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.8333 8H3.33331"
-                          stroke="dark"
+                          stroke="light"
+                          className="dark-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
