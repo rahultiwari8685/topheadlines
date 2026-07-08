@@ -62,7 +62,6 @@ export default function Ads_sm() {
                 height: "auto",
                 borderRadius: "10px",
               }}
-              priority
             />
           )}
 
