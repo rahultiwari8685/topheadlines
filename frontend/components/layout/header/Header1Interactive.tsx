@@ -237,7 +237,7 @@ export default function Header1Interactive() {
             href={`/news?slug=${item.slug}`}
             className="news-slide"
           >
-            <span className="text-light dark-mode-invert">{item.title}</span>
+            <span className="dark-mode-invert">{item.title}</span>
           </Link>
         ))}
       </SwiperDynamic>
