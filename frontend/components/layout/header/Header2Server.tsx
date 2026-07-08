@@ -16,12 +16,16 @@ export default function Header2Server() {
         <div className="topbar d-none d-lg-block bg-white text-dark border-bottom">
           <div className="container-fluid">
             <div className="d-flex justify-content-between align-items-center">
+              {/* Left */}
               <div className="left">
                 <WeatherWidget />
               </div>
 
-              <div className="right d-flex justify-content-end">
-                <Ads_sm />
+              {/* Right */}
+              <div className="right ms-auto d-flex justify-content-end">
+                <div className="ad-300x250">
+                  <Ads_sm />
+                </div>
               </div>
             </div>
           </div>
