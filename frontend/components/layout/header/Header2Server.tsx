@@ -71,7 +71,7 @@ export default function Header2Server() {
                       </span>
                     </a>
                   </li>
-                  <li className="mw-300px">
+                  <li className="mw-350px">
                     {/* Swiper will be handled by client component */}
                     <div
                       className="swiper-container swiper-topbar"
@@ -85,7 +85,7 @@ export default function Header2Server() {
                   <li className="switch-btn">
                     <button
                       type="button"
-                      className="btn text-dark  btn-sm fs-7 switch-btn-prev border-700"
+                      className="btn btn-sm fs-7 text-dark light-mode-invert switch-btn-prev border-700"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,8 @@ export default function Header2Server() {
                       >
                         <path
                           d="M6.83335 4.5L3.16669 8L6.83335 11.5"
-                          stroke="dark"
+                          stroke="light"
+                          className="dark-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -104,6 +105,7 @@ export default function Header2Server() {
                         <path
                           d="M12.8333 8H3.33331"
                           stroke="light"
+                          className="dark-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -112,7 +114,7 @@ export default function Header2Server() {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-sm fs-7 switch-btn-next border-700"
+                      className="btn btn-sm fs-7 text-dark light-mode-invert switch-btn-next border-700"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
