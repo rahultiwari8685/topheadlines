@@ -96,20 +96,6 @@ export default function Header2Server() {
 
       {/* Client component for interactive logic */}
       {/* <Header2Interactive /> */}
-
-      <style jsx>{`
-        .right {
-          margin-left: auto;
-          display: flex;
-          justify-content: flex-end;
-          align-items: flex-start;
-        }
-
-        .ad300 {
-          width: 500px;
-          height: 200px;
-        }
-      `}</style>
     </>
   );
 }
