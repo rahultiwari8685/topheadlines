@@ -71,7 +71,7 @@ export default function Header2Server() {
                       </span>
                     </a>
                   </li>
-                  <li className="mw-600px">
+                  <li className="mw-300px">
                     {/* Swiper will be handled by client component */}
                     <div
                       className="swiper-container swiper-topbar"
@@ -97,15 +97,13 @@ export default function Header2Server() {
                         <path
                           d="M6.83335 4.5L3.16669 8L6.83335 11.5"
                           stroke="dark"
-                          className="light-mode-invert"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M12.8333 8H3.33331"
-                          stroke="dark"
-                          className="light-mode-invert"
+                          stroke="light"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
