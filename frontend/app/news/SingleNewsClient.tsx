@@ -91,13 +91,9 @@ export default function Single_2() {
           </div>
         </section>
 
-        <div className="bg-50 py-5">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-8 col-12 mx-lg-auto">
-                <Ads_sm />
-              </div>
-            </div>
+        <div className="row">
+          <div className="col-lg-8 col-12 mx-lg-auto">
+            <Ads_sm />
           </div>
         </div>
       </Layout>
