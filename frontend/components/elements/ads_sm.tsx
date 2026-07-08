@@ -48,48 +48,46 @@ export default function Ads_sm() {
   if (!ad) return null;
 
   return (
-    <div className="banner-ads">
-      <a href={ad.redirectUrl} target="_blank" rel="noopener noreferrer">
-        {ad.type === "image" && (
-          <img
-            src={`${setting.api}/uploads/images/${ad.image}`}
-            alt={ad.title}
-            width={1200}
-            height={300}
-            style={{
-              width: "100%",
-              height: "auto",
-              borderRadius: "10px",
-            }}
-          />
-        )}
+    <a href={ad.redirectUrl} target="_blank" rel="noopener noreferrer">
+      {ad.type === "image" && (
+        <img
+          src={`${setting.api}/uploads/images/${ad.image}`}
+          alt={ad.title}
+          width={1200}
+          height={300}
+          style={{
+            width: "100%",
+            height: "auto",
+            borderRadius: "10px",
+          }}
+        />
+      )}
 
-        {ad.type === "video" && (
-          <video
-            controls
-            autoPlay
-            muted
-            loop
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-            }}
-          >
-            <source
-              src={`${setting.api}/uploads/images/${ad.video}`}
-              type="video/mp4"
-            />
-          </video>
-        )}
-
-        {ad.type === "html" && (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: ad.htmlCode,
-            }}
+      {ad.type === "video" && (
+        <video
+          controls
+          autoPlay
+          muted
+          loop
+          style={{
+            width: "100%",
+            borderRadius: "10px",
+          }}
+        >
+          <source
+            src={`${setting.api}/uploads/images/${ad.video}`}
+            type="video/mp4"
           />
-        )}
-      </a>
-    </div>
+        </video>
+      )}
+
+      {ad.type === "html" && (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: ad.htmlCode,
+          }}
+        />
+      )}
+    </a>
   );
 }
