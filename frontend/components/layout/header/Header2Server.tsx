@@ -23,7 +23,7 @@ export default function Header2Server() {
 
               {/* Right */}
               <div className="right ms-auto d-flex justify-content-end">
-                <div className="ad-500x100">
+                <div className="ad-100x100">
                   <Ads_sm />
                 </div>
               </div>
