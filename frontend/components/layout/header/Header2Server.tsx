@@ -82,7 +82,7 @@ export default function Header2Server() {
                       <Header1Interactive />
                     </div>
                   </li>
-                  <li className="switch-btn">
+                  {/* <li className="switch-btn">
                     <button
                       type="button"
                       className="btn btn-sm fs-7 text-dark light-mode-invert switch-btn-prev border-700"
@@ -133,7 +133,7 @@ export default function Header2Server() {
                         />
                       </svg>
                     </button>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
               <div className="right">
