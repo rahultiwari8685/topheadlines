@@ -33,19 +33,19 @@ export default function Header1Interactive() {
 
   useEffect(() => {
     const fetchTrendingNews = async () => {
-      const res = await fetch(`${setting.api}/api/news/trending?limit=10`);
-      const data = await res.json();
+      try {
+        const res = await fetch(`${setting.api}/api/news/trending?limit=5`);
+        const data = await res.json();
 
-      if (data.status) {
-        setTrendingNews(data.data);
+        if (data.status) {
+          setTrendingNews(data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching trending news:", error);
       }
     };
 
     fetchTrendingNews();
-
-    const interval = setInterval(fetchTrendingNews, 60000);
-
-    return () => clearInterval(interval);
   }, []);
 
   // Handle search button click
