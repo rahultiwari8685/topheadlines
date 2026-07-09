@@ -214,20 +214,26 @@ export default function Header1Interactive({
 
   return (
     <>
-      const tickerItems = [ ...trendingNews, ...trendingNews, ...trendingNews,
-      ...trendingNews, ];
-      <div className="ticker-track">
-        {tickerItems.map((item, index) => (
-          <Link
-            key={`${item._id}-${index}`}
-            href={`/news?slug=${item.slug}`}
-            className="ticker-item"
-          >
-            🔴 {item.title}
-          </Link>
-        ))}
+      <div className="ticker">
+        {trendingNews.length === 0 ? (
+          <span className="ticker-item">🔴 Loading Breaking News...</span>
+        ) : (
+          <div className="ticker-track">
+            {tickerItems.map((item, index) => (
+              <Link
+                key={`${item._id}-${index}`}
+                href={`/news?slug=${item.slug}`}
+                className="ticker-item"
+              >
+                🔴 {item.title}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
+
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+
       <style jsx>{`
         .ticker {
           width: 100%;
@@ -253,8 +259,8 @@ export default function Header1Interactive({
 
         .ticker-item {
           flex-shrink: 0;
-          white-space: nowrap;
           margin-right: 80px;
+          white-space: nowrap;
           text-decoration: none;
           color: #000;
           font-size: 15px;
