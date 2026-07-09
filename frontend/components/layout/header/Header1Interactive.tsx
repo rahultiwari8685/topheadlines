@@ -249,7 +249,7 @@ export default function Header1Interactive() {
         .ticker-track {
           display: flex;
           width: max-content;
-          animation: ticker 100s linear infinite;
+          animation: ticker 140s linear infinite;
         }
 
         .ticker:hover .ticker-track {
