@@ -218,10 +218,8 @@ export default function Header1Interactive() {
 
   return (
     <>
-      <div className="ticker">
-        {trendingNews.length === 0 ? (
-          <div className="ticker-item">Loading breaking news...</div>
-        ) : (
+      {trendingNews.length > 0 && (
+        <div className="ticker">
           <div className="ticker-track">
             {[...trendingNews, ...trendingNews].map((item, index) => (
               <Link
@@ -233,8 +231,8 @@ export default function Header1Interactive() {
               </Link>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
