@@ -224,6 +224,10 @@ export default function Header1Interactive() {
           slidesPerView={3}
           loop
           speed={15000}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
         >
           {trendingNews.map((item) => (
             <Link
