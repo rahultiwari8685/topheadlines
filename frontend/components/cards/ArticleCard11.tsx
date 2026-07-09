@@ -42,14 +42,9 @@ export default function ArticleCard11({ card, idx }: Props) {
               ></iframe>
             ) : (
               <img
-                src={card.imgAuthor}
-                alt={card.author}
-                width={40}
-                height={40}
-                style={{
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
+                src={card.img || "/assets/imgs/page/img-28.png"}
+                alt="news"
+                style={{ width: "100%", height: "250px", objectFit: "cover" }}
               />
             )}
           </Link>
@@ -101,14 +96,11 @@ export default function ArticleCard11({ card, idx }: Props) {
                 className="author d-flex align-items-center gap-2"
               >
                 <img
+                  className="avatar avatar-md rounded-circle"
                   src={card.imgAuthor}
-                  alt={card.author}
-                  width={40}
-                  height={40}
-                  style={{
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
+                  alt="magzin"
+                  width={41}
+                  height={41}
                 />
                 <span className="fs-7 text-dark fw-regular">{card.author}</span>
               </Link>

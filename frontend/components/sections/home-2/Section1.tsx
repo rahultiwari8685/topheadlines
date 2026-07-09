@@ -41,11 +41,9 @@ export default function Section1({ classList }: any) {
         title: item.title || "No Title",
         description: item.subtitle || "No Description",
 
-        // ✅ Dynamic author image
         imgAuthor: item.author?.profileImage
           ? `${setting.api}/uploads/images/${item.author.profileImage}`
           : "/assets/imgs/template/author/author-1.png",
-
         author: item.author?.name || "Admin",
 
         date: new Date(item.createdAt).toDateString(),

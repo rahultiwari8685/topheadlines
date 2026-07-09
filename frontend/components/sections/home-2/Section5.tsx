@@ -34,7 +34,9 @@ export default function Section5() {
             bgBadge: `bg-${(idx % 5) + 1}`,
             title: item.title || "No Title",
             description: item.subtitle || "No Description",
-            imgAuthor: "/assets/imgs/template/author/author-1.png",
+            imgAuthor: item.author?.profileImage
+              ? `${setting.api}/uploads/images/${item.author.profileImage}`
+              : "/assets/imgs/template/author/author-1.png",
             author: item.author?.name || "Admin",
             date: new Date(item.createdAt).toDateString(),
 
