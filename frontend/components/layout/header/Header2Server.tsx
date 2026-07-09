@@ -198,7 +198,11 @@ export default function Header2Server() {
                         />
                       </svg>
                       <span className="text-dark fs-7 light-mode-invert">
-                        June 24, 2026
+                        {new Date().toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
                       </span>
                     </div>
                   </li>

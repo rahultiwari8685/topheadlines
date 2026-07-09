@@ -41,7 +41,11 @@ export default function Section1({ classList }: any) {
         title: item.title || "No Title",
         description: item.subtitle || "No Description",
 
-        imgAuthor: "/assets/imgs/template/author/author-1.png",
+        // ✅ Dynamic author image
+        imgAuthor: item.author?.profileImage
+          ? `${setting.api}/uploads/images/${item.author.profileImage}`
+          : "/assets/imgs/template/author/author-1.png",
+
         author: item.author?.name || "Admin",
 
         date: new Date(item.createdAt).toDateString(),
@@ -95,7 +99,6 @@ export default function Section1({ classList }: any) {
     >
       <div className="container">
         <div className="row mt-2 g-4">
-   
           <div className="col-lg-3">
             <div className="row g-4">
               {textNews.slice(0, 2).map((card, idx) => (
