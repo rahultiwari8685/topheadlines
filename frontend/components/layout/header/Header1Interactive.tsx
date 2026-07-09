@@ -32,6 +32,9 @@ export default function Header1Interactive({
 
   const [trendingNews] = useState<TrendingNews[]>(initialTrending);
 
+  const tickerItems =
+    trendingNews.length > 0 ? Array(6).fill(trendingNews).flat() : [];
+
   const { toggleSidebar } = useSidebarMenu();
   const searchBtnRef = useRef<Element | null>(null);
   const navbarTogglerRef = useRef<Element | null>(null);
@@ -211,26 +214,20 @@ export default function Header1Interactive({
 
   return (
     <>
-      <div className="ticker">
-        {trendingNews.length === 0 ? (
-          <span className="ticker-item">🔴 Loading Breaking News...</span>
-        ) : (
-          <div className="ticker-track">
-            {[...trendingNews, ...trendingNews].map((item, index) => (
-              <Link
-                key={`${item._id}-${index}`}
-                href={`/news?slug=${item.slug}`}
-                className="ticker-item"
-              >
-                🔴 {item.title}
-              </Link>
-            ))}
-          </div>
-        )}
+      const tickerItems = [ ...trendingNews, ...trendingNews, ...trendingNews,
+      ...trendingNews, ];
+      <div className="ticker-track">
+        {tickerItems.map((item, index) => (
+          <Link
+            key={`${item._id}-${index}`}
+            href={`/news?slug=${item.slug}`}
+            className="ticker-item"
+          >
+            🔴 {item.title}
+          </Link>
+        ))}
       </div>
-
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-
       <style jsx>{`
         .ticker {
           width: 100%;
@@ -243,8 +240,11 @@ export default function Header1Interactive({
 
         .ticker-track {
           display: flex;
+          flex-wrap: nowrap;
+          white-space: nowrap;
           width: max-content;
-          animation: ticker 140s linear infinite;
+          will-change: transform;
+          animation: ticker 60s linear infinite;
         }
 
         .ticker:hover .ticker-track {
@@ -252,6 +252,7 @@ export default function Header1Interactive({
         }
 
         .ticker-item {
+          flex-shrink: 0;
           white-space: nowrap;
           margin-right: 80px;
           text-decoration: none;
@@ -271,12 +272,12 @@ export default function Header1Interactive({
         }
 
         @keyframes ticker {
-          0% {
-            transform: translateX(100%);
+          from {
+            transform: translateX(0);
           }
 
-          100% {
-            transform: translateX(-100%);
+          to {
+            transform: translateX(-50%);
           }
         }
       `}</style>
