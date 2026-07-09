@@ -47,7 +47,7 @@ export default function HeaderAds() {
       style={{ display: "block" }}
     >
       {ad.type === "image" && (
-        <Image
+        <img
           src={`${setting.api}/uploads/images/${ad.image}`}
           alt={ad.title}
           width={1200}
