@@ -17,6 +17,7 @@ export default function Header1Interactive() {
     _id: string;
     title: string;
     slug: string;
+    reverseDirection?: boolean;
   }
 
   const [trendingNews, setTrendingNews] = useState<TrendingNews[]>([]);
@@ -217,55 +218,71 @@ export default function Header1Interactive() {
 
   return (
     <>
-      {trendingNews.length > 0 ? (
-        <SwiperDynamic
-          key={trendingNews.length}
-          className="swiper-topbar"
-          slidesPerView={1}
-          loop
-          speed={800}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-        >
-          {trendingNews.map((item) => (
-            <Link
-              key={item._id}
-              href={`/news?slug=${item.slug}`}
-              className="news-slide"
-            >
-              {item.title}
-            </Link>
-          ))}
-        </SwiperDynamic>
-      ) : null}
+      {trendingNews.length > 0 && (
+        <div className="ticker">
+          <div className="ticker-track">
+            {[...trendingNews, ...trendingNews].map((item, index) => (
+              <Link
+                key={`${item._id}-${index}`}
+                href={`/news?slug=${item.slug}`}
+                className="ticker-item"
+              >
+                🔴 {item.title}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       <style jsx>{`
-        .swiper-topbar {
+        .ticker {
           width: 100%;
-          height: 24px;
+          height: 28px;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          position: relative;
         }
 
-        .swiper {
-          width: 100%;
+        .ticker-track {
+          display: flex;
+          width: max-content;
+          animation: ticker 40s linear infinite;
         }
 
-        .swiper-slide {
+        .ticker:hover .ticker-track {
+          animation-play-state: paused;
+        }
+
+        .ticker-item {
+          white-space: nowrap;
+          margin-right: 80px;
+          text-decoration: none;
+          color: #000;
+          font-size: 15px;
+          font-weight: 600;
           display: flex;
           align-items: center;
         }
 
-        .news-slide {
-          display: block;
-          width: 100%;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          color: #000;
-          text-decoration: none;
+        .ticker-item:hover {
+          color: #e30613;
+        }
+
+        :global(.dark) .ticker-item {
+          color: #fff;
+        }
+
+        @keyframes ticker {
+          0% {
+            transform: translateX(100%);
+          }
+
+          100% {
+            transform: translateX(-100%);
+          }
         }
       `}</style>
     </>
