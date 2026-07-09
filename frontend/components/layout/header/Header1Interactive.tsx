@@ -42,7 +42,7 @@ export default function Header1Interactive() {
 
     fetchTrendingNews();
 
-    const interval = setInterval(fetchTrendingNews, 2000); // every 1 minute
+    const interval = setInterval(fetchTrendingNews, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -217,30 +217,29 @@ export default function Header1Interactive() {
 
   return (
     <>
-      <SwiperDynamic
-        className="swiper-topbar"
-        slidesPerView={1}
-        loop={true}
-        speed={800}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        navigation={{
-          nextEl: ".switch-btn-next",
-          prevEl: ".switch-btn-prev",
-        }}
-      >
-        {trendingNews.map((item) => (
-          <Link
-            key={item._id}
-            href={`/news?slug=${item.slug}`}
-            className="news-slide"
-          >
-            <span className="dark-mode-invert"></span> {item.title}
-          </Link>
-        ))}
-      </SwiperDynamic>
+      {trendingNews.length > 0 ? (
+        <SwiperDynamic
+          key={trendingNews.length}
+          className="swiper-topbar"
+          slidesPerView={1}
+          loop
+          speed={800}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+        >
+          {trendingNews.map((item) => (
+            <Link
+              key={item._id}
+              href={`/news?slug=${item.slug}`}
+              className="news-slide"
+            >
+              {item.title}
+            </Link>
+          ))}
+        </SwiperDynamic>
+      ) : null}
 
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
