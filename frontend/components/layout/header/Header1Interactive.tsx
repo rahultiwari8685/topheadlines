@@ -250,7 +250,7 @@ export default function Header1Interactive({
           white-space: nowrap;
           width: max-content;
           will-change: transform;
-          animation: ticker 60s linear infinite;
+          animation: ticker 100s linear infinite;
         }
 
         .ticker:hover .ticker-track {
