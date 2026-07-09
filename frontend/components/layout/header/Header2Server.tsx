@@ -12,7 +12,9 @@ import HeaderAds from "@/components/elements/HeaderAds";
 import setting from "../../../setting.json";
 export default async function Header2Server() {
   const res = await fetch(`${setting.api}/api/news/trending?limit=10`, {
-    cache: "no-store",
+    next: {
+      revalidate: 300, // Refresh every 5 minutes
+    },
   });
 
   const data = await res.json();
