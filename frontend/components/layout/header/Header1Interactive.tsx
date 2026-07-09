@@ -8,17 +8,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import setting from "../../../setting.json";
 
-interface TrendingNews {
-  _id: string;
-  title: string;
-  slug: string;
-}
-
-export default function Header1Interactive({
-  initialTrending,
-}: {
-  initialTrending: TrendingNews[];
-}) {
+export default function Header1Interactive() {
   const scroll = useScrollState();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavbarHidden, setIsNavbarHidden] = useState(false);
@@ -30,9 +20,7 @@ export default function Header1Interactive({
     reverseDirection?: boolean;
   }
 
-  const [trendingNews] = useState<TrendingNews[]>(initialTrending);
-
-  const tickerItems = [...trendingNews, ...trendingNews];
+  const [trendingNews, setTrendingNews] = useState<TrendingNews[]>([]);
 
   const { toggleSidebar } = useSidebarMenu();
   const searchBtnRef = useRef<Element | null>(null);
@@ -42,6 +30,23 @@ export default function Header1Interactive({
     transition: string;
     transform: string;
   } | null>(null);
+
+  useEffect(() => {
+    const fetchTrendingNews = async () => {
+      try {
+        const res = await fetch(`${setting.api}/api/news/trending?limit=5`);
+        const data = await res.json();
+
+        if (data.status) {
+          setTrendingNews(data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching trending news:", error);
+      }
+    };
+
+    fetchTrendingNews();
+  }, []);
 
   // Handle search button click
   useEffect(() => {
@@ -218,7 +223,7 @@ export default function Header1Interactive({
           <span className="ticker-item">🔴 Loading Breaking News...</span>
         ) : (
           <div className="ticker-track">
-            {tickerItems.map((item, index) => (
+            {[...trendingNews, ...trendingNews].map((item, index) => (
               <Link
                 key={`${item._id}-${index}`}
                 href={`/news?slug=${item.slug}`}
@@ -245,11 +250,8 @@ export default function Header1Interactive({
 
         .ticker-track {
           display: flex;
-          flex-wrap: nowrap;
-          white-space: nowrap;
           width: max-content;
-          will-change: transform;
-          animation: ticker 100s linear infinite;
+          animation: ticker 140s linear infinite;
         }
 
         .ticker:hover .ticker-track {
@@ -257,9 +259,8 @@ export default function Header1Interactive({
         }
 
         .ticker-item {
-          flex-shrink: 0;
-          margin-right: 80px;
           white-space: nowrap;
+          margin-right: 80px;
           text-decoration: none;
           color: #000;
           font-size: 15px;
@@ -277,12 +278,12 @@ export default function Header1Interactive({
         }
 
         @keyframes ticker {
-          from {
-            transform: translateX(0);
+          0% {
+            transform: translateX(100%);
           }
 
-          to {
-            transform: translateX(-50%);
+          100% {
+            transform: translateX(-100%);
           }
         }
       `}</style>

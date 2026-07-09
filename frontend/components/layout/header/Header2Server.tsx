@@ -10,16 +10,7 @@ import WeatherWidget from "@/components/WeatherWidget";
 import Ads_sm from "@/components/elements/ads_sm";
 import HeaderAds from "@/components/elements/HeaderAds";
 import setting from "../../../setting.json";
-export default async function Header2Server() {
-  const res = await fetch(`${setting.api}/api/news/trending?limit=10`, {
-    next: {
-      revalidate: 300, // Refresh every 5 minutes
-    },
-  });
-
-  const data = await res.json();
-
-  const trendingNews = data.status ? data.data : [];
+export default function Header2Server() {
   return (
     <>
       <header>
@@ -99,7 +90,7 @@ export default async function Header2Server() {
                     >
                       {/* SwiperDynamic will be rendered here by Header1Interactive */}
 
-                      <Header1Interactive initialTrending={trendingNews} />
+                      <Header1Interactive />
                     </div>
                   </li>
                   {/* <li className="switch-btn">
