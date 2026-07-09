@@ -28,12 +28,12 @@ export default function Header2Server() {
         <div className="container-fluid py-2">
           <div className="row align-items-center">
             {/* Weather */}
-            <div className="col-lg-3 col-md-4">
+            <div className="col-lg-5 col-md-4">
               <WeatherWidget />
             </div>
 
             {/* Advertisement */}
-            <div className="col-lg-9 col-md-8">
+            <div className="col-lg-7 col-md-8">
               <HeaderAds />
             </div>
           </div>
