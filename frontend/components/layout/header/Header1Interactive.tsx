@@ -43,7 +43,7 @@ export default function Header1Interactive() {
 
     fetchTrendingNews();
 
-    const interval = setInterval(fetchTrendingNews, 0);
+    const interval = setInterval(fetchTrendingNews, 60000);
 
     return () => clearInterval(interval);
   }, []);
@@ -218,8 +218,10 @@ export default function Header1Interactive() {
 
   return (
     <>
-      {trendingNews.length > 0 && (
-        <div className="ticker">
+      <div className="ticker">
+        {trendingNews.length === 0 ? (
+          <div className="ticker-item">Loading breaking news...</div>
+        ) : (
           <div className="ticker-track">
             {[...trendingNews, ...trendingNews].map((item, index) => (
               <Link
@@ -231,8 +233,8 @@ export default function Header1Interactive() {
               </Link>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
@@ -249,7 +251,7 @@ export default function Header1Interactive() {
         .ticker-track {
           display: flex;
           width: max-content;
-          animation: ticker 12s linear infinite;
+          animation: ticker 100s linear infinite;
         }
 
         .ticker:hover .ticker-track {
