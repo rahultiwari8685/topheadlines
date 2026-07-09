@@ -59,8 +59,8 @@ export default function Header1Server() {
                       style={{ height: "27px", overflow: "hidden" }}
                     >
                       {/* SwiperDynamic will be rendered here by Header1Interactive */}
-
-                      <Header1Interactive />
+                      {/* 
+                      <Header1Interactive /> */}
                     </div>
                   </li>
                   <li className="switch-btn">
