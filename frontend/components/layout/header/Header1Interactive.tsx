@@ -221,7 +221,7 @@ export default function Header1Interactive() {
         <SwiperDynamic
           key={trendingNews.length}
           className="swiper-topbar"
-          slidesPerView={2}
+          slidesPerView={1}
           loop
           speed={800}
           autoplay={{
