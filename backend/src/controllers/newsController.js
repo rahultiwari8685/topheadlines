@@ -152,7 +152,7 @@ export const getTextNews = async (req, res) => {
       type: 1, // Published
       videoType: 2, // Text News
     })
-      .populate("author", "name email")
+      .populate("author", "name email profileImage bio")
       .populate("categories", "name slug")
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -188,7 +188,7 @@ export const getVideoNews = async (req, res) => {
       type: 1, // Published
       videoType: 1, // Video News
     })
-      .populate("author", "name email")
+      .populate("author", "name email profileImage bio")
       .populate("categories", "name slug")
       .sort({ createdAt: -1 })
       .skip(skip)
