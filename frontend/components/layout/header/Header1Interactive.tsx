@@ -32,8 +32,7 @@ export default function Header1Interactive({
 
   const [trendingNews] = useState<TrendingNews[]>(initialTrending);
 
-  const tickerItems =
-    trendingNews.length > 0 ? Array(6).fill(trendingNews).flat() : [];
+  const tickerItems = [...trendingNews, ...trendingNews];
 
   const { toggleSidebar } = useSidebarMenu();
   const searchBtnRef = useRef<Element | null>(null);
