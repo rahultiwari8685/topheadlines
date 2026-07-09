@@ -8,6 +8,7 @@ import Header1Interactive from "./Header1Interactive";
 import GoldPrice from "@/components/GoldPrice";
 import WeatherWidget from "@/components/WeatherWidget";
 import Ads_sm from "@/components/elements/ads_sm";
+import HeaderAds from "@/components/elements/HeaderAds";
 
 export default function Header2Server() {
   return (
@@ -21,10 +22,20 @@ export default function Header2Server() {
             <div className="left">
               <WeatherWidget />
             </div>
+          </div>
+        </div>
 
-            {/* <div className=" m-4 height-130 width-700">
-              <Ads_sm />
-            </div> */}
+        <div className="container-fluid py-2">
+          <div className="row align-items-center">
+            {/* Weather */}
+            <div className="col-lg-3 col-md-4">
+              <WeatherWidget />
+            </div>
+
+            {/* Advertisement */}
+            <div className="col-lg-9 col-md-8">
+              <HeaderAds />
+            </div>
           </div>
         </div>
 
