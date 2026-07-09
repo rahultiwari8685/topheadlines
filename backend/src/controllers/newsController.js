@@ -96,7 +96,7 @@ export const createNews = async (req, res) => {
 export const getNews = async (req, res) => {
   try {
     const news = await News.find()
-      .populate("author", "name email")
+      .populate("author", "name email profileImage bio")
       .populate("categories", "name")
       .sort({ createdAt: -1 });
 
