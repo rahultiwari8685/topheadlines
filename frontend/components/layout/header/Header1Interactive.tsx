@@ -223,7 +223,8 @@ export default function Header1Interactive() {
           className="swiper-topbar"
           slidesPerView={1}
           loop
-          speed={800}
+          direction="horizontal"
+          speed={1500}
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
