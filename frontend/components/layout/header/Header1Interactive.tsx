@@ -43,7 +43,7 @@ export default function Header1Interactive() {
 
     fetchTrendingNews();
 
-    const interval = setInterval(fetchTrendingNews, 2000);
+    const interval = setInterval(fetchTrendingNews, 0);
 
     return () => clearInterval(interval);
   }, []);
@@ -249,7 +249,7 @@ export default function Header1Interactive() {
         .ticker-track {
           display: flex;
           width: max-content;
-          animation: ticker 40s linear infinite;
+          animation: ticker 12s linear infinite;
         }
 
         .ticker:hover .ticker-track {
