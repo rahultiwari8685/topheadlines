@@ -8,7 +8,17 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import setting from "../../../setting.json";
 
-export default function Header1Interactive() {
+interface TrendingNews {
+  _id: string;
+  title: string;
+  slug: string;
+}
+
+export default function Header1Interactive({
+  initialTrending,
+}: {
+  initialTrending: TrendingNews[];
+}) {
   const scroll = useScrollState();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavbarHidden, setIsNavbarHidden] = useState(false);
@@ -20,7 +30,7 @@ export default function Header1Interactive() {
     reverseDirection?: boolean;
   }
 
-  const [trendingNews, setTrendingNews] = useState<TrendingNews[]>([]);
+  const [trendingNews] = useState<TrendingNews[]>(initialTrending);
 
   const { toggleSidebar } = useSidebarMenu();
   const searchBtnRef = useRef<Element | null>(null);
@@ -30,23 +40,6 @@ export default function Header1Interactive() {
     transition: string;
     transform: string;
   } | null>(null);
-
-  useEffect(() => {
-    const fetchTrendingNews = async () => {
-      try {
-        const res = await fetch(`${setting.api}/api/news/trending?limit=5`);
-        const data = await res.json();
-
-        if (data.status) {
-          setTrendingNews(data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching trending news:", error);
-      }
-    };
-
-    fetchTrendingNews();
-  }, []);
 
   // Handle search button click
   useEffect(() => {

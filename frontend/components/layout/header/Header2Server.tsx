@@ -9,8 +9,15 @@ import GoldPrice from "@/components/GoldPrice";
 import WeatherWidget from "@/components/WeatherWidget";
 import Ads_sm from "@/components/elements/ads_sm";
 import HeaderAds from "@/components/elements/HeaderAds";
+import setting from "../../../setting.json";
+export default async function Header2Server() {
+  const res = await fetch(`${setting.api}/api/news/trending?limit=10`, {
+    cache: "no-store",
+  });
 
-export default function Header2Server() {
+  const data = await res.json();
+
+  const trendingNews = data.status ? data.data : [];
   return (
     <>
       <header>
@@ -90,7 +97,7 @@ export default function Header2Server() {
                     >
                       {/* SwiperDynamic will be rendered here by Header1Interactive */}
 
-                      <Header1Interactive />
+                      <Header1Interactive initialTrending={trendingNews} />
                     </div>
                   </li>
                   {/* <li className="switch-btn">
