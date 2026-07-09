@@ -48,7 +48,7 @@ export default function HeaderAds() {
     >
       {ad.type === "image" && (
         <Image
-          src={`${setting.api}/uploads/uploads/${ad.image}`}
+          src={`${setting.api}/uploads/advertisements/${ad.image}`}
           alt={ad.title}
           width={1200}
           height={120}

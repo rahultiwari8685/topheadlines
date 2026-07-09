@@ -14,7 +14,7 @@ export default function Header2Server() {
   return (
     <>
       <header>
-        <div className="container-fluid">
+        {/* <div className="container-fluid">
           <div
             className="d-flex justify-content-between align-items-center"
             style={{ maxHeight: "150px" }}
@@ -23,7 +23,7 @@ export default function Header2Server() {
               <WeatherWidget />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="container-fluid py-2">
           <div className="row align-items-center">
