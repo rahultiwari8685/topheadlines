@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import setting from "../../../setting.json";
+import setting from "../../setting.json";
 
 interface Advertisement {
   _id: string;
@@ -21,7 +21,7 @@ export default function HeaderAds() {
     const fetchAd = async () => {
       try {
         const res = await fetch(
-          `${setting.api}/api/advertisements?position=homepage_top`
+          `${setting.api}/api/advertisements?position=homepage_top`,
         );
 
         const data = await res.json();
@@ -48,7 +48,7 @@ export default function HeaderAds() {
     >
       {ad.type === "image" && (
         <Image
-          src={`${setting.api}/uploads/advertisements/${ad.image}`}
+          src={`${setting.api}/uploads/uploads/${ad.image}`}
           alt={ad.title}
           width={1200}
           height={120}
@@ -74,9 +74,7 @@ export default function HeaderAds() {
             borderRadius: 10,
           }}
         >
-          <source
-            src={`${setting.api}/uploads/advertisements/${ad.video}`}
-          />
+          <source src={`${setting.api}/uploads/advertisements/${ad.video}`} />
         </video>
       )}
 
