@@ -48,7 +48,7 @@ export default function HeaderAds() {
     >
       {ad.type === "image" && (
         <Image
-          src={`${setting.api}/uploads/advertisements/${ad.image}`}
+          src={`${setting.api}/uploads/images/${ad.image}`}
           alt={ad.title}
           width={1200}
           height={120}
@@ -74,7 +74,7 @@ export default function HeaderAds() {
             borderRadius: 10,
           }}
         >
-          <source src={`${setting.api}/uploads/advertisements/${ad.video}`} />
+          <source src={`${setting.api}/uploads/images/${ad.video}`} />
         </video>
       )}
 
