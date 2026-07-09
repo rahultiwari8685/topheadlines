@@ -84,11 +84,14 @@ export default function ArticleCard12({ card, idx }: CardProps) {
                 className="author d-flex align-items-center gap-2"
               >
                 <img
-                  className="avatar avatar-md rounded-circle"
                   src={card.imgAuthor}
-                  alt="magzin"
-                  width={500}
-                  height={500}
+                  alt={card.author}
+                  width={40}
+                  height={40}
+                  style={{
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
                 />
                 <span className="fs-7 text-dark fw-regular">{card.author}</span>
               </Link>

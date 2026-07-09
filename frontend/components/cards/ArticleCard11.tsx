@@ -96,11 +96,14 @@ export default function ArticleCard11({ card, idx }: Props) {
                 className="author d-flex align-items-center gap-2"
               >
                 <img
-                  className="avatar avatar-md rounded-circle"
                   src={card.imgAuthor}
-                  alt="magzin"
-                  width={41}
-                  height={41}
+                  alt={card.author}
+                  width={40}
+                  height={40}
+                  style={{
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
                 />
                 <span className="fs-7 text-dark fw-regular">{card.author}</span>
               </Link>
