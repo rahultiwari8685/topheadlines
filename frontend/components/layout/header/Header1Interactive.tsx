@@ -48,176 +48,180 @@ export default function Header1Interactive() {
     fetchTrendingNews();
   }, []);
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line no-restricted-globals
-  //   searchBtnRef.current = document.querySelector(".search-btn");
-  //   const searchBtn = searchBtnRef.current;
+  // Handle search button click
+  useEffect(() => {
+    // eslint-disable-next-line no-restricted-globals
+    searchBtnRef.current = document.querySelector(".search-btn");
+    const searchBtn = searchBtnRef.current;
 
-  //   const handleSearchClick = (e: Event) => {
-  //     e.preventDefault();
-  //     setIsSearchOpen(true);
-  //   };
+    const handleSearchClick = (e: Event) => {
+      e.preventDefault();
+      setIsSearchOpen(true);
+    };
 
-  //   if (searchBtn) {
-  //     searchBtn.addEventListener("click", handleSearchClick);
-  //   }
+    if (searchBtn) {
+      searchBtn.addEventListener("click", handleSearchClick);
+    }
 
-  //   return () => {
-  //     if (searchBtn) {
-  //       searchBtn.removeEventListener("click", handleSearchClick);
-  //     }
-  //   };
-  // }, []);
+    return () => {
+      if (searchBtn) {
+        searchBtn.removeEventListener("click", handleSearchClick);
+      }
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line no-restricted-globals
-  //   navbarTogglerRef.current = document.querySelector(".navbar-toggler");
-  //   const navbarToggler = navbarTogglerRef.current;
+  // Handle sidebar toggle
+  useEffect(() => {
+    // eslint-disable-next-line no-restricted-globals
+    navbarTogglerRef.current = document.querySelector(".navbar-toggler");
+    const navbarToggler = navbarTogglerRef.current;
 
-  //   const handleNavbarToggle = (e: Event) => {
-  //     e.preventDefault();
-  //     toggleSidebar(true);
-  //   };
+    const handleNavbarToggle = (e: Event) => {
+      e.preventDefault();
+      toggleSidebar(true);
+    };
 
-  //   if (navbarToggler) {
-  //     navbarToggler.addEventListener("click", handleNavbarToggle);
-  //   }
+    if (navbarToggler) {
+      navbarToggler.addEventListener("click", handleNavbarToggle);
+    }
 
-  //   return () => {
-  //     if (navbarToggler) {
-  //       navbarToggler.removeEventListener("click", handleNavbarToggle);
-  //     }
-  //   };
-  // }, [toggleSidebar]);
+    return () => {
+      if (navbarToggler) {
+        navbarToggler.removeEventListener("click", handleNavbarToggle);
+      }
+    };
+  }, [toggleSidebar]);
 
-  // useEffect(() => {
-  //   const stickyClasses = ["navbar-stick", "top-0", "position-fixed", "w-100"];
+  useEffect(() => {
+    const stickyClasses = ["navbar-stick", "top-0", "position-fixed", "w-100"];
 
-  //   if (!navbarRef.current) {
-  //     // eslint-disable-next-line no-restricted-globals
-  //     navbarRef.current = document.querySelector("header .navbar");
-  //   }
+    if (!navbarRef.current) {
+      // eslint-disable-next-line no-restricted-globals
+      navbarRef.current = document.querySelector("header .navbar");
+    }
 
-  //   const navbar = navbarRef.current as HTMLElement | null;
+    const navbar = navbarRef.current as HTMLElement | null;
 
-  //   if (!navbar) {
-  //     return;
-  //   }
+    if (!navbar) {
+      return;
+    }
 
-  //   stickyClasses.forEach((className) => {
-  //     if (scroll) {
-  //       navbar.classList.add(className);
-  //     } else {
-  //       navbar.classList.remove(className);
-  //     }
-  //   });
-  // }, [scroll]);
+    stickyClasses.forEach((className) => {
+      if (scroll) {
+        navbar.classList.add(className);
+      } else {
+        navbar.classList.remove(className);
+      }
+    });
+  }, [scroll]);
 
-  // useEffect(() => {
-  //   if (!navbarRef.current) {
-  //     // eslint-disable-next-line no-restricted-globals
-  //     navbarRef.current = document.querySelector("header .navbar");
-  //   }
+  useEffect(() => {
+    if (!navbarRef.current) {
+      // eslint-disable-next-line no-restricted-globals
+      navbarRef.current = document.querySelector("header .navbar");
+    }
 
-  //   const navbar = navbarRef.current as HTMLElement | null;
+    const navbar = navbarRef.current as HTMLElement | null;
 
-  //   if (!navbar) {
-  //     return;
-  //   }
+    if (!navbar) {
+      return;
+    }
 
-  //   if (!initialNavbarStylesRef.current) {
-  //     initialNavbarStylesRef.current = {
-  //       transition: navbar.style.transition,
-  //       transform: navbar.style.transform,
-  //     };
-  //   }
+    if (!initialNavbarStylesRef.current) {
+      initialNavbarStylesRef.current = {
+        transition: navbar.style.transition,
+        transform: navbar.style.transform,
+      };
+    }
 
-  //   if (!navbar.style.transition) {
-  //     navbar.style.transition = "transform 0.3s ease";
-  //   }
+    if (!navbar.style.transition) {
+      navbar.style.transition = "transform 0.3s ease";
+    }
 
-  //   return () => {
-  //     if (!initialNavbarStylesRef.current) {
-  //       return;
-  //     }
+    return () => {
+      if (!initialNavbarStylesRef.current) {
+        return;
+      }
 
-  //     navbar.style.transition = initialNavbarStylesRef.current.transition;
-  //     navbar.style.transform = initialNavbarStylesRef.current.transform;
-  //   };
-  // }, []);
+      navbar.style.transition = initialNavbarStylesRef.current.transition;
+      navbar.style.transform = initialNavbarStylesRef.current.transform;
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   if (!navbarRef.current) {
-  //     // eslint-disable-next-line no-restricted-globals
-  //     navbarRef.current = document.querySelector("header .navbar");
-  //   }
+  useEffect(() => {
+    if (!navbarRef.current) {
+      // eslint-disable-next-line no-restricted-globals
+      navbarRef.current = document.querySelector("header .navbar");
+    }
 
-  //   const navbar = navbarRef.current as HTMLElement | null;
+    const navbar = navbarRef.current as HTMLElement | null;
 
-  //   if (!navbar) {
-  //     return;
-  //   }
+    if (!navbar) {
+      return;
+    }
 
-  //   const defaultTransform = initialNavbarStylesRef.current?.transform ?? "";
+    const defaultTransform = initialNavbarStylesRef.current?.transform ?? "";
 
-  //   navbar.style.transform = isNavbarHidden
-  //     ? "translateY(-100%)"
-  //     : defaultTransform || "translateY(0)";
-  // }, [isNavbarHidden]);
+    navbar.style.transform = isNavbarHidden
+      ? "translateY(-100%)"
+      : defaultTransform || "translateY(0)";
+  }, [isNavbarHidden]);
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line no-restricted-globals
-  //   if (typeof window === "undefined") {
-  //     return;
-  //   }
+  useEffect(() => {
+    // eslint-disable-next-line no-restricted-globals
+    if (typeof window === "undefined") {
+      return;
+    }
 
-  //   // eslint-disable-next-line no-restricted-globals
-  //   let lastScrollY = window.scrollY;
+    // eslint-disable-next-line no-restricted-globals
+    let lastScrollY = window.scrollY;
 
-  //   const handleScrollDirection = () => {
-  //     // eslint-disable-next-line no-restricted-globals
-  //     if (typeof window === "undefined") {
-  //       return;
-  //     }
+    const handleScrollDirection = () => {
+      // eslint-disable-next-line no-restricted-globals
+      if (typeof window === "undefined") {
+        return;
+      }
 
-  //     // eslint-disable-next-line no-restricted-globals
-  //     const currentScrollY = window.scrollY;
+      // eslint-disable-next-line no-restricted-globals
+      const currentScrollY = window.scrollY;
 
-  //     setIsNavbarHidden((prevHidden) => {
-  //       if (currentScrollY <= 100) {
-  //         return false;
-  //       }
+      setIsNavbarHidden((prevHidden) => {
+        if (currentScrollY <= 100) {
+          return false;
+        }
 
-  //       if (currentScrollY > lastScrollY) {
-  //         return true;
-  //       }
+        if (currentScrollY > lastScrollY) {
+          return true;
+        }
 
-  //       if (currentScrollY < lastScrollY) {
-  //         return false;
-  //       }
+        if (currentScrollY < lastScrollY) {
+          return false;
+        }
 
-  //       return prevHidden;
-  //     });
+        return prevHidden;
+      });
 
-  //     lastScrollY = currentScrollY;
-  //   };
+      lastScrollY = currentScrollY;
+    };
 
-  //   // eslint-disable-next-line no-restricted-globals
-  //   window.addEventListener("scroll", handleScrollDirection, { passive: true });
+    // eslint-disable-next-line no-restricted-globals
+    window.addEventListener("scroll", handleScrollDirection, { passive: true });
 
-  //   return () => {
-  //     // eslint-disable-next-line no-restricted-globals
-  //     if (typeof window !== "undefined") {
-  //       // eslint-disable-next-line no-restricted-globals
-  //       window.removeEventListener("scroll", handleScrollDirection);
-  //     }
-  //   };
-  // }, []);
+    return () => {
+      // eslint-disable-next-line no-restricted-globals
+      if (typeof window !== "undefined") {
+        // eslint-disable-next-line no-restricted-globals
+        window.removeEventListener("scroll", handleScrollDirection);
+      }
+    };
+  }, []);
 
   return (
     <>
-      {trendingNews.length > 0 && (
-        <div className="ticker">
+      <div className="ticker">
+        {trendingNews.length === 0 ? (
+          <span className="ticker-item">🔴 Loading Breaking News...</span>
+        ) : (
           <div className="ticker-track">
             {[...trendingNews, ...trendingNews].map((item, index) => (
               <Link
@@ -229,8 +233,8 @@ export default function Header1Interactive() {
               </Link>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
