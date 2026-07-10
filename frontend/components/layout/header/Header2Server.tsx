@@ -14,21 +14,21 @@ import TrendingTicker from "@/components/TrendingTicker";
 
 async function getTrendingNews() {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/news/trending?limit=10`,
-      {
-        next: {
-          revalidate: 300,
-        },
+    const res = await fetch(`${setting.api}/api/news/trending?limit=10`, {
+      next: {
+        revalidate: 300,
       },
-    );
+    });
 
-    if (!res.ok) return [];
+    if (!res.ok) {
+      return [];
+    }
 
     const json = await res.json();
 
     return json.data || [];
-  } catch {
+  } catch (error) {
+    console.error("Trending API Error:", error);
     return [];
   }
 }
