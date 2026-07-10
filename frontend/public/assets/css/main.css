@@ -4864,14 +4864,14 @@ strong {
 }
 
 .ticker-logo {
-    width: 22px;
-    height: 22px;
+    width: 35px;
+    height: 30px;
     object-fit: contain;
 }
 
 .ticker-title {
     font-size: 18px;
-    font-weight: 700;
+    /* font-weight: 700; */
     line-height: 1.2;
 }
 
@@ -5004,13 +5004,7 @@ strong {
   animation-play-state: paused;
 }
 
-.ticker-item {
-  display: inline-block;
-  margin-right: 40px;
-  color: #222;
-  text-decoration: none;
-  font-size: 14px;
-}
+
 
 .ticker-item:hover {
   color: red;
@@ -5044,14 +5038,7 @@ strong {
   animation-play-state: paused;
 }
 
-.ticker-item {
-  white-space: nowrap;
-  margin-right: 50px;
-  text-decoration: none;
-  color: #000;
-  font-size: 14px;
-  font-weight: 500;
-}
+
 
 @keyframes ticker {
   from {
