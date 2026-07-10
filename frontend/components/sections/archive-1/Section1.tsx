@@ -14,10 +14,13 @@ type NewsItem = {
   slug: string;
   thumbnail: string;
   videoType?: string;
-  categories?: { _id: string; name: string }[];
+  categories?: {
+    _id: string;
+    name: string;
+    slug: string;
+  }[];
 };
 
-// ✅ Full Card Type (MATCH ArticleCard7)
 type CardType = {
   title: string;
   img: string;
@@ -82,8 +85,8 @@ export default async function Section1({ searchParams }: Section1Props) {
     linkVideo: "#",
     layoutVideo: "d-none",
 
-    linkBadge: item.categories?.[0]?._id
-      ? `/archive-1?category=${item.categories[0]._id}`
+    linkBadge: item.categories?.[0]?.slug
+      ? `/archive-1?category=${item.categories[0].slug}`
       : "#",
   }));
 
