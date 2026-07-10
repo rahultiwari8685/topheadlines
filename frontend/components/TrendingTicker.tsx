@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import setting from "../setting.json";
@@ -41,7 +41,15 @@ export default function TrendingTicker() {
             className="ticker-item"
             prefetch={false}
           >
-            🔥 {item.title}
+            <img
+              src="/assets/imgs/template/logo/TH_Logo.png"
+              alt="Top Headlines"
+              width={20}
+              height={20}
+              className="ticker-logo"
+            />
+
+            <span className="ticker-title">{item.title}</span>
           </Link>
         ))}
       </div>
