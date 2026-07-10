@@ -33,7 +33,6 @@ async function getTrendingNews() {
   }
 }
 export default async function Header2Server() {
-  const trendingNews = await getTrendingNews();
   return (
     <>
       <header>
@@ -108,7 +107,7 @@ export default async function Header2Server() {
                   <li className="mw-1200px">
                     {/* Swiper will be handled by client component */}
                     <div style={{ width: "700px" }}>
-                      <TrendingTicker news={trendingNews} />
+                      <TrendingTicker />
                     </div>
                   </li>
                   {/* <li className="switch-btn">
