@@ -50,9 +50,13 @@ export default async function Section1({ searchParams }: Section1Props) {
   let totalPages = 1;
 
   try {
-    const url = categoryId
-      ? `https://api.topheadlinesnews.com/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
-      : `https://api.topheadlinesnews.com/api/news?page=${currentPage}&limit=${itemsPerPage}`;
+    // const url = categoryId
+    //   ? `https://api.topheadlinesnews.com/api/news/category/${categoryId}?page=${currentPage}&limit=${itemsPerPage}`
+    //   : `https://api.topheadlinesnews.com/api/news?page=${currentPage}&limit=${itemsPerPage}`;
+
+    const url = categorySlug
+      ? `${setting.api}/api/news/category/${categorySlug}?page=${currentPage}&limit=${itemsPerPage}`
+      : `${setting.api}/api/news?page=${currentPage}&limit=${itemsPerPage}`;
 
     const res = await fetch(url, { cache: "no-store" });
     const data = await res.json();
