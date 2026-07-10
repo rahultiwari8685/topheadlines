@@ -260,15 +260,15 @@ export default function Header1Interactive({
           color: #fff;
         }
 
-        // @keyframes ticker {
-        //   0% {
-        //     transform: translateX(100%);
-        //   }
+        @keyframes ticker {
+          0% {
+            transform: translateX(100%);
+          }
 
-        //   100% {
-        //     transform: translateX(-100%);
-        //   }
-        // }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
       `}</style>
     </>
   );
