@@ -50,7 +50,9 @@ export default function TrendingTicker() {
             />
 
             {/* <span className="ticker-title">{item.title}</span> */}
-            <span className="ticker-title light-mode-invert">{item.title}</span>
+            <span className="ticker-title text-dark light-mode-invert">
+              {item.title}
+            </span>
           </Link>
         ))}
       </div>
