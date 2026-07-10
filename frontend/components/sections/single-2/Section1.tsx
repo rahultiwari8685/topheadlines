@@ -6,9 +6,10 @@ import setting from "../../../setting.json";
 
 type Props = {
   slug: string;
+  category: string;
 };
 
-export default function Section1({ slug }: Props) {
+export default function Section1({ slug, category }: Props) {
   const [news, setNews] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
