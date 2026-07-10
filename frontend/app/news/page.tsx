@@ -42,9 +42,7 @@ export async function generateMetadata({
         : `${setting.api}/uploads/images/${news.thumbnail}`
       : "https://topheadlinesnews.com/assets/imgs/template/logo/TH_Logo.png";
 
-    // const url = `https://topheadlinesnews.com/news?slug=${slug}`;
-
-    const url = `https://topheadlinesnews.com/${category}/${slug}`;
+    const url = `https://topheadlinesnews.com/news?slug=${slug}`;
 
     return {
       title: news.title,
