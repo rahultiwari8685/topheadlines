@@ -8,25 +8,10 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import setting from "../../../setting.json";
 
-interface TrendingNews {
-  _id: string;
-  title: string;
-  slug: string;
-  reverseDirection?: boolean;
-}
-
-interface Header1InteractiveProps {
-  initialTrending: TrendingNews[];
-}
-
-export default function Header1Interactive({
-  initialTrending,
-}: Header1InteractiveProps) {
+export default function Header1Interactive() {
   const scroll = useScrollState();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavbarHidden, setIsNavbarHidden] = useState(false);
-
-  const trendingNews = initialTrending;
 
   const { toggleSidebar } = useSidebarMenu();
   const searchBtnRef = useRef<Element | null>(null);
@@ -205,19 +190,17 @@ export default function Header1Interactive({
 
   return (
     <>
-      <div className="ticker">
-        <div className="ticker-track">
-          {[...trendingNews, ...trendingNews].map((item, index) => (
-            <Link
-              key={`${item._id}-${index}`}
-              href={`/news?slug=${item.slug}`}
-              className="ticker-item"
-            >
-              🔴 {item.title}
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* <div className="ticker-track">
+            {trendingNews.map((item, index) => (
+              <Link
+                key={`${item._id}-${index}`}
+                href={`/news?slug=${item.slug}`}
+                className="ticker-item"
+              >
+                🔴 {item.title}
+              </Link>
+            ))}
+          </div> */}
 
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
