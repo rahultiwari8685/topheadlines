@@ -231,11 +231,11 @@ export default function Header1Interactive({
           position: relative;
         }
 
-        .ticker-track {
-          display: flex;
-          width: max-content;
-          animation: ticker 140s linear infinite;
-        }
+        // .ticker-track {
+        //   display: flex;
+        //   width: max-content;
+        //   animation: ticker 140s linear infinite;
+        // }
 
         .ticker:hover .ticker-track {
           animation-play-state: paused;
@@ -260,15 +260,31 @@ export default function Header1Interactive({
           color: #fff;
         }
 
+        .ticker-track {
+          display: flex;
+          width: max-content;
+          animation: ticker 40s linear infinite;
+        }
+
         @keyframes ticker {
-          0% {
-            transform: translateX(100%);
+          from {
+            transform: translateX(0);
           }
 
-          100% {
-            transform: translateX(-100%);
+          to {
+            transform: translateX(-50%);
           }
         }
+
+        // @keyframes ticker {
+        //   0% {
+        //     transform: translateX(100%);
+        //   }
+
+        //   100% {
+        //     transform: translateX(-100%);
+        //   }
+        // }
       `}</style>
     </>
   );

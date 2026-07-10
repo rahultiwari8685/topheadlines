@@ -17,7 +17,7 @@ export default async function Header2Server() {
   });
 
   const data = await res.json();
-
+  console.timeEnd("Trending API");
   return (
     <>
       <header>
