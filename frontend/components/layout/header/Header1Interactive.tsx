@@ -8,19 +8,25 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import setting from "../../../setting.json";
 
-export default function Header1Interactive() {
+interface TrendingNews {
+  _id: string;
+  title: string;
+  slug: string;
+  reverseDirection?: boolean;
+}
+
+interface Header1InteractiveProps {
+  initialTrending: TrendingNews[];
+}
+
+export default function Header1Interactive({
+  initialTrending,
+}: Header1InteractiveProps) {
   const scroll = useScrollState();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavbarHidden, setIsNavbarHidden] = useState(false);
 
-  interface TrendingNews {
-    _id: string;
-    title: string;
-    slug: string;
-    reverseDirection?: boolean;
-  }
-
-  const [trendingNews, setTrendingNews] = useState<TrendingNews[]>([]);
+  const trendingNews = initialTrending;
 
   const { toggleSidebar } = useSidebarMenu();
   const searchBtnRef = useRef<Element | null>(null);
@@ -31,24 +37,6 @@ export default function Header1Interactive() {
     transform: string;
   } | null>(null);
 
-  useEffect(() => {
-    const fetchTrendingNews = async () => {
-      try {
-        const res = await fetch(`${setting.api}/api/news/trending?limit=5`);
-        const data = await res.json();
-
-        if (data.status) {
-          setTrendingNews(data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching trending news:", error);
-      }
-    };
-
-    fetchTrendingNews();
-  }, []);
-
-  // Handle search button click
   useEffect(() => {
     // eslint-disable-next-line no-restricted-globals
     searchBtnRef.current = document.querySelector(".search-btn");
@@ -70,7 +58,6 @@ export default function Header1Interactive() {
     };
   }, []);
 
-  // Handle sidebar toggle
   useEffect(() => {
     // eslint-disable-next-line no-restricted-globals
     navbarTogglerRef.current = document.querySelector(".navbar-toggler");
@@ -219,21 +206,17 @@ export default function Header1Interactive() {
   return (
     <>
       <div className="ticker">
-        {trendingNews.length === 0 ? (
-          <span className="ticker-item">🔴 Loading Breaking News...</span>
-        ) : (
-          <div className="ticker-track">
-            {[...trendingNews, ...trendingNews].map((item, index) => (
-              <Link
-                key={`${item._id}-${index}`}
-                href={`/news?slug=${item.slug}`}
-                className="ticker-item"
-              >
-                🔴 {item.title}
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className="ticker-track">
+          {[...trendingNews, ...trendingNews].map((item, index) => (
+            <Link
+              key={`${item._id}-${index}`}
+              href={`/news?slug=${item.slug}`}
+              className="ticker-item"
+            >
+              🔴 {item.title}
+            </Link>
+          ))}
+        </div>
       </div>
 
       <PopupSearch open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
