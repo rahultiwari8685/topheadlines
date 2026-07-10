@@ -4875,22 +4875,7 @@ strong {
     line-height: 1.2;
 }
 
-.ticker-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #111;
-    transition: color 0.3s ease;
-}
 
-.dark .ticker-title,
-html.dark .ticker-title,
-body.dark .ticker-title {
-    color: #fff;
-}
-
-.ticker-item:hover .ticker-title {
-    color: #e30613;
-}
 
 .ticker-item:hover .ticker-title {
     color: #e30613;
