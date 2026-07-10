@@ -8,6 +8,11 @@ interface TrendingNews {
   _id: string;
   title: string;
   slug: string;
+  categories: {
+    _id?: string;
+    name?: string;
+    slug: string;
+  }[];
 }
 
 export default function TrendingTicker() {
@@ -37,7 +42,7 @@ export default function TrendingTicker() {
         {[...news, ...news].map((item, index) => (
           <Link
             key={`${item._id}-${index}`}
-            href={`/news?slug=${item.slug}`}
+            href={`/${item.categories?.[0]?.slug}/${item.slug}`}
             className="ticker-item"
             prefetch={false}
           >

@@ -47,7 +47,7 @@ export default function Section1({ authorId, searchParams }: Props) {
   // Format Data
   const formattedArticles = newsList.map((item: any, idx: number) => ({
     // Article Link
-    linkPost: `/news?slug=${item.slug}`,
+    linkPost: `/${item.categories?.[0]?.slug}/${item.slug}`,
 
     // Author Link
     linkAuthor: `/page-author/${item.author?._id}`,

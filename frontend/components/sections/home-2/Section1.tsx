@@ -21,7 +21,8 @@ export default function Section1({ classList }: any) {
       const videoId = getYouTubeId(item.youtubeUrl);
 
       return {
-        linkPost: `/news?slug=${item.slug}`,
+        // linkPost: `/${item.categories?.[0]?.slug}/${item.slug}`,
+        linkPost: `/${item.categories?.[0]?.slug}/${item.slug}`,
         linkBadge: "#",
         linkAuthor: `/page-author/${item.author?._id}`,
         linkComment: "#",

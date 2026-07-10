@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import News from "../models/News.js";
-
+import Category from "../models/Category.js";
 export const createNews = async (req, res) => {
   try {
     const {
@@ -69,7 +69,7 @@ export const createNews = async (req, res) => {
     // populate author after create
     const news = await News.findById(createdNews._id)
       .populate("author", "name email")
-      .populate("categories", "name");
+      .populate("categories", "name slug");
 
     return res.status(201).json({
       status: true,
@@ -97,7 +97,7 @@ export const getNews = async (req, res) => {
   try {
     const news = await News.find()
       .populate("author", "name email profileImage bio")
-      .populate("categories", "name")
+      .populate("categories", "name slug")
       .sort({ createdAt: -1 });
 
     return res.status(200).json({
@@ -123,7 +123,9 @@ export const getTrendingNews = async (req, res) => {
       type: 1,
       createdAt: { $gte: fromDate },
     })
-      .select("title slug thumbnail views createdAt")
+      // .select("title slug thumbnail views createdAt")
+      .select("title slug thumbnail views createdAt categories")
+      .populate("categories", "name slug")
       .sort({
         views: -1,
         createdAt: -1,
@@ -557,16 +559,24 @@ export const getLatestNewsForSitemap = async (req, res) => {
 };
 
 export const getAllNewsForSitemap = async (req, res) => {
-  const news = await News.find({
-    type: 1,
-  })
-    .select("slug updatedAt")
-    .sort({ updatedAt: -1 });
+  try {
+    const news = await News.find({
+      type: 1,
+    })
+      .select("slug updatedAt categories")
+      .populate("categories", "slug")
+      .sort({ updatedAt: -1 });
 
-  res.json({
-    status: true,
-    data: news,
-  });
+    res.json({
+      status: true,
+      data: news,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
 };
 
 export const getCategorySitemap = async (req, res) => {
