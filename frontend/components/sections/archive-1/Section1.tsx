@@ -43,7 +43,7 @@ export default async function Section1({ searchParams }: Section1Props) {
     ? parseInt(resolvedSearchParams.page)
     : 1;
 
-  const categoryId = resolvedSearchParams?.category || "";
+  const categorySlug = resolvedSearchParams?.category || "";
   const itemsPerPage = 18;
 
   let news: NewsItem[] = [];
@@ -104,7 +104,7 @@ export default async function Section1({ searchParams }: Section1Props) {
           className={`page-item ${i === currentPage ? "active" : ""}`}
         >
           <Link
-            href={`/archive-1?page=${i}${categoryId ? `&category=${categoryId}` : ""}`}
+            href={`/archive-1?page=${i}${categorySlug ? `&category=${categorySlug}` : ""}`}
             className="page-link icon-lg pagination_item rounded-circle icon-shape fs-18 fw-semi-bold"
           >
             {i}
@@ -119,7 +119,7 @@ export default async function Section1({ searchParams }: Section1Props) {
           {currentPage > 1 && (
             <li className="page-item">
               <Link
-                href={`/archive-1?page=${currentPage - 1}${categoryId ? `&category=${categoryId}` : ""}`}
+                href={`/archive-1?page=${currentPage - 1}${categorySlug ? `&category=${categorySlug}` : ""}`}
                 className="page-link"
               >
                 Prev
@@ -132,7 +132,7 @@ export default async function Section1({ searchParams }: Section1Props) {
           {currentPage < totalPages && (
             <li className="page-item">
               <Link
-                href={`/archive-1?page=${currentPage + 1}${categoryId ? `&category=${categoryId}` : ""}`}
+                href={`/archive-1?page=${currentPage + 1}${categorySlug ? `&category=${categorySlug}` : ""}`}
                 className="page-link"
               >
                 Next
