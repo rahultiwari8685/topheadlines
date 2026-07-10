@@ -231,11 +231,11 @@ export default function Header1Interactive({
           position: relative;
         }
 
-        // .ticker-track {
-        //   display: flex;
-        //   width: max-content;
-        //   animation: ticker 140s linear infinite;
-        // }
+        .ticker-track {
+          display: flex;
+          width: max-content;
+          animation: ticker 140s linear infinite;
+        }
 
         .ticker:hover .ticker-track {
           animation-play-state: paused;
