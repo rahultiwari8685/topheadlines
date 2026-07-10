@@ -78,7 +78,7 @@ export default function Single_2({ slug, category }: Props) {
   return (
     <>
       <Layout headerStyle={2} footerStyle={2}>
-        <Section1 />
+        <Section1 slug={slug} category={category} />
 
         <section className="related-post sec-padding bg-white">
           <div className="container">
