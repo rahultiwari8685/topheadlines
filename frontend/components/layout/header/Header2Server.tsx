@@ -106,7 +106,7 @@ export default async function Header2Server() {
                   </li>
                   <li className="mw-1200px">
                     {/* Swiper will be handled by client component */}
-                    <div style={{ width: "700px" }}>
+                    <div style={{ width: "900px" }}>
                       <TrendingTicker />
                     </div>
                   </li>
@@ -164,7 +164,7 @@ export default async function Header2Server() {
                   </li> */}
                 </ul>
               </div>
-              <div className="right">
+              {/* <div className="right">
                 <ul className="list-unstyled d-flex ps-0">
                   <li>
                     <a href="#" className="d-flex align-items-center gap-1">
@@ -225,7 +225,7 @@ export default async function Header2Server() {
                   </li>
                   <li className="pe-4" />
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

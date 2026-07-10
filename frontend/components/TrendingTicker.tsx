@@ -37,7 +37,7 @@ export default function TrendingTicker() {
         {[...news, ...news].map((item, index) => (
           <Link
             key={`${item._id}-${index}`}
-            href={`/news/${item.slug}`}
+            href={`/news?slug=${item.slug}`}
             className="ticker-item"
             prefetch={false}
           >
