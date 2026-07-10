@@ -100,7 +100,7 @@ export default async function Header2Server() {
                         </g>
                       </svg>
                       <span className="text-dark light-mode-invert">
-                        Breaking
+                        Trending
                       </span>
                     </a>
                   </li>
