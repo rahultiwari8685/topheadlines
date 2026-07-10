@@ -9,7 +9,7 @@ interface TrendingNews {
 }
 
 export default function TrendingTicker({ news }: { news: TrendingNews[] }) {
-  if (!news?.length) return null;
+  if (!news || news.length === 0) return null;
 
   return (
     <div className="ticker-wrapper">
@@ -19,6 +19,7 @@ export default function TrendingTicker({ news }: { news: TrendingNews[] }) {
             key={`${item._id}-${index}`}
             href={`/news/${item.slug}`}
             className="ticker-item"
+            prefetch={false}
           >
             🔥 {item.title}
           </Link>
