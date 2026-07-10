@@ -10,7 +10,30 @@ import WeatherWidget from "@/components/WeatherWidget";
 import Ads_sm from "@/components/elements/ads_sm";
 import HeaderAds from "@/components/elements/HeaderAds";
 import setting from "../../../setting.json";
-export default function Header2Server() {
+import TrendingTicker from "@/components/TrendingTicker";
+
+async function getTrendingNews() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/news/trending?limit=10`,
+      {
+        next: {
+          revalidate: 300,
+        },
+      },
+    );
+
+    if (!res.ok) return [];
+
+    const json = await res.json();
+
+    return json.data || [];
+  } catch {
+    return [];
+  }
+}
+export default async function Header2Server() {
+  const trendingNews = await getTrendingNews();
   return (
     <>
       <header>
@@ -84,15 +107,8 @@ export default function Header2Server() {
                   </li>
                   <li className="mw-1200px">
                     {/* Swiper will be handled by client component */}
-                    <div
-                      className="swiper-container swiper-topbar"
-                      style={{ height: "23px", overflow: "hidden" }}
-                    >
-                      {/* SwiperDynamic will be rendered here by Header1Interactive */}
-
-                      {/* <Header1Interactive
-      initialTrending={data.status ? data.data : []}
-    /> */}
+                    <div style={{ width: "700px" }}>
+                      <TrendingTicker news={trendingNews} />
                     </div>
                   </li>
                   {/* <li className="switch-btn">
