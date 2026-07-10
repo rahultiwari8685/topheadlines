@@ -260,22 +260,6 @@ export default function Header1Interactive({
           color: #fff;
         }
 
-        .ticker-track {
-          display: flex;
-          width: max-content;
-          animation: ticker 40s linear infinite;
-        }
-
-        @keyframes ticker {
-          from {
-            transform: translateX(0);
-          }
-
-          to {
-            transform: translateX(-50%);
-          }
-        }
-
         // @keyframes ticker {
         //   0% {
         //     transform: translateX(100%);
