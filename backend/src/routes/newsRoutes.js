@@ -17,6 +17,7 @@ import {
   getTextNews,
   getVideoNews,
   getTrendingNews,
+  getAllNewsByCategorySlug,
 } from "../controllers/newsController.js";
 
 const router = express.Router();
