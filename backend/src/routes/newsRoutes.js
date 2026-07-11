@@ -17,7 +17,6 @@ import {
   getTextNews,
   getVideoNews,
   getTrendingNews,
-  getAllNewsByCategorySlug,
 } from "../controllers/newsController.js";
 
 const router = express.Router();
@@ -29,7 +28,7 @@ router.post("/updateNews", upload.single("thumbnail"), updateNews);
 router.get("/getAllNews", getNews);
 // router.get("/news/category/:categoryId", getAllNewsByCategory);
 router.get("/category/:categoryId", getAllNewsByCategory);
-router.get("/category/:slug", getAllNewsByCategorySlug);
+// router.get("/category/:slug", getAllNewsByCategorySlug);
 // router.get("/:slug", getNewsBySlug);
 
 router.get("/slug/:slug", getNewsBySlug);
