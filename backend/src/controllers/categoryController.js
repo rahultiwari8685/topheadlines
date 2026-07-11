@@ -1,4 +1,5 @@
 import Category from "../models/Category.js";
+import { slugify } from "transliteration";
 
 export const createCategory = async (req, res) => {
   try {
@@ -16,8 +17,21 @@ export const createCategory = async (req, res) => {
       parentCategory = null;
     }
 
+    let slug = slugify(name, {
+      lower: true,
+      strict: true,
+    });
+
+    let originalSlug = slug;
+    let count = 1;
+
+    while (await Category.findOne({ slug })) {
+      slug = `${originalSlug}-${count++}`;
+    }
+
     const category = await Category.create({
       name,
+      slug,
       parentCategory,
       meta_title,
       meta_desc,
@@ -79,6 +93,25 @@ export const updateCategory = async (req, res) => {
 
     if (name) {
       updateData.name = name;
+
+      let slug = slugify(name, {
+        lower: true,
+        strict: true,
+      });
+
+      let originalSlug = slug;
+      let count = 1;
+
+      while (
+        await Category.findOne({
+          slug,
+          _id: { $ne: id },
+        })
+      ) {
+        slug = `${originalSlug}-${count++}`;
+      }
+
+      updateData.slug = slug;
     }
 
     const updated = await Category.findByIdAndUpdate(id, updateData, {
