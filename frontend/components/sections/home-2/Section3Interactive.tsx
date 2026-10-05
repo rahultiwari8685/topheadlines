@@ -68,7 +68,7 @@ export default function Section3Interactive() {
           setCategories(uniqueCategories);
 
           if (uniqueCategories.length > 0) {
-            setActiveTab(uniqueCategories[0].slug);
+            setActiveTab(uniqueCategories[4].slug);
           }
         } else {
           setAllNews([]);
