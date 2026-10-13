@@ -50,7 +50,7 @@ const Advertisement = () => {
   const itemsPerPage = 10
 
   const imageDimensions = {
-    homepage_top: { width: 640, height: 85 },
+    homepage_top: { width: 728, height: 90 },
     homepage_middle: { width: 670, height: 85 },
     homepage_bottom: { width: 1200, height: 300 },
 
