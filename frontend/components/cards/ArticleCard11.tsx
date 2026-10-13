@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import ArticleCardAd from "../elements/ArticleCardAd";
+
+import SidebarAds from "../elements/sidebarAds";
 
 interface Props {
   card: {
@@ -88,7 +89,7 @@ export default function ArticleCard11({ card, idx }: Props) {
             {/* <Link href={card.linkPost}>
               <h5 className="card-title mb-0 text-truncate-2">{card.title}</h5>
             </Link> */}
-            <ArticleCardAd />
+            <SidebarAds />
             {/* <div className="bottom mt-auto d-flex flex-wrap align-items-center gap-2 pt-4">
               <Link
                 href={card.linkAuthor}
