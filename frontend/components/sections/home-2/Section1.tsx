@@ -238,8 +238,8 @@ export default function Section1({ classList }: any) {
       className={`sec-1-home-2 mb-2 ${classList}`}
       data-background="/assets/imgs/page/bg-home1-sec1.png"
     >
-      <div className="container">
-        <div className="row g-4">
+      {/*  <div className="container">
+        <div className="row g-4 mt-2">
           <div className="col-lg-12 mt-2">
             <h5 className="mb-3">Uttar Pradesh National</h5>
           </div>
@@ -286,9 +286,9 @@ export default function Section1({ classList }: any) {
             <div></div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      {/* <div className="container">
+      <div className="container">
         <div className="row mt-2 g-4">
           <div className="col-lg-3">
             <h5 className="mb-3">Uttar Pradesh</h5>
@@ -320,7 +320,7 @@ export default function Section1({ classList }: any) {
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
     </section>
   );
 }
