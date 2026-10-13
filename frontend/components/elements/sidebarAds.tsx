@@ -11,19 +11,10 @@ interface Advertisement {
   video: string;
   htmlCode: string;
   redirectUrl: string;
-  position?: string;
-  priority?: number;
-  width?: number;
-  height?: number;
-  totalViews?: number;
-  totalClicks?: number;
-  status?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
 }
 
-export default function ArticleCardAd() {
-  const [ad, setAd] = useState<Advertisement | null>(null);
+export default function SidebarAds() {
+  const [adE, setAdE] = useState<Advertisement | null>(null);
 
   useEffect(() => {
     const fetchAd = async () => {
@@ -37,7 +28,7 @@ export default function ArticleCardAd() {
         const data = await res.json();
 
         if (data.success && data.data?.length > 0) {
-          setAd(data.data[0]);
+          setAdE(data.data[0]);
         }
       } catch (error) {
         console.error("Article ad error:", error);
@@ -47,14 +38,14 @@ export default function ArticleCardAd() {
     fetchAd();
   }, []);
 
-  if (!ad) return null;
+  if (!adE) return null;
 
   const content = (
     <>
-      {ad.type === "image" && ad.image && (
+      {adE.type === "image" && (
         <img
-          src={`${setting.api}/uploads/images/${ad.image}`}
-          alt={ad.title || "Advertisement"}
+          src={`${setting.api}/uploads/images/${adE.image}`}
+          alt={adE.title}
           style={{
             width: "100%",
             height: "100%",
@@ -64,13 +55,12 @@ export default function ArticleCardAd() {
         />
       )}
 
-      {ad.type === "video" && ad.video && (
+      {adE.type === "video" && (
         <video
           autoPlay
           muted
           loop
           playsInline
-          controls
           style={{
             width: "100%",
             height: "100%",
@@ -78,22 +68,18 @@ export default function ArticleCardAd() {
             display: "block",
           }}
         >
-          <source
-            src={`${setting.api}/uploads/images/${ad.video}`}
-            type="video/mp4"
-          />
-          Your browser does not support video playback.
+          <source src={`${setting.api}/uploads/images/${adE.video}`} />
         </video>
       )}
 
-      {ad.type === "html" && ad.htmlCode && (
+      {adE.type === "html" && (
         <div
           style={{
             width: "100%",
             height: "100%",
             overflow: "hidden",
           }}
-          dangerouslySetInnerHTML={{ __html: ad.htmlCode }}
+          dangerouslySetInnerHTML={{ __html: adE.htmlCode }}
         />
       )}
     </>
@@ -109,17 +95,13 @@ export default function ArticleCardAd() {
         margin: "16px auto",
         overflow: "hidden",
         borderRadius: "8px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
       }}
     >
-      {ad.redirectUrl ? (
+      {adE.redirectUrl ? (
         <a
-          href={ad.redirectUrl}
+          href={adE.redirectUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Visit advertiser: ${ad.title}`}
           style={{
             display: "block",
             width: "100%",
