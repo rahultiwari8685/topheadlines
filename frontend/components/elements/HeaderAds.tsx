@@ -50,8 +50,8 @@ export default function HeaderAds() {
         <img
           src={`${setting.api}/uploads/images/${ad.image}`}
           alt={ad.title}
-          width={900}
-          height={100}
+          width={728}
+          height={90}
           style={{
             width: "100%",
             height: "120px",

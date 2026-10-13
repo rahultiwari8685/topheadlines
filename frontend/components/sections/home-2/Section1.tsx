@@ -240,9 +240,6 @@ export default function Section1({ classList }: any) {
     >
       <div className="container">
         <div className="row mt-2 g-4">
-          {/* =========================
-              FIRST COLUMN - UP NEWS
-          ========================== */}
           <div className="col-lg-3">
             <h3 className="mb-3">Uttar Pradesh</h3>
 
@@ -255,9 +252,6 @@ export default function Section1({ classList }: any) {
             </div>
           </div>
 
-          {/* =========================
-              SECOND COLUMN - NATIONAL
-          ========================== */}
           <div className="col-lg-3">
             <h3 className="mb-3">National</h3>
 
