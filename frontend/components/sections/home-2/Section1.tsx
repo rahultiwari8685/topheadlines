@@ -240,7 +240,7 @@ export default function Section1({ classList }: any) {
     >
       <div className="container">
         <div className="row g-4">
-          <div className="col-lg-12">
+          <div className="col-lg-12 mt-2">
             <h5 className="mb-3">Uttar Pradesh National</h5>
           </div>
           <div className="col-lg-12">
@@ -273,11 +273,13 @@ export default function Section1({ classList }: any) {
               </div>
               <div className="col-lg-5">
                 <div className="row g-4">
-                  {videoNews.map((card, idx) => (
-                    <div className="col-lg-6" key={idx}>
-                      <ArticleCard11 card={card} idx={idx} />
-                    </div>
-                  ))}
+                  <div className="col-lg-12">
+                    {videoNews.map((card, idx) => (
+                      <div className="col-lg-6" key={idx}>
+                        <ArticleCard11 card={card} idx={idx} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
