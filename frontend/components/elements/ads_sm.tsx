@@ -53,8 +53,8 @@ export default function Ads_sm() {
         <img
           src={`${setting.api}/uploads/images/${ad.image}`}
           alt={ad.title}
-          width={1200}
-          height={300}
+          width={728}
+          height={90}
           style={{
             width: "100%",
             height: "auto",

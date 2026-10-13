@@ -114,8 +114,13 @@ export default function HeaderAds() {
 
         const data = await res.json();
 
-        if (data.success && data.data?.length > 0) {
-          setAd(data.data[0]);
+        if (data.success && Array.isArray(data.data)) {
+          const topAd = data.data.find(
+            (item: Advertisement & { position?: string }) =>
+              item.position === "homepage_top",
+          );
+
+          setAd(topAd ?? null);
         }
       } catch (err) {
         console.error("Advertisement error:", err);
