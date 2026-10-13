@@ -53,8 +53,6 @@ export default function HeaderAds() {
           width={728}
           height={90}
           style={{
-            width: "100%",
-            height: "120px",
             objectFit: "cover",
             borderRadius: 10,
           }}
