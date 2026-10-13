@@ -58,7 +58,7 @@ const Advertisement = () => {
     article_middle: { width: 900, height: 250 },
     article_bottom: { width: 690, height: 100 },
 
-    sidebar: { width: 390, height: 312 },
+    sidebar: { width: 300, height: 250 },
 
     footer: { width: 1200, height: 200 },
 
