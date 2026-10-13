@@ -55,8 +55,7 @@ export default function ArticleCard11({ card, idx }: Props) {
           </Link>
         </div>
 
-        <div className="card-body" style={{ width: "-webkit-fill-available" }}>
-          {/* <div className="card-corner">
+        {/* <div className="card-corner">
             <Link href={card.linkPost} className="arrow-box">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -85,12 +84,12 @@ export default function ArticleCard11({ card, idx }: Props) {
             <div className="curve-two" />
           </div> */}
 
-          <div className="left" style={{ width: "-webkit-fill-available" }}>
-            {/* <Link href={card.linkPost}>
+        <div className="left" style={{ width: "-webkit-fill-available" }}>
+          {/* <Link href={card.linkPost}>
               <h5 className="card-title mb-0 text-truncate-2">{card.title}</h5>
             </Link> */}
-            <SidebarAds />
-            {/* <div className="bottom mt-auto d-flex flex-wrap align-items-center gap-2 pt-4">
+          <SidebarAds />
+          {/* <div className="bottom mt-auto d-flex flex-wrap align-items-center gap-2 pt-4">
               <Link
                 href={card.linkAuthor}
                 className="author d-flex align-items-center gap-2"
@@ -151,8 +150,8 @@ export default function ArticleCard11({ card, idx }: Props) {
                 </Link>
               </div> 
             </div> */}
-          </div>
-          {/* <div className="right">
+        </div>
+        {/* <div className="right">
             <Link href="#" className="book-mark">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +170,6 @@ export default function ArticleCard11({ card, idx }: Props) {
               </svg>
             </Link>
           </div> */}
-        </div>
       </div>
     </>
   );
