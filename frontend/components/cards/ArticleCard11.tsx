@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import ArticleCardAd from "../elements/ArticleCardAd";
 
 interface Props {
   card: {
@@ -87,9 +88,7 @@ export default function ArticleCard11({ card, idx }: Props) {
             <Link href={card.linkPost}>
               <h5 className="card-title mb-0 text-truncate-2">{card.title}</h5>
             </Link>
-            <p className="card-text text-600 fs-7 mb-0 mt-4 text-truncate-2">
-              {card.description}
-            </p>
+            <ArticleCardAd />
             <div className="bottom mt-auto d-flex flex-wrap align-items-center gap-2 pt-4">
               <Link
                 href={card.linkAuthor}
