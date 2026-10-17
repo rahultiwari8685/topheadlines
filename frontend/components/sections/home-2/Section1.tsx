@@ -193,7 +193,7 @@ export default function Section1({ classList }: any) {
         setLoading(true);
 
         const [textRes, videoRes] = await Promise.all([
-          fetch(`${setting.api}/api/news/getAllTextNews?limit=20`),
+          fetch(`${setting.api}/api/news/getAllTextNews?limit=100`),
           fetch(`${setting.api}/api/news/getAllVideoNews?limit=1`),
         ]);
 
