@@ -224,9 +224,9 @@ export default function Section1({ classList }: any) {
     (news) => news.badge?.toLowerCase() === "uttar pradesh",
   );
 
-  // National News
-  const nationalNews = textNews.filter(
-    (news) => news.badge?.toLowerCase() === "Uttarakhand",
+  // Uttarakhand News
+  const uttarakhandNews = textNews.filter(
+    (news) => news.badge?.toLowerCase() === "uttarakhand",
   );
 
   if (loading) {
@@ -238,56 +238,6 @@ export default function Section1({ classList }: any) {
       className={`sec-1-home-2 mb-2 ${classList}`}
       data-background="/assets/imgs/page/bg-home1-sec1.png"
     >
-      {/*  <div className="container">
-        <div className="row g-4 mt-2">
-          <div className="col-lg-12 mt-2">
-            <h5 className="mb-3">Uttar Pradesh Uttarakhand</h5>
-          </div>
-          <div className="col-lg-12">
-            <div className="row g-4">
-              <div className="col-lg-7">
-                <div className="row g-4">
-                  <div className="col-lg-6">
-                    <div className="row g-4">
-                      <div className="col-lg-12">
-                        {uttarPradeshNews.slice(0, 2).map((card, idx) => (
-                          <div className="col-lg-12 col-md-6" key={idx}>
-                            <ArticleCard5 card={card} idx={idx} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <div className="row g-4">
-                      <div className="col-lg-12">
-                        {nationalNews.slice(0, 2).map((card, idx) => (
-                          <div className="col-lg-12 col-md-6" key={idx}>
-                            <ArticleCard5 card={card} idx={idx} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-5">
-                <div className="row g-4">
-                  <div className="col-lg-12">
-                    {videoNews.map((card, idx) => (
-                      <div className="col-lg-6" key={idx}>
-                        <ArticleCard11 card={card} idx={idx} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div></div>
-          </div>
-        </div>
-      </div> */}
-
       <div className="container">
         <div className="row mt-2 g-4">
           <div className="col-lg-3">
@@ -301,12 +251,11 @@ export default function Section1({ classList }: any) {
               ))}
             </div>
           </div>
-
           <div className="col-lg-3">
-            <h5 className="mb-3">National</h5>
+            <h5 className="mb-3">Uttarakhand</h5>
 
             <div className="row g-4">
-              {nationalNews.slice(0, 2).map((card, idx) => (
+              {uttarakhandNews.slice(0, 2).map((card, idx) => (
                 <div className="col-lg-12 col-md-6" key={idx}>
                   <ArticleCard5 card={card} idx={idx} />
                 </div>
