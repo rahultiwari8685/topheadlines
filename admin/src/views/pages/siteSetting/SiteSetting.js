@@ -164,8 +164,6 @@ const SiteSetting = () => {
 
       <CCardBody>
         <CForm onSubmit={handleSubmit(saveSetting)}>
-          {/* GENERAL */}
-
           <h5 className="mb-4 text-primary">General Information</h5>
 
           <CRow className="mb-3">
