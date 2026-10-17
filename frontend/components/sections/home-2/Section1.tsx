@@ -226,7 +226,7 @@ export default function Section1({ classList }: any) {
 
   // National News
   const nationalNews = textNews.filter(
-    (news) => news.badge?.toLowerCase() === "national",
+    (news) => news.badge?.toLowerCase() === "Uttarakhand",
   );
 
   if (loading) {
@@ -241,7 +241,7 @@ export default function Section1({ classList }: any) {
       {/*  <div className="container">
         <div className="row g-4 mt-2">
           <div className="col-lg-12 mt-2">
-            <h5 className="mb-3">Uttar Pradesh National</h5>
+            <h5 className="mb-3">Uttar Pradesh Uttarakhand</h5>
           </div>
           <div className="col-lg-12">
             <div className="row g-4">
