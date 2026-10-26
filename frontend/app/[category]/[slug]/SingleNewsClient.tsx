@@ -96,11 +96,11 @@ export default function Single_2({ slug, category }: Props) {
           </div>
         </section>
 
-        <div className="row">
+        {/* <div className="row">
           <div className="col-lg-8 col-12 mx-lg-auto">
             <Ads_sm />
           </div>
-        </div>
+        </div> */}
       </Layout>
     </>
   );

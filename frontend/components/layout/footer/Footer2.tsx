@@ -214,7 +214,7 @@ export default function Footer() {
                     <span className="text-dark">Top Headlines</span>. All Rights
                     Reserved
                   </p>
-                  <div className="d-flex flex-wrap justify-content-center align-items-center gap-lg-5 gap-4">
+                  {/* <div className="d-flex flex-wrap justify-content-center align-items-center gap-lg-5 gap-4">
                     <a
                       href="/page-privacy"
                       className="text-500 hover-dark d-block px-2 fs-7"
@@ -233,7 +233,19 @@ export default function Footer() {
                     >
                       Disclaimer
                     </a>
-                  </div>
+                  </div> */}
+                
+<div className="d-flex flex-wrap justify-content-center align-items-center gap-lg-5 gap-4">
+  <a
+    href="https://techaiindia.com/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-500 hover-dark d-block px-2 fs-7"
+    style={{ textDecoration: "none" }}
+  >
+    Design &amp; Developed By <strong>TechAiIndia</strong>
+  </a>
+</div>
                 </div>
               </div>
             </div>
