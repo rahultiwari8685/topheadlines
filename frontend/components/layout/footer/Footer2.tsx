@@ -236,15 +236,26 @@ export default function Footer() {
                   </div> */}
                 
 <div className="d-flex flex-wrap justify-content-center align-items-center gap-lg-5 gap-4">
-  <a
-    href="https://techaiindia.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-500 hover-dark d-block px-2 fs-7"
-    style={{ textDecoration: "none" }}
-  >
-    Design &amp; Developed By <strong>TechAiIndia</strong>
-  </a>
+```jsx
+<a
+  href="https://techaiindia.com/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-500 hover-dark d-block px-2 fs-7"
+  style={{
+    textDecoration: "none",
+    fontSize: "20px",
+    fontWeight: 400,
+    color: "#6c757d",
+    lineHeight: "1.5",
+  }}
+>
+  Design &amp; Developed By{" "}
+  <strong style={{ fontWeight: 600, color: "inherit" }}>
+    TechAiIndia
+  </strong>
+</a>
+```
 </div>
                 </div>
               </div>
