@@ -57,7 +57,8 @@ export default function RootLayout({
       <body className={`${geist.className}`}>
         {children}
 
-        <GoogleAnalytics gaId="G-546HY83EEC" />
+        {/* <GoogleAnalytics gaId="G-546HY83EEC" /> */}
+        <GoogleAnalytics gaId="G-KFDT2ZZ2L1" />
       </body>
     </html>
   );
