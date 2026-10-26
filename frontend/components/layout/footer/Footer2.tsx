@@ -236,7 +236,7 @@ export default function Footer() {
                   </div> */}
                 
 <div className="d-flex flex-wrap justify-content-center align-items-center gap-lg-5 gap-4">
-```jsx
+
 <a
   href="https://techaiindia.com/"
   target="_blank"
@@ -255,7 +255,6 @@ export default function Footer() {
     TechAiIndia
   </strong>
 </a>
-```
 </div>
                 </div>
               </div>
