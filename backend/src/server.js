@@ -13,7 +13,7 @@ import rateLimit from "express-rate-limit";
 import goldRoutes from "./routes/gold.js";
 import siteSettingRoutes from "./routes/siteSettingRoutes.js";
 import "./cron/publishScheduledNews.js";
-
+import shortsRoutes from "./routes/shortsRoutes.js";
 const app = express();
 
 app.set("trust proxy", 1);
@@ -72,6 +72,7 @@ app.use("/api/news", newsRoutes);
 app.use("/api/advertisements", advertisementRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api", goldRoutes);
+app.use("/api/shorts", shortsRoutes);
 app.use("/api/site-settings", siteSettingRoutes);
 const PORT = process.env.PORT || 5001;
 const MONGO_URI = process.env.MONGO_URI;

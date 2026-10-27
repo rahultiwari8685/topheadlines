@@ -52,7 +52,7 @@ const DraftNews = () => {
       setLoading(true)
       const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
 
-      const res = await fetch(setting.api + '/api/news/getAllNews', {
+      const res = await fetch(setting.api + '/api/news/getAllTextNews?limit=100', {
         method: 'GET',
         headers: {
           Authorization: 'Bearer ' + token,
