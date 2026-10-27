@@ -14,7 +14,7 @@ const Users = React.lazy(() => import('./views/pages/users/Users'))
 const Profile = React.lazy(() => import('./views/pages/users/Profile'))
 const Category = React.lazy(() => import('./views/pages/category/Category'))
 const SiteSetting = React.lazy(() => import('./views/pages/siteSetting/SiteSetting'))
-// import UpdateNews from "./pages/News/UpdateNews";
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
