@@ -9,7 +9,7 @@ const ScheduleNews = React.lazy(() => import('./views/pages/news/ScheduleNews'))
 const DeletedNews = React.lazy(() => import('./views/pages/news/DeletedNews'))
 const ChangePassword = React.lazy(() => import('./views/pages/changePassword/ChangePassword'))
 const Advertisement = React.lazy(() => import('./views/pages/advertisement/Advertisement'))
-
+const Shorts = React.lazy(() => import('./views/pages/shorts/Shorts'))
 const Users = React.lazy(() => import('./views/pages/users/Users'))
 const Profile = React.lazy(() => import('./views/pages/users/Profile'))
 const Category = React.lazy(() => import('./views/pages/category/Category'))
@@ -30,6 +30,7 @@ const routes = [
   { path: '/ChangePassword', name: 'Change Password', element: ChangePassword },
   { path: '/Users', name: 'Users', element: Users },
   { path: '/Profile', name: 'Profile', element: Profile },
+  { path: '/shorts', name: 'Shorts', element: Shorts },
   { path: '/siteSetting', name: 'Site Setting', element: SiteSetting },
   { path: '/Category', name: 'Category', element: Category },
 ]
