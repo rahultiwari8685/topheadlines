@@ -44,6 +44,12 @@ export const adminNav = [
       },
       {
         component: CNavItem,
+        name: 'Add Short',
+        to: '/shorts',
+        icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
         name: 'Published News',
         to: '/PublishedNews',
         icon: <CIcon icon={cilCheckCircle} customClassName="nav-icon" />,
@@ -54,6 +60,7 @@ export const adminNav = [
         to: '/DraftNews',
         icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
       },
+
       {
         component: CNavItem,
         name: 'Scheduled News',
