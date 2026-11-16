@@ -50,9 +50,23 @@ export default async function Header2Server() {
         <div className="container-fluid py-2">
           <div className="row align-items-center">
             {/* Weather */}
-            <div className="col-lg-5 col-md-4">
-              <WeatherWidget />
-            </div>
+         {/* Website Logo */}
+<div className="col-lg-5 col-md-4 d-flex align-items-center">
+  <Link href="/" className="d-inline-block">
+    <Image
+      src="/assets/imgs/template/logo/TH_Logo.png"
+      width={180}
+      height={90}
+      alt="Top Headlines News"
+      priority
+      style={{
+        width: "180px",
+        height: "auto",
+        objectFit: "contain",
+      }}
+    />
+  </Link>
+</div>
 
             {/* Advertisement */}
             <div className="col-lg-7 col-md-8">
