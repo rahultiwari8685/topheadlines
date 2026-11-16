@@ -250,27 +250,37 @@ export default async function Header2Server() {
               <MainMenu2 />
             </ul>
           </div>
-          <Link className="navbar-brand fw-bold fs-3" href="/">
-            <Image
-              className="dark-mode-invert"
-              src="/assets/imgs/template/logo/TH_Logo.png"
-              width={150}
-              height={90}
-              alt="logo"
-            />
-          </Link>
+       
           <div className="d-flex align-items-center ms-auto gap-4">
-            {/* <div className="pe-4 d-none d-lg-block">
-                            <a href="/page-login" className="text-decoration-underline">
-                                Subscribe
-                            </a>
-                        </div> */}
-            {/* <a href="#" className="search-btn fs-7 d-none d-md-flex link-effect-2" aria-label="Open search">
-                            <svg className="dark-mode-invert" xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32" fill="none">
-                                <path d="M25.6667 25.6667L20.6667 20.6667M6.33337 14.6667C6.33337 10.0643 10.0643 6.33337 14.6667 6.33337C19.2691 6.33337 23 10.0643 23 14.6667C23 19.2691 19.2691 23 14.6667 23C10.0643 23 6.33337 19.2691 6.33337 14.6667Z" stroke="#0E0E0F" strokeWidth="1.74463" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                            Search
-                        </a> */}
+          {/* Current Date */}
+<div className="pe-4 d-none d-lg-block">
+  <div className="d-flex align-items-center gap-2 text-dark">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="4" width="18" height="17" rx="2" />
+      <path d="M16 2v4M8 2v4M3 10h18" />
+    </svg>
+
+    <span className="fw-semibold">
+      {new Date().toLocaleDateString("en-IN", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })}
+    </span>
+  </div>
+</div>
+         
             <div className="group-btn-right d-flex align-items-center">
               <ThemeSwitcher />
               <a href="#" className="navbar-toggler">
