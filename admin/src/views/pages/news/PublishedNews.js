@@ -83,7 +83,7 @@ const PublishedNews = () => {
     const token = JSON.parse(loginInfo).token;
 
     const res = await fetch(
-      setting.api + "/api/news/getAllTextNews?limit=300",
+      setting.api + "/api/news/getAllTextNews?limit=1000",
       {
         method: "GET",
         headers: {
