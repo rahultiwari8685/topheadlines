@@ -44,36 +44,76 @@ const PublishedNews = () => {
 
   console.log('User role from storage:', userRole)
 
+  // const fetchNews = async () => {
+  //   try {
+  //     setLoading(true)
+
+  //     const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
+
+  //     const res = await fetch(setting.api + '/api/news/getAllTextNews?limit=300', {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: 'Bearer ' + token,
+  //       },
+  //     })
+
+  //     const data = await res.json()
+
+  //     const oneMonthAgo = new Date()
+  //     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
+
+  //     const filteredNews = (data.data || []).filter((item) => {
+  //       const newsDate = new Date(item.createdAt)
+  //       return item.type === 1 && newsDate >= oneMonthAgo
+  //     })
+
+  //     setNewsList(filteredNews)
+  //   } catch (error) {
+  //     console.error('Error fetching news:', error)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
   const fetchNews = async () => {
-    try {
-      setLoading(true)
+  try {
+    setLoading(true);
 
-      const token = JSON.parse(secureLocalStorage.getItem('logininfo')).token
+    const loginInfo = secureLocalStorage.getItem("logininfo");
+    const token = JSON.parse(loginInfo).token;
 
-      const res = await fetch(setting.api + '/api/news/getAllTextNews?limit=300', {
-        method: 'GET',
+    const res = await fetch(
+      setting.api + "/api/news/getAllTextNews?limit=300",
+      {
+        method: "GET",
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
-      })
+      }
+    );
 
-      const data = await res.json()
+    const data = await res.json();
 
-      const oneMonthAgo = new Date()
-      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
-      const filteredNews = (data.data || []).filter((item) => {
-        const newsDate = new Date(item.createdAt)
-        return item.type === 1 && newsDate >= oneMonthAgo
-      })
+    const filteredNews = (data.data || []).filter((item) => {
+      const newsDate = new Date(item.createdAt);
 
-      setNewsList(filteredNews)
-    } catch (error) {
-      console.error('Error fetching news:', error)
-    } finally {
-      setLoading(false)
-    }
+      return (
+        item.type === 1 &&
+        !isNaN(newsDate.getTime()) &&
+        newsDate >= threeMonthsAgo
+      );
+    });
+
+    setNewsList(filteredNews);
+  } catch (error) {
+    console.error("Error fetching news:", error);
+  } finally {
+    setLoading(false);
   }
+};
 
   useEffect(() => {
     fetchNews()
