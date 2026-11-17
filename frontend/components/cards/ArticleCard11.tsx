@@ -31,29 +31,7 @@ export default function ArticleCard11({ card, idx }: Props) {
   return (
     <>
       <div className="article card-11" key={idx}>
-        <div className="card-img-top thumbnail">
-          <Link href={`/news?slug=${card.slug || ""}`}>
-            {card.hasVideo ? (
-              <iframe
-                className="rounded-4 w-100"
-                height="500"
-                src={`${card.videoUrl}?autoplay=1&mute=1&playsinline=1&rel=0&enablejsapi=1`}
-                title={card.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            ) : (
-              <img
-                src={card.img || "/assets/imgs/page/img-28.png"}
-                alt="news"
-                style={{ width: "100%", height: "250px", objectFit: "cover" }}
-              />
-            )}
-          </Link>
-          <Link href={card.linkBadge} className={`badge ${card.bgBadge} fs-8`}>
-            {card.badge}
-          </Link>
-        </div>
+      
 
         {/* <div className="card-corner">
             <Link href={card.linkPost} className="arrow-box">
@@ -151,6 +129,33 @@ export default function ArticleCard11({ card, idx }: Props) {
               </div> 
             </div> */}
         </div>
+
+  <div className="card-img-top thumbnail">
+          <Link href={`/news?slug=${card.slug || ""}`}>
+            {card.hasVideo ? (
+              <iframe
+                className="rounded-4 w-100"
+                height="500"
+                src={`${card.videoUrl}?autoplay=1&mute=1&playsinline=1&rel=0&enablejsapi=1`}
+                title={card.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            ) : (
+              <img
+                src={card.img || "/assets/imgs/page/img-28.png"}
+                alt="news"
+                style={{ width: "100%", height: "250px", objectFit: "cover" }}
+              />
+            )}
+          </Link>
+          <Link href={card.linkBadge} className={`badge ${card.bgBadge} fs-8`}>
+            {card.badge}
+          </Link>
+        </div>
+
+
+
         {/* <div className="right">
             <Link href="#" className="book-mark">
               <svg
